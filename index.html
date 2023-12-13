@@ -1,0 +1,150 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCA BLSU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        html {
+          background-color: rgb(255, 255, 255);
+        }
+    
+        main h1 {
+          font-weight: bolder;
+          color: black;
+          text-align: center;
+        }
+      </style>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s2">
+                    <img class="responsive-img" src="logo.jpeg" alt="BLSU Logo">
+                </div>
+                <div class="col s5">
+                    <h1>BCA BLSU</h1>
+                </div>
+                <div class="col s2">
+                    <img class="responsive-img" src="logo.jpeg" alt="BLSU Logo">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s9">
+                    <div class="card yellow darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">Drop Down Menu</span>
+                        </div>
+                        <div class="card-action">
+                            <!-- Add a dropdown trigger button -->
+                            <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Dropdown</a>
+                            <!-- Add a dropdown structure -->
+                            <ul id='dropdown1' class='dropdown-content'>
+                                <li><a href="/x.html">Tutoring</a></li>
+                                <li><a href="/x.html">Club Materials</a></li>
+                                <li><a href="/x.html">Black History Month</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <p>You are {{loginStatus}}logged in.</p>
+    
+    <div id="buttons">
+        <button id="loginBtn">Login</button>
+        <button id="logoutBtn">Logout</button>
+        <button id="showProfile">Show Profile</button>
+    </div>
+    
+    <div id="profileInfo"></div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Compiled and minified JavaScript for Materialize -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            // Initialize Materialize components
+            M.AutoInit();
+
+            // Your existing JavaScript code
+            // ...
+
+            // Function to handle profile information display
+            document.getElementById('showProfile').onclick = function () {
+                fetch('/profile')
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('profileInfo').textContent = data;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching profile:', error);
+                        document.getElementById('profileInfo').textContent = 'Error loading profile.';
+                    });
+            };
+
+            // Function to show user list
+            document.getElementById('showUsers').onclick = function () {
+                fetch('/users')
+                    .then(response => response.json())
+                    .then(users => {
+                        const userList = document.getElementById('userList');
+                        userList.innerHTML = ''; // Clear existing list
+                        users.forEach(user => {
+                            userList.innerHTML += `<li>${user.email}</li>`;
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching users:', error);
+                        userList.innerHTML = 'Error loading users.';
+                    });
+            };
+
+            // Function to handle logout
+            document.getElementById('logoutButton').onclick = function () {
+                window.location.href = '/logout';
+            };
+        });
+        
+        $(document).ready(function() {
+            updateLoginStatus();
+
+            $('#loginBtn').on('click', function() {
+                location.href = '/login';
+            });
+
+            $('#logoutBtn').on('click', function() {
+                location.href = '/logout';
+            });
+
+            $('#showProfile').on('click', function() {
+                $.get('/profile', function(data) {
+                    $('#profileInfo').text(data);
+                });
+            });
+        });
+
+        function updateLoginStatus() {
+            var loginStatus = $('#loginStatus');
+            var buttons = $('#buttons');
+
+            $.get('/loginStatus', function(data) {
+                if (data.isAuthenticated) {
+                    loginStatus.text(' ');
+                    buttons.show();
+                } else {
+                    loginStatus.text('not ');
+                    buttons.hide();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
