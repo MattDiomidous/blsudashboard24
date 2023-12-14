@@ -9,7 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
         html {
-          background-color: rgb(255, 255, 255);
+          background-color: rgb(247, 247, 192);
+          /* background-color: rgb(255, 255, 255); */
+          margin: 0; 
+          padding: 0;
+        
+          align-items: center;
+          text-align: center;
         }
     
         main h1 {
@@ -17,6 +23,40 @@
           color: black;
           text-align: center;
         }
+
+        nav{
+          background-color: black;
+        }
+
+        .dropdown-content{
+          position: relative;
+          top: -60px;
+        }
+
+        /* .carousel {
+          align-content: center;
+          align-items: center;
+          width: 50%;
+          height: 50%;
+        } */
+
+        /* Ensure the carousel is centered in the container */
+
+        .carousel-item img {
+            margin: 0;
+            display: block; /* This makes margin: auto effective */
+            max-width: 75%; /* This ensures the image is responsive and fits the container */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        .carousel-item {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 50%; /* Example height, adjust as needed */
+          }
+
+     
       </style>
 </head>
 <body>
@@ -52,24 +92,76 @@
           </ul>
           
     </main>
+
+
+
+
+
+    <section>
+                    
+      <div class="carousel carousel-slider center"> 
+        <div class="carousel-item" href="#one!"> 
+            <!-- <h2>New Blog</h2>  -->
+            <img src= 
+    "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210818182611/Blogathon-2021-Write-From-Home-Contest-By-GeeksforGeeks.png"> 
+        </div> 
+
+        <div class="carousel-item" href="#two!"> 
+            <!-- <h2>Numbers</h2>  -->
+            <img src= 
+    "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210818192517/Blogathon-2021-Prizes.png"> 
+        </div> 
+
+        <div class="carousel-item " href="#three!"> 
+            <!-- <h2>Images and content</h2>  -->
+            <img src= 
+    "https://media.geeksforgeeks.org/wp-content/uploads/20200921183727/about-carousel.png"> 
+        </div> 
+
+        <div class="carousel-item "> 
+            <!-- <h2>Lesson</h2>  -->
+            <img src= 
+    "https://media.geeksforgeeks.org/wp-content/uploads/20200727190538/Group-4362.png"> 
+        </div> 
+    </div> 
+
+  </section>
+
+
+  <div>
+    <h2>Mission Statement</h2>
+
+    <p>⤷ We are BCA's B.L.S.U. Chapter
+      <br>
+      ⤷ A student run organization working to empower 
+      Black & Latine Students at Bergen County Academies.</p>
+
+  </div>
+
+
     
 <div class="row">
-    <div class="col s12 m6 offset-m3">
-      <div class="card">
-        <div class="card-content">
-          <p class="center-align">You are {{loginStatus}}logged in.</p>
-        </div>
-        <div class="card-action center-align">
-          <button class="btn waves-effect waves-light" id="loginBtn">Login</button>
-          <button class="btn waves-effect waves-light" id="logoutBtn">Logout</button>
-          <button class="btn waves-effect waves-light" id="showProfile">Show Profile</button>
-          <div id="profileInfo"></div>
-        </div>
-
-      </div>
-    </div>
+                <div class="col s12 m6 offset-m3">
+                  <div class="card">
+                    <div class="card-content">
+                      <p class="center-align">You are {{loginStatus}}logged in.</p>
+                    </div>
+                    <div class="card-action center-align">
+                      <button class="btn waves-effect waves-light" id="loginBtn">Login</button>
+                      <button class="btn waves-effect waves-light" id="logoutBtn">Logout</button>
+                      <button class="btn waves-effect waves-light" id="showProfile">Show Profile</button>
+                      <div id="profileInfo"></div>
+                    </div>
+                  </div>
+                </div>
   </div>
-    
+
+
+
+
+     
+
+
     <div id="profileInfo"></div>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -83,6 +175,31 @@
 
             // Your existing JavaScript code
             // ...
+
+            var carouselElems = document.querySelectorAll('.carousel.carousel-slider');
+              var carouselInstances = M.Carousel.init(carouselElems, {
+                  fullWidth: true,
+                  indicators: true
+              });
+
+              // Function to automate carousel movement
+              setInterval(function() {
+                  carouselInstances.forEach(function(instance) {
+                      instance.next();
+                  });
+              }, 3000); // Change the interval as needed
+
+
+              // Or with jQuery
+
+            $(document).ready(function () { 
+            $('.carousel.carousel-slider').carousel( 
+                { 
+                    fullWidth: true, 
+                    indicators: true 
+                } 
+            ); 
+            }); 
 
             // Function to handle profile information display
             document.getElementById('showProfile').onclick = function () {
@@ -152,6 +269,8 @@
                 }
             });
         }
+
+        
     </script>
 </body>
 </html>
