@@ -52,13 +52,23 @@
           </ul>
           
     </main>
-    <p>You are {{loginStatus}}logged in.</p>
     
-    <div id="buttons">
-        <button id="loginBtn">Login</button>
-        <button id="logoutBtn">Logout</button>
-        <button id="showProfile">Show Profile</button>
+<div class="row">
+    <div class="col s12 m6 offset-m3">
+      <div class="card">
+        <div class="card-content">
+          <p class="center-align">You are {{loginStatus}}logged in.</p>
+        </div>
+        <div class="card-action center-align">
+          <button class="btn waves-effect waves-light" id="loginBtn">Login</button>
+          <button class="btn waves-effect waves-light" id="logoutBtn">Logout</button>
+          <button class="btn waves-effect waves-light" id="showProfile">Show Profile</button>
+          <div id="profileInfo"></div>
+        </div>
+
+      </div>
     </div>
+  </div>
     
     <div id="profileInfo"></div>
     
