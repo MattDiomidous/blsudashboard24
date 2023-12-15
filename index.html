@@ -7,57 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BCA BLSU</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <style>
-        html {
-          background-color: rgb(247, 247, 192);
-          /* background-color: rgb(255, 255, 255); */
-          margin: 0; 
-          padding: 0;
-        
-          align-items: center;
-          text-align: center;
-        }
-    
-        main h1 {
-          font-weight: bolder;
-          color: black;
-          text-align: center;
-        }
+ 
 
-        nav{
-          background-color: black;
-        }
+      <link rel="stylesheet" href="index.css">
 
-        .dropdown-content{
-          position: relative;
-          top: -60px;
-        }
-
-        /* .carousel {
-          align-content: center;
-          align-items: center;
-          width: 50%;
-          height: 50%;
-        } */
-
-        /* Ensure the carousel is centered in the container */
-
-        .carousel-item img {
-            margin: 0;
-            display: block; /* This makes margin: auto effective */
-            max-width: 75%; /* This ensures the image is responsive and fits the container */
-            height: auto; /* Maintain aspect ratio */
-        }
-
-        .carousel-item {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 100%; /* Example height, adjust as needed */
-          }
-
-     
-      </style>
 </head>
 <body>
     <main>
@@ -65,10 +18,15 @@
         <div class="nav-wrapper">
             <a href="#" class="brand-logo">BCA BLSU</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Tutoring</a></li>
+              <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="tutoring.html">Tutoring</a>   </a></li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Club Materials</a></li>
-              <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">Black History Month</a></li>
-              <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">
+              <li><a class="dropdown-trigger" href="#!" data-target="dropdown3"> <a href= "schedule.html">BHM</a></li>
+              <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">HHM</a></li>
+
+
+              <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="events.html">Current Events</a></li>
+
+
 <!--                 
                 <a href="events.html">
                 Current Events
@@ -212,5 +170,16 @@
             });
         });
     </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var dropdownElems = document.querySelectorAll('.dropdown-trigger');
+    var options = {
+      // You can specify options here if needed
+    };
+    var instances = M.Dropdown.init(dropdownElems, options);
+  });
+</script>
+
 </body>
 </html>

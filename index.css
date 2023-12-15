@@ -1,0 +1,107 @@
+.uniform-nav {
+    background-color: #333; /* Background color */
+    color: white; /* Text color */
+    font-family: Arial, sans-serif; /* Font family */
+    padding: 10px; /* Padding */
+    /* Add other styling properties as needed */
+}
+
+html {
+    background-color: rgb(247, 247, 192);
+    /* background-color: rgb(255, 255, 255); */
+    margin: 0; 
+    padding: 0;
+  
+    align-items: center;
+    text-align: center;
+  }
+
+  main h1 {
+    font-weight: bolder;
+    color: black;
+    text-align: center;
+  }
+
+  nav{
+    background-color: black;
+  }
+
+  .dropdown-content{
+    position: relative;
+    top: -60px;
+  }
+
+  /* .carousel {
+    align-content: center;
+    align-items: center;
+    width: 50%;
+    height: 50%;
+  } */
+
+  /* Ensure the carousel is centered in the container */
+
+  .carousel-item img {
+      margin: 0;
+      display: block; /* This makes margin: auto effective */
+      max-width: 75%; /* This ensures the image is responsive and fits the container */
+      height: auto; /* Maintain aspect ratio */
+  }
+
+  .carousel-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%; /* Example height, adjust as needed */
+    }
+
+
+
+
+
+    /* body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f3f3f3;
+    } */
+    .container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    header, .nav-wrapper {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    /* .event {
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+    }
+    .event:last-child {
+        border-bottom: none;
+    } */
+    .event-title {
+        font-size: 20px;
+        color: #333;
+        margin: 0 0 5px 0;
+    }
+    .event-date {
+        font-size: 16px;
+        color: #666;
+        margin: 0;
+    }
+    .event-description {
+        margin: 10px 0 0 0;
+    }
+    nav {
+        background-color: #444;
+    }
+    nav a.brand-logo {
+        color: #f3f3f3;
+    }
+    .dropdown-content {
+        background-color: #444;
+        color: #f3f3f3;
+    }

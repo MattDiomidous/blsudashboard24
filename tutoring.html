@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCA BLSU Tutoring Schedule</title>
+<!-- Compiled and minified Materialize CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<style>
+  .tutor {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  /* No need to hide the tutors by default */
+</style>
+
+    <link rel="stylesheet" href="index.css">
+
+</head>
+<body>
+
+<!-- <nav class="grey lighten-4">
+  <div class="nav-wrapper container">
+    <a href="#" class="brand-logo black-text">BCA BLSU</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="#" class="black-text">Login</a></li>
+    </ul>
+  </div>
+</nav> -->
+
+
+<nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">BCA BLSU</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="tutoring.html">Tutoring</a>   </a></li>
+          <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Club Materials</a></li>
+          <li><a class="dropdown-trigger" href="#!" data-target="dropdown3"> <a href= "schedule.html">BHM</a></li>
+          <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">HHM</a></li>
+
+
+          <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="events.html">Current Events</a></li>
+
+
+<!--                 
+            <a href="events.html">
+            Current Events
+            </a> -->
+          
+          </a></li>
+
+        </ul>
+      </div>
+    </nav>
+
+<div class="container">
+    <div class="section">
+      <h4>Tutoring Schedule</h4>
+      <div class="row">
+        <div class="input-field col s12 m6">
+          <input id="search" type="text" class="validate">
+          <label for="search">Search by Tutor Name</label>
+        </div>
+        <div class="input-field col s12 m6">
+          <select id="subject-filter">
+            <option value="" disabled selected>Choose Subject</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Science">Science</option>
+            <option value="Literature">Literature</option>
+            <!-- Add more subjects as needed -->
+          </select>
+          <label>Filter by Subject</label>
+        </div>
+        <div class="col s12">
+          <button class="btn waves-effect waves-light" onclick="searchTutors()">Search
+            <i class="material-icons right"></i>
+          </button>
+        </div>
+      </div>
+
+<div class="container">
+  <div class="section">
+    <h4>Tutoring Schedule</h4>
+    <!-- Other content and filter options can go here -->
+    <div class="row">
+      <!-- Calendar structure -->
+      <div class="col s12">
+        <!-- Monday -->
+        <ul class="collection with-header">
+          <li class="collection-header"><h5>Monday</h5></li>
+          <li class="collection-item tutor">Alex Johnson - alexjohn24@bergen.org </li>
+          <li class="collection-item tutor">Maria Smith - mariaemail.com </li>
+        </ul>
+        <!-- Tuesday -->
+        <ul class="collection with-header">
+          <li class="collection-header"><h5>Tuesday</h5></li>
+          <li class="collection-item tutor">John Doe - joedoe1@gmail.com </li>
+          <li class="collection-item tutor">Emma Brown - embrown@gmail.com </li>
+        </ul>
+        <!-- The rest of the days follow the same pattern -->
+        <!-- ... -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="page-footer grey lighten-3">
+  <div class="container">
+    <span class="black-text">Footer: with Insta, Facebook, Linkedin (the what-if socials)</span>
+  </div>
+</footer>
+
+<!-- Compiled and minified Materialize JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elemsSelect = document.querySelectorAll('select');
+      var instancesSelect = M.FormSelect.init(elemsSelect);
+    });
+  
+    function searchTutors() {
+      var searchInput = document.getElementById('search').value.toLowerCase();
+      var subjectFilter = document.getElementById('subject-filter').value;
+      var tutors = document.querySelectorAll('.tutor');
+  
+      tutors.forEach(function(tutor) {
+        var name = tutor.textContent.toLowerCase();
+        var subject = tutor.getAttribute('data-subject');
+        if ((name.includes(searchInput) || searchInput === '') && 
+            (subject === subjectFilter || subjectFilter === null || subjectFilter === '')) {
+          tutor.style.display = 'block';
+        } else {
+          tutor.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
