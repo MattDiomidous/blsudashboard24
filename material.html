@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Compiled and minified Materialize CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  
+  <!-- Materialize Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+
+  <link rel="stylesheet" href="index.css">
+
+  
+  <style>
+    /* You can add your custom styles here */
+    .document-card {
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      background-color: #fff8e1; /* Similar to the light yellow in the image */
+    }
+    .document-header {
+      font-size: 24px;
+      color: #5d4037; /* A brown shade similar to the image */
+      margin-bottom: 20px;
+    }
+    .document-list {
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+
+    <main>
+        <nav class="black">
+  
+          <div class="nav-wrapper">
+              <a href="#" class="brand-logo">BCA BLSU</a>
+              <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="tutoring.html">Tutoring</a>   </a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Club Materials</a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown3"> BHM </a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="events.html">Current Events</a></li>
+  
+              </ul>
+            </div>
+          </nav>
+            
+            <!-- Dropdown Structure -->
+            <ul id="dropdown1" class="dropdown-content">
+              <li><a href="/tutoring.html">Tutoring</a></li>
+              <li><a href="/tutoring.html">Sub-Item 1</a></li>
+              <li><a href="/tutoring.html">Sub-Item 2</a></li>
+            </ul>
+            
+            <ul id="dropdown2" class="dropdown-content">
+              <li><a href="/club-materials.html">Club Materials</a></li>
+              <li><a href="/club-materials.html">Sub-Item 1</a></li>
+              <li><a href="/club-materials.html">Sub-Item 2</a></li>
+            </ul>
+            
+            <ul id="dropdown3" class="dropdown-content">
+              <li><a href="/black-history-month.html">Black History Month</a></li>
+              <li><a href="/black-history-month.html">Sub-Item 1</a></li>
+              <li><a href="/black-history-month.html">Sub-Item 2</a></li>
+            </ul>
+            
+      </main>
+
+
+
+
+
+
+  <!-- Database Header -->
+  <div class="section">
+    <div class="container">
+      <h4 class="document-header center-align">DataBase of Club Material</h4>
+      <div class="card document-card">
+        <div class="card-content">
+          <span class="card-title">Documents, can be posted and seen here</span>
+          <!-- Document list will go here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Document List -->
+  <div class="section">
+    <div class="container">
+      <ul class="collection with-header document-list">
+        <li class="collection-header"><h5>2022-23</h5></li>
+        <li class="collection-item avatar">
+          <i class="material-icons circle">folder</i>
+          <span class="title">2022-09-17: Los Lorem Los, Team Scramble</span>
+          <p>Last Modified: 9/19/22</p>
+        </li>
+        <li class="collection-item avatar">
+          <i class="material-icons circle">folder</i>
+          <span class="title">2022-10-01: Hispanic Heritage Months Lessons</span>
+          <p>Last Modified: 10/3/22</p>
+        </li>
+        <!-- Add more list items as needed -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Compiled and minified Materialize JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
