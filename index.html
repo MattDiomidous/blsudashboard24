@@ -105,35 +105,26 @@
 
 
 
-    <section>
+
+
+      <section>
+        <div class="carousel carousel-slider center"> 
+            <div class="carousel-item" href="#one!"> 
+                <img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210818182611/Blogathon-2021-Write-From-Home-Contest-By-GeeksforGeeks.png">
+            </div> 
+            <div class="carousel-item" href="#two!"> 
+                <img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210818192517/Blogathon-2021-Prizes.png"> 
+            </div> 
+            <div class="carousel-item" href="#three!"> 
+                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20200921183727/about-carousel.png"> 
+            </div> 
+            <div class="carousel-item" href="#four!"> 
+                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20200727190538/Group-4362.png"> 
+            </div> 
+        </div> 
+    </section>
                     
-      <div class="carousel carousel-slider center"> 
-        <div class="carousel-item" href="#one!"> 
-            <!-- <h2>New Blog</h2>  -->
-            <img src= 
-    "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210818182611/Blogathon-2021-Write-From-Home-Contest-By-GeeksforGeeks.png"> 
-        </div> 
-
-        <div class="carousel-item" href="#two!"> 
-            <!-- <h2>Numbers</h2>  -->
-            <img src= 
-    "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210818192517/Blogathon-2021-Prizes.png"> 
-        </div> 
-
-        <div class="carousel-item " href="#three!"> 
-            <!-- <h2>Images and content</h2>  -->
-            <img src= 
-    "https://media.geeksforgeeks.org/wp-content/uploads/20200921183727/about-carousel.png"> 
-        </div> 
-
-        <div class="carousel-item " href="#four!"> 
-            <!-- <h2>Lesson</h2>  -->
-            <img src= 
-    "https://media.geeksforgeeks.org/wp-content/uploads/20200727190538/Group-4362.png"> 
-        </div> 
-    </div> 
-
-  </section>
+     
 
 
   <div>
@@ -175,110 +166,51 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Compiled and minified JavaScript for Materialize -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+    
     <script>
-          document.addEventListener('DOMContentLoaded', function () {
-            // Initialize Materialize components
-            M.AutoInit();
-
-            // Your existing JavaScript code
-            // ...
-
-
-            var carouselElems = document.querySelectorAll('.carousel.carousel-slider');
-            var carouselInstances = M.Carousel.init(carouselElems, {
+        // When the document is ready
+        $(document).ready(function() {
+            // Initialize the carousel
+            $('.carousel.carousel-slider').carousel({
                 fullWidth: true,
                 indicators: true
             });
-
+    
             // Function to automate carousel movement
             setInterval(function() {
-                // Iterate through all carousel instances and move to the next item
-                carouselInstances.forEach(function(instance) {
-                    instance.next();
+                $('.carousel').carousel('next');
+            }, 2000); // Change the interval as needed
+    
+            // Update login status function
+            function updateLoginStatus() {
+                $.get('/loginStatus', function(data) {
+                    if (data.isAuthenticated) {
+                        $('#loginStatus').text(' ');
+                        $('#buttons').show();
+                    } else {
+                        $('#loginStatus').text('not ');
+                        $('#buttons').hide();
+                    }
                 });
-            }, 2000)
-              // Or with jQuery
-
-            // $(document).ready(function () { 
-            // $('.carousel.carousel-slider').carousel( 
-            //     { 
-            //         fullWidth: true, 
-            //         indicators: true 
-            //     } 
-            // ); 
-            // }); 
-
-            // Function to handle profile information display
-            document.getElementById('showProfile').onclick = function () {
-                fetch('/profile')
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById('profileInfo').textContent = data;
-                    })
-                    .catch(error => {
-                        console.error('Error fetching profile:', error);
-                        document.getElementById('profileInfo').textContent = 'Error loading profile.';
-                    });
-            };
-
-            // Function to show user list
-            document.getElementById('showUsers').onclick = function () {
-                fetch('/users')
-                    .then(response => response.json())
-                    .then(users => {
-                        const userList = document.getElementById('userList');
-                        userList.innerHTML = ''; // Clear existing list
-                        users.forEach(user => {
-                            userList.innerHTML += `<li>${user.email}</li>`;
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching users:', error);
-                        userList.innerHTML = 'Error loading users.';
-                    });
-            };
-
-            // Function to handle logout
-            document.getElementById('logoutButton').onclick = function () {
-                window.location.href = '/logout';
-            };
-        });
-        
-        $(document).ready(function() {
+            }
+            
             updateLoginStatus();
-
+    
+            // Event listeners for buttons
             $('#loginBtn').on('click', function() {
                 location.href = '/login';
             });
-
+    
             $('#logoutBtn').on('click', function() {
                 location.href = '/logout';
             });
-
+    
             $('#showProfile').on('click', function() {
                 $.get('/profile', function(data) {
                     $('#profileInfo').text(data);
                 });
             });
         });
-
-        function updateLoginStatus() {
-            var loginStatus = $('#loginStatus');
-            var buttons = $('#buttons');
-
-            $.get('/loginStatus', function(data) {
-                if (data.isAuthenticated) {
-                    loginStatus.text(' ');
-                    buttons.show();
-                } else {
-                    loginStatus.text('not ');
-                    buttons.hide();
-                }
-            });
-        }
-
-        
     </script>
 </body>
 </html>

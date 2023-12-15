@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCA BLSU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        /* Your CSS styles here */
+    </style>
+</head>
+<body>
+    <main>
+        <!-- Your main content here -->
+    </main>
+
+    <section>
+        <div class="carousel carousel-slider center"> 
+            <div class="carousel-item" href="#one!"> 
+                <img src="image1.jpg"> 
+            </div> 
+            <div class="carousel-item" href="#two!"> 
+                <img src="image2.jpg"> 
+            </div> 
+            <div class="carousel-item" href="#three!"> 
+                <img src="image3.jpg"> 
+            </div> 
+            <div class="carousel-item" href="#four!"> 
+                <img src="image4.jpg"> 
+            </div> 
+        </div> 
+    </section>
+
+    <!-- Other content -->
+
+    <!-- jQuery and Materialize JavaScript at the end of body -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize Materialize components
+            var elems = document.querySelectorAll('.carousel.carousel-slider');
+            var instances = M.Carousel.init(elems, {
+                fullWidth: true,
+                indicators: true
+            });
+
+            // Function to automate carousel movement
+            setInterval(function() {
+                instances.forEach(function(instance) {
+                    instance.next();
+                });
+            }, 2000); // Change the interval as needed
+        });
+    </script>
+</body>
+</html>
