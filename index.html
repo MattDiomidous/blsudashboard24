@@ -53,7 +53,7 @@
               display: flex;
               align-items: center;
               justify-content: center;
-              height: 50%; /* Example height, adjust as needed */
+              height: 100%; /* Example height, adjust as needed */
           }
 
      
@@ -68,6 +68,14 @@
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Tutoring</a></li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Club Materials</a></li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">Black History Month</a></li>
+              <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">
+<!--                 
+                <a href="events.html">
+                Current Events
+                </a> -->
+              
+              </a></li>
+
             </ul>
           </div>
         </nav>
@@ -118,7 +126,7 @@
     "https://media.geeksforgeeks.org/wp-content/uploads/20200921183727/about-carousel.png"> 
         </div> 
 
-        <div class="carousel-item "> 
+        <div class="carousel-item " href="#four!"> 
             <!-- <h2>Lesson</h2>  -->
             <img src= 
     "https://media.geeksforgeeks.org/wp-content/uploads/20200727190538/Group-4362.png"> 
@@ -176,30 +184,30 @@
             // Your existing JavaScript code
             // ...
 
+
             var carouselElems = document.querySelectorAll('.carousel.carousel-slider');
-              var carouselInstances = M.Carousel.init(carouselElems, {
-                  fullWidth: true,
-                  indicators: true
-              });
+            var carouselInstances = M.Carousel.init(carouselElems, {
+                fullWidth: true,
+                indicators: true
+            });
 
-              // Function to automate carousel movement
-              setInterval(function() {
-                  carouselInstances.forEach(function(instance) {
-                      instance.next();
-                  });
-              }, 3000); // Change the interval as needed
-
-
+            // Function to automate carousel movement
+            setInterval(function() {
+                // Iterate through all carousel instances and move to the next item
+                carouselInstances.forEach(function(instance) {
+                    instance.next();
+                });
+            }, 2000)
               // Or with jQuery
 
-            $(document).ready(function () { 
-            $('.carousel.carousel-slider').carousel( 
-                { 
-                    fullWidth: true, 
-                    indicators: true 
-                } 
-            ); 
-            }); 
+            // $(document).ready(function () { 
+            // $('.carousel.carousel-slider').carousel( 
+            //     { 
+            //         fullWidth: true, 
+            //         indicators: true 
+            //     } 
+            // ); 
+            // }); 
 
             // Function to handle profile information display
             document.getElementById('showProfile').onclick = function () {
