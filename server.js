@@ -25,10 +25,11 @@ const db = new sqlite3.Database('./mydb.sqlite3', (err) => {
 
 
 
-// Create a table if it doesn't exist
+// Create a table if it doesn't exist with additional columns for day_available and time_available
 db.serialize(() => {
-  db.run('CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, username TEXT, subject TEXT DEFAULT "Mathematics")');
+  db.run('CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, username TEXT, subject TEXT DEFAULT "Mathematics", day_available TEXT DEFAULT "Monday", time_available TEXT DEFAULT "5 PM")');
 });
+
 
 const app = express();
 app.use(auth(config));
@@ -39,8 +40,11 @@ app.use((req, res, next) => {
     const email = req.oidc.user.email;
     const username = req.oidc.user.nickname;
     const subject = 'Mathematics'; // Set the subject to "Mathematics" for all users
+    const dayAvailable = 'Monday'; // Default value for day_available
+    const timeAvailable = '5 PM'; // Default value for time_available
 
-    db.run('INSERT OR IGNORE INTO users (email, username, subject) VALUES (?, ?, ?)', [email, username, subject], function(err) {
+    // Include day_available and time_available in the INSERT statement
+    db.run('INSERT OR IGNORE INTO users (email, username, subject, day_available, time_available) VALUES (?, ?, ?, ?, ?)', [email, username, subject, dayAvailable, timeAvailable], function(err) {
       if (err) {
         console.error('Error inserting user:', err.message);
       } else {
@@ -82,15 +86,14 @@ app.get('/logout', (req, res) => {
 // Profile route to fetch user info from the database
 app.get('/profile', (req, res) => {
   if (req.oidc.isAuthenticated()) {
-    // Assuming the 'users' table now has a 'subject' column
-    db.get('SELECT email, subject FROM users WHERE email = ?', [req.oidc.user.email], (err, row) => {
+    db.get('SELECT email, subject, day_available, time_available FROM users WHERE email = ?', [req.oidc.user.email], (err, row) => {
       if (err) {
         res.send('Error fetching profile information');
         return console.error(err.message);
       }
       if(row) {
-          // Send both the email and the subject as a JSON object
-          res.json({ email: row.email, subject: row.subject });
+          // Send the email, subject, day_available, and time_available as a JSON object
+          res.json({ email: row.email, subject: row.subject, day_available: row.day_available, time_available: row.time_available });
       } else {
           res.send('Profile not found');
       }
@@ -99,6 +102,7 @@ app.get('/profile', (req, res) => {
     res.send('User not logged in');
   }
 });
+
 
 
 app.get('/hhm.html', async (req, res) => {
