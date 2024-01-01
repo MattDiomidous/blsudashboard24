@@ -155,10 +155,15 @@
             });
     
             $('#showProfile').on('click', function() {
-                $.get('/profile', function(data) {
-                    $('#profileInfo').text(data);
-                });
-            });
+              $.get('/profile', function(data) {
+                  if(data.email && data.subject) {
+                      $('#profileInfo').html(`Your email: ${data.email}<br>Your subject: ${data.subject}`);
+                  } else {
+                      $('#profileInfo').text('Profile information is not available.');
+                  }
+              });
+          });
+          
         });
     </script>
 

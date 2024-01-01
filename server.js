@@ -82,17 +82,24 @@ app.get('/logout', (req, res) => {
 // Profile route to fetch user info from the database
 app.get('/profile', (req, res) => {
   if (req.oidc.isAuthenticated()) {
-    db.get('SELECT email FROM users WHERE email = ?', [req.oidc.user.email], (err, row) => {
+    // Assuming the 'users' table now has a 'subject' column
+    db.get('SELECT email, subject FROM users WHERE email = ?', [req.oidc.user.email], (err, row) => {
       if (err) {
         res.send('Error fetching profile information');
         return console.error(err.message);
       }
-      res.send(`Your email: ${row ? row.email : 'no email found'}`);
+      if(row) {
+          // Send both the email and the subject as a JSON object
+          res.json({ email: row.email, subject: row.subject });
+      } else {
+          res.send('Profile not found');
+      }
     });
   } else {
     res.send('User not logged in');
   }
 });
+
 
 app.get('/hhm.html', async (req, res) => {
   try {
