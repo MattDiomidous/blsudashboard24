@@ -91,6 +91,50 @@ app.get('/profile', (req, res) => {
   }
 });
 
+app.get('/hhm.html', async (req, res) => {
+  try {
+    // Read and send the content of the HTML file
+    let htmlContent = await fs.readFile('hhm.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/tutoring.html', async (req, res) => {
+  try {
+    // Read and send the content of the HTML file
+    let htmlContent = await fs.readFile('tutoring.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/material.html', async (req, res) => {
+  try {
+    // Read and send the content of the HTML file
+    let htmlContent = await fs.readFile('material.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/events.html', async (req, res) => {
+  try {
+    // Read and send the content of the HTML file
+    let htmlContent = await fs.readFile('events.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 app.get('/users', (req, res) => {
   db.all("SELECT * FROM users", [], (err, rows) => {
