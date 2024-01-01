@@ -27,7 +27,7 @@ const db = new sqlite3.Database('./mydb.sqlite3', (err) => {
 
 // Create a table if it doesn't exist
 db.serialize(() => {
-  db.run('CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, username TEXT)');
+  db.run('CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, username TEXT, subject TEXT DEFAULT "Mathematics")');
 });
 
 const app = express();
@@ -37,9 +37,10 @@ app.use(auth(config));
 app.use((req, res, next) => {
   if (req.oidc.isAuthenticated()) {
     const email = req.oidc.user.email;
-    const username = req.oidc.user.nickname; // or another appropriate field
+    const username = req.oidc.user.nickname;
+    const subject = 'Mathematics'; // Set the subject to "Mathematics" for all users
 
-    db.run('INSERT OR IGNORE INTO users (email, username) VALUES (?, ?)', [email, username], function(err) {
+    db.run('INSERT OR IGNORE INTO users (email, username, subject) VALUES (?, ?, ?)', [email, username, subject], function(err) {
       if (err) {
         console.error('Error inserting user:', err.message);
       } else {
@@ -49,6 +50,8 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+
 
 app.get('/', async (req, res) => {
   try {
@@ -146,6 +149,19 @@ app.get('/users', (req, res) => {
       res.json(rows);
   });
 });
+
+app.get('/tutors', (req, res) => {
+  // Fetch the list of tutors/users from your database or wherever it's stored
+  // Return the data as JSON
+  db.all("SELECT * FROM users", [], (err, rows) => {
+    if (err) {
+        res.status(500).send("Error fetching tutors: " + err.message);
+        return;
+    }
+    res.json(rows);
+  });
+});
+
 
 
 const port = process.env.PORT || 3000;

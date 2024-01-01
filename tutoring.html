@@ -100,22 +100,15 @@
     <!-- Other content and filter options can go here -->
     <div class="row">
       <!-- Calendar structure -->
-      <div class="col s12">
-        <!-- Monday -->
-        <ul class="collection with-header">
-          <li class="collection-header"><h5>Monday</h5></li>
-          <li class="collection-item tutor">Alex Johnson - alexjohn24@bergen.org </li>
-          <li class="collection-item tutor">Maria Smith - mariaemail.com </li>
-        </ul>
-        <!-- Tuesday -->
-        <ul class="collection with-header">
-          <li class="collection-header"><h5>Tuesday</h5></li>
-          <li class="collection-item tutor">John Doe - joedoe1@gmail.com </li>
-          <li class="collection-item tutor">Emma Brown - embrown@gmail.com </li>
-        </ul>
-        <!-- The rest of the days follow the same pattern -->
-        <!-- ... -->
-      </div>
+      <!-- HTML Structure -->
+        <div class="col s12">
+          <!-- Monday -->
+          <ul id="tutor-list" class="collection with-header">
+            <li class="collection-header"><h5>Monday</h5></li>
+          </ul>
+          <!-- Tuesday -->
+          <!-- ... (other days) ... -->
+        </div>
     </div>
   </div>
 </div>
@@ -130,27 +123,51 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var elemsSelect = document.querySelectorAll('select');
-      var instancesSelect = M.FormSelect.init(elemsSelect);
-    });
+  document.addEventListener('DOMContentLoaded', function() {
+    var elemsSelect = document.querySelectorAll('select');
+    var instancesSelect = M.FormSelect.init(elemsSelect);
   
-    function searchTutors() {
-      var searchInput = document.getElementById('search').value.toLowerCase();
-      var subjectFilter = document.getElementById('subject-filter').value;
-      var tutors = document.querySelectorAll('.tutor');
-  
-      tutors.forEach(function(tutor) {
-        var name = tutor.textContent.toLowerCase();
-        var subject = tutor.getAttribute('data-subject');
-        if ((name.includes(searchInput) || searchInput === '') && 
-            (subject === subjectFilter || subjectFilter === null || subjectFilter === '')) {
-          tutor.style.display = 'block';
-        } else {
-          tutor.style.display = 'none';
-        }
+    // Fetch tutor data from the server
+    fetch('/tutors') // Replace with the correct server endpoint
+      .then(response => response.json())
+      .then(data => {
+        const tutorList = document.getElementById('tutor-list');
+        data.forEach(tutor => {
+          const tutorItem = document.createElement('li');
+          tutorItem.classList.add('collection-item', 'tutor');
+          tutorItem.textContent = `${tutor.username} - ${tutor.email}`;
+          
+          // Set the subject as a data attribute
+          tutorItem.setAttribute('data-subject', tutor.subject);
+          
+          tutorList.appendChild(tutorItem);
+        });
+        
+      })
+      .catch(error => {
+        console.error('Error fetching tutor data:', error);
       });
-    }
+  });
+  
+  function searchTutors() {
+    var searchInput = document.getElementById('search').value.toLowerCase();
+    var subjectFilter = document.getElementById('subject-filter').value;
+    var tutors = document.querySelectorAll('.tutor');
+  
+    tutors.forEach(function(tutor) {
+      var name = tutor.textContent.toLowerCase();
+      var subject = tutor.getAttribute('data-subject'); // Get the subject from the data attribute
+  
+      if ((name.includes(searchInput) || searchInput === '') && 
+          (subject === subjectFilter || subjectFilter === null || subjectFilter === '' || subjectFilter === 'All')) {
+        tutor.style.display = 'block';
+      } else {
+        tutor.style.display = 'none';
+      }
+    });
+  }
+  
+  
   </script>
 
 </body>
