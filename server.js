@@ -27,8 +27,9 @@ const db = new sqlite3.Database('./mydb.sqlite3', (err) => {
 
 // Create a table if it doesn't exist with additional columns for day_available and time_available
 db.serialize(() => {
-  db.run('CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, username TEXT, subject TEXT, day_available TEXT, time_available TEXT)');
+  db.run('CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, username TEXT, subject TEXT, day_available TEXT, time_available TEXT, account_type TEXT)');
 });
+
 
 
 const app = express();
@@ -41,12 +42,13 @@ app.use((req, res, next) => {
   if (req.oidc.isAuthenticated()) {
     const email = req.oidc.user.email;
     const username = req.oidc.user.nickname;
-    const subject = 'Mathematics'; // Set the subject to "Mathematics" for all users
-    const dayAvailable = 'Monday'; // Default value for day_available
-    const timeAvailable = '5 PM'; // Default value for time_available
+    const subject = 'Mathematics'; // Or fetch this from user input
+    const dayAvailable = 'Monday'; // Or fetch this from user input
+    const timeAvailable = '5 PM'; // Or fetch this from user input
+    const accountType = 'Student'; // Or set this based on user input or some logic
 
-    // Include day_available and time_available in the INSERT statement
-    db.run('INSERT OR IGNORE INTO users (email, username, subject, day_available, time_available) VALUES (?, ?, ?, ?, ?)', [email, username, subject, dayAvailable, timeAvailable], function(err) {
+    // Include account_type in the INSERT statement
+    db.run('INSERT OR IGNORE INTO users (email, username, subject, day_available, time_available, account_type) VALUES (?, ?, ?, ?, ?, ?)', [email, username, subject, dayAvailable, timeAvailable, accountType], function(err) {
       if (err) {
         console.error('Error inserting user:', err.message);
       } else {
@@ -56,6 +58,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+
 
 
 
@@ -88,14 +91,14 @@ app.get('/logout', (req, res) => {
 // Profile route to fetch user info from the database
 app.get('/profile', (req, res) => {
   if (req.oidc.isAuthenticated()) {
-    db.get('SELECT email, subject, day_available, time_available FROM users WHERE email = ?', [req.oidc.user.email], (err, row) => {
+    db.get('SELECT email, subject, day_available, time_available, account_type FROM users WHERE email = ?', [req.oidc.user.email], (err, row) => {
       if (err) {
         res.send('Error fetching profile information');
         return console.error(err.message);
       }
       if(row) {
-          // Send the email, subject, day_available, and time_available as a JSON object
-          res.json({ email: row.email, subject: row.subject, day_available: row.day_available, time_available: row.time_available });
+          // Send the email, subject, day_available, time_available, and account_type as a JSON object
+          res.json({ email: row.email, subject: row.subject, day_available: row.day_available, time_available: row.time_available, account_type: row.account_type });
       } else {
           res.send('Profile not found');
       }

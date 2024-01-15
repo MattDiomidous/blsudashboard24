@@ -160,15 +160,16 @@
             });
     
             $('#showProfile').on('click', function() {
-              $.get('/profile', function(data) {
-                  if(data.email && data.subject) {
-                      // Update the profile information display to include dayAvailable and timeAvailable
-                      $('#profileInfo').html(`Your email: ${data.email}<br>Your subject: ${data.subject}<br>Day Available: ${data.day_available}<br>Time Available: ${data.time_available}`);
-                  } else {
-                      $('#profileInfo').text('Profile information is not available.');
-                  }
-              });
-          });
+                $.get('/profile', function(data) {
+                    if(data.email && data.subject) {
+                        // Update the profile information display to include account_type
+                        $('#profileInfo').html(`Your email: ${data.email}<br>Your subject: ${data.subject}<br>Day Available: ${data.day_available}<br>Time Available: ${data.time_available}<br>Account Type: ${data.account_type}`);
+                    } else {
+                    $('#profileInfo').text('Profile information is not available.');
+                    }
+                    });
+                    });
+            
           $('#preferencesForm').on('submit', function(e) {
             e.preventDefault();
 
