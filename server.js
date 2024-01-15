@@ -27,12 +27,14 @@ const db = new sqlite3.Database('./mydb.sqlite3', (err) => {
 
 // Create a table if it doesn't exist with additional columns for day_available and time_available
 db.serialize(() => {
-  db.run('CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, username TEXT, subject TEXT DEFAULT "Mathematics", day_available TEXT DEFAULT "Monday", time_available TEXT DEFAULT "5 PM")');
+  db.run('CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, username TEXT, subject TEXT, day_available TEXT, time_available TEXT)');
 });
 
 
 const app = express();
 app.use(auth(config));
+
+app.use(express.urlencoded({ extended: true }));
 
 // Middleware to add the user's email and username to the database if they're logged in
 app.use((req, res, next) => {
@@ -171,6 +173,23 @@ app.get('/tutors', (req, res) => {
     }
     res.json(rows);
   });
+});
+
+app.post('/setPreferences', (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+      const { subject, day, time } = req.body;
+      const email = req.oidc.user.email;
+
+      db.run('UPDATE users SET subject = ?, day_available = ?, time_available = ? WHERE email = ?', [subject, day, time, email], function(err) {
+          if (err) {
+              res.json({ message: 'Error updating preferences' });
+          } else {
+              res.json({ message: 'Preferences updated successfully' });
+          }
+      });
+  } else {
+      res.json({ message: 'User not logged in' });
+  }
 });
 
 

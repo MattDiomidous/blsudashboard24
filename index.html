@@ -88,29 +88,34 @@
 
 
     
-<div class="row">
-                <div class="col s12 m6 offset-m3">
-                  <div class="card">
-                    <div class="card-content">
-                      <p class="center-align">You are {{loginStatus}}logged in.</p>
-                    </div>
-                    <div class="card-action center-align">
-                      <button class="btn waves-effect waves-light" id="loginBtn">Login</button>
-                      <button class="btn waves-effect waves-light" id="logoutBtn">Logout</button>
-                      <button class="btn waves-effect waves-light" id="showProfile">Show Profile</button>
-                      <div id="profileInfo"></div>
-                    </div>
-                  </div>
-                </div>
-  </div>
+  <div class="row">
+    <div class="col s12 m6 offset-m3">
+        <div class="card">
+            <div class="card-content">
+                <p class="center-align">You are {{loginStatus}}logged in.</p>
+            </div>
+            <div class="card-action center-align">
+                <button class="btn waves-effect waves-light" id="loginBtn">Login</button>
+                <button class="btn waves-effect waves-light" id="logoutBtn">Logout</button>
+                <button class="btn waves-effect waves-light" id="showProfile">Show Profile</button>
+                
+                <!-- User Preference Form -->
+                <form id="preferencesForm">
+                    <input type="text" id="subjectInput" placeholder="Subject" required>
+                    <input type="text" id="dayInput" placeholder="Day Available" required>
+                    <input type="text" id="timeInput" placeholder="Time Available" required>
+                    <button type="submit" class="btn waves-effect waves-light">Submit Preferences</button>
+                </form>
+                <div id="submitResult"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="profileInfo"></div>
 
 
 
-
-     
-
-
-    <div id="profileInfo"></div>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Compiled and minified JavaScript for Materialize -->
@@ -164,7 +169,19 @@
                   }
               });
           });
-          
+          $('#preferencesForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const subject = $('#subjectInput').val();
+            const day = $('#dayInput').val();
+            const time = $('#timeInput').val();
+
+            $.post('/setPreferences', { subject, day, time }, function(response) {
+                $('#submitResult').text(response.message);
+            }).fail(function() {
+                $('#submitResult').text('Failed to update preferences.');
+            });
+        });
           
           
         });
