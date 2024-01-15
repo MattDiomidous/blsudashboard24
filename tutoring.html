@@ -69,30 +69,43 @@
   </main>
 
 
-<div class="container">
+  <div class="container">
     <div class="section">
-      <h4>Tutoring Schedule</h4>
-      <div class="row">
-        <div class="input-field col s12 m6">
-          <input id="search" type="text" class="validate">
-          <label for="search">Search by Tutor Name</label>
+        <h4>Tutoring Schedule</h4>
+        <div class="row">
+            <div class="input-field col s12 m3">
+                <input id="search" type="text" class="validate">
+                <label for="search">Search by Tutor Name</label>
+            </div>
+            <div class="input-field col s12 m3">
+                <select id="subject-filter">
+                    <option value="" disabled selected>Choose Subject</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Science">Science</option>
+                    <option value="Literature">Literature</option>
+                    <!-- Add more subjects as needed -->
+                </select>
+                <label>Filter by Subject</label>
+            </div>
+            <div class="input-field col s12 m3">
+                <select id="day-filter">
+                    <option value="" disabled selected>Choose Day</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <!-- Add more days as needed -->
+                </select>
+                <label>Filter by Day</label>
+            </div>
+            <div class="input-field col s12 m3">
+                <input id="time-filter" type="text" class="validate">
+                <label for="time-filter">Filter by Time</label>
+            </div>
+            <div class="col s12">
+                <button class="btn waves-effect waves-light" onclick="searchTutors()">Search
+                    <i class="material-icons right"></i>
+                </button>
+            </div>
         </div>
-        <div class="input-field col s12 m6">
-          <select id="subject-filter">
-            <option value="" disabled selected>Choose Subject</option>
-            <option value="Mathematics">Mathematics</option>
-            <option value="Science">Science</option>
-            <option value="Literature">Literature</option>
-            <!-- Add more subjects as needed -->
-          </select>
-          <label>Filter by Subject</label>
-        </div>
-        <div class="col s12">
-          <button class="btn waves-effect waves-light" onclick="searchTutors()">Search
-            <i class="material-icons right"></i>
-          </button>
-        </div>
-      </div>
 
 <div class="container">
   <div class="section">
@@ -128,45 +141,64 @@
     var instancesSelect = M.FormSelect.init(elemsSelect);
   
     // Fetch tutor data from the server
-    fetch('/tutors') // Replace with the correct server endpoint
-      .then(response => response.json())
-      .then(data => {
+    fetch('/tutors') // Make sure this is the correct endpoint
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // This will log the data to the console
         const tutorList = document.getElementById('tutor-list');
         data.forEach(tutor => {
-          const tutorItem = document.createElement('li');
-          tutorItem.classList.add('collection-item', 'tutor');
-          tutorItem.textContent = `${tutor.username} - ${tutor.email}`;
-          
-          // Set the subject as a data attribute
-          tutorItem.setAttribute('data-subject', tutor.subject);
-          
-          tutorList.appendChild(tutorItem);
+            // Ensure the 'day' and 'time' properties exist in the 'tutor' object
+            console.log(tutor.day, tutor.time); // This will log each tutor's day and time to the console
+
+            const tutorItem = document.createElement('li');
+            tutorItem.classList.add('collection-item', 'tutor');
+            tutorItem.textContent = `${tutor.username} - ${tutor.email} - ${tutor.subject} - ${tutor.day_available} - ${tutor.time_available}`;
+            
+            tutorItem.setAttribute('data-subject', tutor.subject || 'N/A');
+            tutorItem.setAttribute('data-day_available', tutor.day_available || 'N/A');
+            tutorItem.setAttribute('data-time_available', tutor.time_available || 'N/A');
+            
+            tutorList.appendChild(tutorItem);
         });
-        
-      })
-      .catch(error => {
+    })
+    .catch(error => {
         console.error('Error fetching tutor data:', error);
-      });
+    });
+
   });
   
   function searchTutors() {
     var searchInput = document.getElementById('search').value.toLowerCase();
     var subjectFilter = document.getElementById('subject-filter').value;
+    var dayFilter = document.getElementById('day-filter').value;
+    var timeFilter = document.getElementById('time-filter').value.toLowerCase();
     var tutors = document.querySelectorAll('.tutor');
-  
+
+    console.log('Filters:', {searchInput, subjectFilter, dayFilter, timeFilter});
+
     tutors.forEach(function(tutor) {
-      var name = tutor.textContent.toLowerCase();
-      var subject = tutor.getAttribute('data-subject'); // Get the subject from the data attribute
-  
-      if ((name.includes(searchInput) || searchInput === '') && 
-          (subject === subjectFilter || subjectFilter === null || subjectFilter === '' || subjectFilter === 'All')) {
-        tutor.style.display = 'block';
-      } else {
-        tutor.style.display = 'none';
-      }
+        var name = tutor.textContent.toLowerCase();
+        var subject = tutor.getAttribute('data-subject').toLowerCase();
+        var day = tutor.getAttribute('data-day_available').toLowerCase();
+        var time = tutor.getAttribute('data-time_available').toLowerCase();
+
+        console.log('Tutor Data:', {name, subject, day, time});
+
+        var nameMatch = name.includes(searchInput);
+        var subjectMatch = (subjectFilter === '' || subject === subjectFilter.toLowerCase());
+        var dayMatch = (dayFilter === '' || day === dayFilter.toLowerCase());
+        var timeMatch = (timeFilter === '' || time.includes(timeFilter));
+
+        console.log('Matches:', {nameMatch, subjectMatch, dayMatch, timeMatch});
+
+        if (nameMatch && subjectMatch && dayMatch && timeMatch) {
+            tutor.style.display = '';
+        } else {
+            tutor.style.display = 'none';
+        }
     });
-  }
-  
+}
+
   
   </script>
 
