@@ -45,7 +45,7 @@ app.use((req, res, next) => {
     const subject = 'Mathematics'; // Or fetch this from user input
     const dayAvailable = 'Monday'; // Or fetch this from user input
     const timeAvailable = '5 PM'; // Or fetch this from user input
-    const accountType = 'Admin'; // Or set this based on user input or some logic
+    const accountType = 'Student'; // Or set this based on user input or some logic
 
     // Include account_type in the INSERT statement
     db.run('INSERT OR IGNORE INTO users (email, username, subject, day_available, time_available, account_type) VALUES (?, ?, ?, ?, ?, ?)', [email, username, subject, dayAvailable, timeAvailable, accountType], function(err) {
@@ -241,6 +241,35 @@ app.get('/api/users', (req, res) => {
               });
           } else {
               // User is not an admin or user not found
+              res.status(403).send('Access Denied');
+          }
+      });
+  } else {
+      // User is not authenticated
+      res.status(401).send('Unauthorized');
+  }
+});
+
+app.delete('/api/deleteUser/:email', (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+      const adminEmail = req.oidc.user.email;
+
+      // First, check if the authenticated user is an admin
+      db.get('SELECT account_type FROM users WHERE email = ?', [adminEmail], (err, row) => {
+          if (err) {
+              res.status(500).send('Internal Server Error');
+          } else if (row && row.account_type === 'Admin') {
+              // Admin confirmed, proceed with deletion
+              const emailToDelete = req.params.email;
+              db.run('DELETE FROM users WHERE email = ?', [emailToDelete], function(err) {
+                  if (err) {
+                      res.status(500).json({ success: false, message: 'Internal Server Error' });
+                  } else {
+                      res.json({ success: true, message: 'User deleted' });
+                  }
+              });
+          } else {
+              // User is not an admin
               res.status(403).send('Access Denied');
           }
       });

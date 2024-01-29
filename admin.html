@@ -29,6 +29,7 @@
                     <th>Day Available</th>
                     <th>Time Available</th>
                     <th>Account Type</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +37,27 @@
             </tbody>
         </table>
     </div>
+
     <script>
+        function deleteUser(email, row) {
+            if (confirm(`Are you sure you want to delete the account for ${email}?`)) {
+                fetch(`/api/deleteUser/${email}`, { method: 'DELETE' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Remove the row from the table
+                            row.remove();
+                        } else {
+                            alert('Failed to delete the user.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error deleting user.');
+                    });
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             fetch('/api/users')
                 .then(response => response.json())
@@ -50,6 +71,7 @@
                         let dayAvailable = row.insertCell(3);
                         let timeAvailable = row.insertCell(4);
                         let accountType = row.insertCell(5);
+                        let actions = row.insertCell(6);
 
                         email.innerHTML = user.email;
                         username.innerHTML = user.username;
@@ -57,6 +79,12 @@
                         dayAvailable.innerHTML = user.day_available;
                         timeAvailable.innerHTML = user.time_available;
                         accountType.innerHTML = user.account_type;
+
+                        // Add delete button
+                        let deleteButton = document.createElement('button');
+                        deleteButton.innerText = 'Delete';
+                        deleteButton.onclick = () => deleteUser(user.email, row);
+                        actions.appendChild(deleteButton);
                     });
                 })
                 .catch(error => console.error('Error:', error));
