@@ -19,34 +19,51 @@
     </nav>
 
     <div class="container">
-        <h2>Admin Panel</h2>
-
-        <!-- User Management Section -->
-        <section id="user-management">
-            <h3>User Management</h3>
-            <p>Here you can manage user accounts, roles, and permissions.</p>
-            <!-- User management functionalities -->
-        </section>
-
-        <!-- Content Moderation Section -->
-        <section id="content-moderation">
-            <h3>Content Moderation</h3>
-            <p>Moderate and manage posted content.</p>
-            <!-- Content moderation functionalities -->
-        </section>
-
-        <!-- System Settings Section -->
-        <section id="system-settings">
-            <h3>System Settings</h3>
-            <p>Configure system-wide settings and parameters.</p>
-            <!-- System settings functionalities -->
-        </section>
+        <h2>User Management</h2>
+        <table id="usersTable">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Username</th>
+                    <th>Subject</th>
+                    <th>Day Available</th>
+                    <th>Time Available</th>
+                    <th>Account Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- User data will be inserted here -->
+            </tbody>
+        </table>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/users')
+                .then(response => response.json())
+                .then(users => {
+                    const tableBody = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
+                    users.forEach(user => {
+                        let row = tableBody.insertRow();
+                        let email = row.insertCell(0);
+                        let username = row.insertCell(1);
+                        let subject = row.insertCell(2);
+                        let dayAvailable = row.insertCell(3);
+                        let timeAvailable = row.insertCell(4);
+                        let accountType = row.insertCell(5);
+
+                        email.innerHTML = user.email;
+                        username.innerHTML = user.username;
+                        subject.innerHTML = user.subject;
+                        dayAvailable.innerHTML = user.day_available;
+                        timeAvailable.innerHTML = user.time_available;
+                        accountType.innerHTML = user.account_type;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-        // JavaScript for additional admin functionalities
-    </script>
 </body>
 </html>

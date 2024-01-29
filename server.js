@@ -221,6 +221,36 @@ app.get('/admin.html', async (req, res) => {
   }
 });
 
+app.get('/api/users', (req, res) => {
+  // Check if the user is authenticated
+  if (req.oidc.isAuthenticated()) {
+      const email = req.oidc.user.email;
+
+      // Query the database for the user's account type
+      db.get('SELECT account_type FROM users WHERE email = ?', [email], (err, row) => {
+          if (err) {
+              res.status(500).send('Internal Server Error');
+          } else if (row && row.account_type === 'Admin') {
+              // User is an admin, fetch and send all users' data
+              db.all("SELECT * FROM users", [], (err, rows) => {
+                  if (err) {
+                      res.status(500).send("Error fetching users: " + err.message);
+                  } else {
+                      res.json(rows);
+                  }
+              });
+          } else {
+              // User is not an admin or user not found
+              res.status(403).send('Access Denied');
+          }
+      });
+  } else {
+      // User is not authenticated
+      res.status(401).send('Unauthorized');
+  }
+});
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
