@@ -45,7 +45,7 @@ app.use((req, res, next) => {
     const subject = 'Mathematics'; // Or fetch this from user input
     const dayAvailable = 'Monday'; // Or fetch this from user input
     const timeAvailable = '5 PM'; // Or fetch this from user input
-    const accountType = 'Tutor'; // Or set this based on user input or some logic
+    const accountType = 'Admin'; // Or set this based on user input or some logic
 
     // Include account_type in the INSERT statement
     db.run('INSERT OR IGNORE INTO users (email, username, subject, day_available, time_available, account_type) VALUES (?, ?, ?, ?, ?, ?)', [email, username, subject, dayAvailable, timeAvailable, accountType], function(err) {
@@ -195,7 +195,31 @@ app.post('/setPreferences', (req, res) => {
   }
 });
 
+app.get('/accountType', (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    const email = req.oidc.user.email;
+    db.get('SELECT account_type FROM users WHERE email = ?', [email], (err, row) => {
+      if (err) {
+        res.status(500).send('Error fetching account type');
+      } else {
+        res.json({ account_type: row ? row.account_type : null });
+      }
+    });
+  } else {
+    res.json({ account_type: null });
+  }
+});
 
+app.get('/admin.html', async (req, res) => {
+  try {
+    // Read and send the content of the HTML file
+    let htmlContent = await fs.readFile('admin.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
