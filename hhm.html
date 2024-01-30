@@ -7,55 +7,30 @@
   <!-- Compiled and minified Materialize JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-
   <style>
     nav{
         flex: display;
         align-items: center;
         justify-content: center;
     }
-
   </style>
-
 </head>
 <body>
 
   <!-- Navigation Bar -->
   <main>
     <nav class="black">
-
       <div class="nav-wrapper">
           <a href="#" class="brand-logo">BCA BLSU</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="tutoring.html">Tutoring</a>   </a></li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"> <a href="material.html"> Club Materials </a>  </a> </li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown3"> BHM </a></li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="events.html">Blog</a></li>
-
+            <li><a href="tutoring.html">Tutoring</a></li>
+            <li><a href="material.html">Club Materials</a></li>
+            <li><a href="black-history-month.html">BHM</a></li>
+            <li><a href="hhm.html">HHM</a></li>
+            <li><a href="events.html">Blog</a></li>
           </ul>
         </div>
       </nav>
-        
-        <!-- Dropdown Structure -->
-        <ul id="dropdown1" class="dropdown-content">
-          <li><a href="/tutoring.html">Tutoring</a></li>
-          <li><a href="/tutoring.html">Sub-Item 1</a></li>
-          <li><a href="/tutoring.html">Sub-Item 2</a></li>
-        </ul>
-        
-        <ul id="dropdown2" class="dropdown-content">
-          <li><a href="/club-materials.html">Club Materials</a></li>
-          <li><a href="/club-materials.html">Sub-Item 1</a></li>
-          <li><a href="/club-materials.html">Sub-Item 2</a></li>
-        </ul>
-        
-        <ul id="dropdown3" class="dropdown-content">
-          <li><a href="/black-history-month.html">Black History Month</a></li>
-          <li><a href="/black-history-month.html">Sub-Item 1</a></li>
-          <li><a href="/black-history-month.html">Sub-Item 2</a></li>
-        </ul>
-        
   </main>
 
   <!-- Welcome Header -->
@@ -92,7 +67,7 @@
   <div class="section">
     <div class="container">
       <div class="row">
-        <form class="col s12">
+        <form class="col s12" id="signupForm">
           <div class="row">
             <div class="input-field col s12">
               <input placeholder="Name" id="name" type="text" class="validate">
@@ -137,5 +112,43 @@
         </div>
       </div>
     </div>
-  </footer
+  </footer>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('signupForm');
+
+        form.onsubmit = function(event) {
+            event.preventDefault();
+
+            var formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                notes: document.getElementById('textarea1').value
+            };
+
+            fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Details added successfully');
+                } else {
+                    alert('Failed to add details');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error adding details');
+            });
+        };
+    });
+  </script>
+</body>
+</html>

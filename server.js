@@ -30,12 +30,31 @@ db.serialize(() => {
   db.run('CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, username TEXT, subject TEXT, day_available TEXT, time_available TEXT, account_type TEXT)');
 });
 
+db.serialize(() => {
+  db.run(`CREATE TABLE IF NOT EXISTS signups (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    name TEXT, 
+    email TEXT, 
+    phone TEXT, 
+    notes TEXT
+  )`, (err) => {
+  if (err) {
+    console.error("Error creating 'signups' table:", err.message);
+  } else {
+    console.log("'signups' table created or already exists");
+  }
+});
+
+});
+
 
 
 const app = express();
 app.use(auth(config));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 // Middleware to add the user's email and username to the database if they're logged in
 app.use((req, res, next) => {
@@ -278,6 +297,31 @@ app.delete('/api/deleteUser/:email', (req, res) => {
       res.status(401).send('Unauthorized');
   }
 });
+
+app.get('/signups', (req, res) => {
+  db.all("SELECT * FROM signups", [], (err, rows) => {
+      if (err) {
+          res.status(500).send("Error fetching signups: " + err.message);
+      } else {
+          res.json(rows);
+      }
+  });
+});
+
+app.post('/signup', (req, res) => {
+  const { name, email, phone, notes } = req.body;
+  const query = `INSERT INTO signups (name, email, phone, notes) VALUES (?, ?, ?, ?)`;
+
+  db.run(query, [name, email, phone, notes], (err) => {
+      if (err) {
+          console.error('Database error:', err);
+          res.status(500).json({ success: false, message: 'Error saving to database', error: err.message });
+      } else {
+          res.json({ success: true, message: 'Successfully signed up' });
+      }
+  });
+});
+
 
 
 const port = process.env.PORT || 3000;
