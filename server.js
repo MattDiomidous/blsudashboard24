@@ -70,8 +70,6 @@ app.use((req, res, next) => {
     db.run('INSERT OR IGNORE INTO users (email, username, subject, day_available, time_available, account_type) VALUES (?, ?, ?, ?, ?, ?)', [email, username, subject, dayAvailable, timeAvailable, accountType], function(err) {
       if (err) {
         console.error('Error inserting user:', err.message);
-      } else {
-        console.log(`Upserted user: ${email}`);
       }
     });
   }
