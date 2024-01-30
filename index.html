@@ -1,5 +1,3 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,27 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BCA BLSU</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
- 
-
-      <link rel="stylesheet" href="index.css">
-
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <main>
       <nav class="black">
-
         <div class="nav-wrapper">
             <a href="#" class="brand-logo">BCA BLSU</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="subpages/tutoring.html">Tutoring</a>   </a></li>
-              <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"> <a href="subpages/material.html"> Club Materials </a>  </a> </li>
+              <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="tutoring.html">Tutoring</a>   </a></li>
+              <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"> <a href="material.html"> Club Materials </a>  </a> </li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown3"> BHM </a></li>
-              <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="subpages/hhm.html"> HHM </a> </a></li>
-              <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="subpages/events.html">Current Events</a></li>
-/
+              <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
+              <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="events.html">Current Events</a></li>
+
             </ul>
-          </div>
-        </nav>
+        </div>
+      </nav>
           
           <!-- Dropdown Structure -->
           <ul id="dropdown1" class="dropdown-content">
@@ -86,97 +80,89 @@
 
 
     
-<div class="row">
-                <div class="col s12 m6 offset-m3">
-                  <div class="card">
-                    <div class="card-content">
-                      <p class="center-align">You are {{loginStatus}}logged in.</p>
-                    </div>
-                    <div class="card-action center-align">
-                      <button class="btn waves-effect waves-light" id="loginBtn">Login</button>
-                      <button class="btn waves-effect waves-light" id="logoutBtn">Logout</button>
-                      <button class="btn waves-effect waves-light" id="showProfile">Show Profile</button>
-                      <div id="profileInfo"></div>
-                    </div>
-                  </div>
-                </div>
-  </div>
+  <div class="row">
+    <div class="col s12 m6 offset-m3">
+        <div class="card">
+            <div class="card-content">
+                <p class="center-align">You are {{loginStatus}}logged in.</p>
+            </div>
+            <div class="card-action center-align">
+                <button class="btn waves-effect waves-light" id="loginBtn">Login</button>
+                <button class="btn waves-effect waves-light" id="logoutBtn">Logout</button>
+                <button class="btn waves-effect waves-light" id="showProfile">Show Profile</button>
+                
+                <!-- User Preference Form -->
+                <form id="preferencesForm">
+                    <input type="text" id="subjectInput" placeholder="Subject" required>
+                    <input type="text" id="dayInput" placeholder="Day Available" required>
+                    <input type="text" id="timeInput" placeholder="Time Available" required>
+                    <button type="submit" class="btn waves-effect waves-light">Submit Preferences</button>
+                </form>
+                <div id="submitResult"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="profileInfo"></div>
 
 
 
-
-     
-
-
-    <div id="profileInfo"></div>
     
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Compiled and minified JavaScript for Materialize -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    
-    <script>
-        // When the document is ready
-        $(document).ready(function() {
-            // Initialize the carousel
-            $('.carousel.carousel-slider').carousel({
-                fullWidth: true,
-                indicators: true
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Initialize components
+        $('.carousel.carousel-slider').carousel({fullWidth: true, indicators: true});
+        setInterval(function() { $('.carousel').carousel('next'); }, 2000); 
+
+        // Update login status
+        function updateLoginStatus() {
+            $.get('/loginStatus', function(data) {
+                if (data.isAuthenticated) {
+                    $('#loginStatus').text(' ');
+                    $('#buttons').show();
+                } else {
+                    $('#loginStatus').text('not ');
+                    $('#buttons').hide();
+                }
             });
-    
-            // Function to automate carousel movement
-            setInterval(function() {
-                $('.carousel').carousel('next');
-            }, 2000); // Change the interval as needed
-    
-            // Update login status function
-            function updateLoginStatus() {
-                $.get('/loginStatus', function(data) {
-                    if (data.isAuthenticated) {
-                        $('#loginStatus').text(' ');
-                        $('#buttons').show();
-                    } else {
-                        $('#loginStatus').text('not ');
-                        $('#buttons').hide();
-                    }
-                });
-            }
-            
-            updateLoginStatus();
-    
-            // Event listeners for buttons
-            $('#loginBtn').on('click', function() {
-                location.href = '/login';
+        }
+
+        // Check account type
+        function checkAccountType() {
+            $.get('/accountType', function(data) {
+                if (data.account_type === 'Admin') {
+                    $('#adminLink').show();
+                }
             });
-    
-            $('#logoutBtn').on('click', function() {
-                location.href = '/logout';
+        }
+
+        updateLoginStatus();
+        checkAccountType();
+        
+        // Event listeners for buttons
+        $('#loginBtn').on('click', function() { location.href = '/login'; });
+        $('#logoutBtn').on('click', function() { location.href = '/logout'; });
+        $('#showProfile').on('click', function() {
+            $.get('/profile', function(data) {
+                if(data.email && data.subject) {
+                    $('#profileInfo').html(`Your email: ${data.email}<br>Your subject: ${data.subject}<br>Day Available: ${data.day_available}<br>Time Available: ${data.time_available}<br>Account Type: ${data.account_type}`);
+                } else {
+                    $('#profileInfo').text('Profile information is not available.');
+                }
             });
-    
-            $('#showProfile').on('click', function() {
-              $.get('/profile', function(data) {
-                  if(data.email && data.subject) {
-                      // Update the profile information display to include dayAvailable and timeAvailable
-                      $('#profileInfo').html(`Your email: ${data.email}<br>Your subject: ${data.subject}<br>Day Available: ${data.day_available}<br>Time Available: ${data.time_available}`);
-                  } else {
-                      $('#profileInfo').text('Profile information is not available.');
-                  }
-              });
-          });
-          
-          
-          
         });
-    </script>
+    });
+</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var dropdownElems = document.querySelectorAll('.dropdown-trigger');
-    var options = {
-      // You can specify options here if needed
-    };
-    var instances = M.Dropdown.init(dropdownElems, options);
+    var instances = M.Dropdown.init(dropdownElems, {});
   });
 </script>
-
 </body>
 </html>

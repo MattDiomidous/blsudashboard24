@@ -3,64 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Current Events Display</title>
+    <title>Blog</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    
+    <style>
+        /* Add your custom styles here if needed */
+        body {
+            background-color: #f5f5f5;
+        }
 
-    <link rel="stylesheet" href="index.css">
+        .container {
+            margin-top: 20px;
+        }
+
+        .post {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .reaction-buttons {
+            margin-top: 10px;
+        }
+
+        .reaction-button {
+            cursor: pointer;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
-    <main>
-        <nav class="black">
-  
-          <div class="nav-wrapper">
-              <a href="#" class="brand-logo">BCA BLSU</a>
-              <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="tutoring.html">Tutoring</a>   </a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"> <a href="material.html"> Club Materials </a>  </a> </li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown3"> BHM </a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="events.html">Current Events</a></li>
-  
-              </ul>
-            </div>
-          </nav>
-            
-            <!-- Dropdown Structure -->
-            <ul id="dropdown1" class="dropdown-content">
-              <li><a href="/tutoring.html">Tutoring</a></li>
-              <li><a href="/tutoring.html">Sub-Item 1</a></li>
-              <li><a href="/tutoring.html">Sub-Item 2</a></li>
+
+    <!-- Navigation -->
+    <nav class="black">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">BCA BLSU</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="tutoring.html">Tutoring</a></li>
+                <li><a href="club-materials.html">Club Materials</a></li>
+                <li><a href="black-history-month.html">Black History Month</a></li>
+                <li><a href="hhm.html">HHM</a></li>
+                <li><a href="events.html">Current Events</a></li>
             </ul>
-            
-            <ul id="dropdown2" class="dropdown-content">
-              <li><a href="/club-materials.html">Club Materials</a></li>
-              <li><a href="/club-materials.html">Sub-Item 1</a></li>
-              <li><a href="/club-materials.html">Sub-Item 2</a></li>
-            </ul>
-            
-            <ul id="dropdown3" class="dropdown-content">
-              <li><a href="/black-history-month.html">Black History Month</a></li>
-              <li><a href="/black-history-month.html">Sub-Item 1</a></li>
-              <li><a href="/black-history-month.html">Sub-Item 2</a></li>
-            </ul>
-            
-      </main>
-  
+        </div>
+    </nav>
+
+    <!-- Main Content -->
     <div class="container">
         <header>
-            <h1>Current Events</h1>
+            <h1>BLSU Blog</h1>
         </header>
-        <div id="events-container">
-            <!-- Events will be dynamically loaded here -->
+
+        <!-- Create Post Form -->
+        <form id="create-post-form" class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="username" type="text" class="validate">
+                    <label for="username">Username</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="post-title" type="text" class="validate">
+                    <label for="post-title">Post Title</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="post-content" class="materialize-textarea"></textarea>
+                    <label for="post-content">Post Content</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s6">
+                    <label>
+                        <input type="checkbox" id="is-question" />
+                        <span>Is Question</span>
+                    </label>
+                </div>
+                <div class="col s6">
+                    <label>
+                        <input type="checkbox" id="is-anonymous" />
+                        <span>Anonymous</span>
+                    </label>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="button" onclick="createPost()">Create Post
+            </button>
+        </form>
+
+        <!-- Blog Posts -->
+        <div id="blog-posts-container">
+            <!-- Blog posts will be dynamically loaded here -->
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-        // Initialize dropdown
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize dropdown
             var dropdowns = document.querySelectorAll('.dropdown-trigger');
             var options = {
                 alignment: 'right',
@@ -68,43 +112,136 @@
                 coverTrigger: false
             };
             var instances = M.Dropdown.init(dropdowns, options);
+
+            // Initialize modal
+            var modalElems = document.querySelectorAll('.modal');
+            var modalInstances = M.Modal.init(modalElems);
         });
 
-        // Dummy data representing current events
-        const currentEvents = [
+        const blogPosts = [
             {
-                title: "Event 1",
+                username: "User1",
+                title: "Post 1",
                 date: "2023-12-15",
-                description: "This is a description for event 1."
+                content: "This is the content for post 1.",
+                isQuestion: false,
+                isAnonymous: false,
+                likes: 0,
+                dislikes: 0,
+                reacted: false // New property
             },
             {
-                title: "Event 2",
+                username: "User2",
+                title: "Post 2",
                 date: "2023-12-16",
-                description: "This is a description for event 2."
+                content: "This is the content for post 2.",
+                isQuestion: false,
+                isAnonymous: false,
+                likes: 0,
+                dislikes: 0,
+                reacted: false // New property
             },
-            // Add more events here
+            // Add more posts here
         ];
 
-        // Function to display events
-        function displayEvents(events) {
-            const eventsContainer = document.getElementById('events-container');
-            events.forEach(event => {
-                const eventElement = document.createElement('div');
-                eventElement.classList.add('event');
+        function displayBlogPosts(posts) {
+            const blogPostsContainer = document.getElementById('blog-posts-container');
+            blogPostsContainer.innerHTML = ""; // Clear existing content
 
-                eventElement.innerHTML = `
-                    <h2 class="event-title">${event.title}</h2>
-                    <p class="event-date">${event.date}</p>
-                    <p class="event-description">${event.description}</p>
+            posts.forEach((post, index) => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('post', 'card-panel');
+
+                const postContent = post.content;
+                const postUsername = post.isAnonymous ? "Anonymous" : `<strong>${post.username}</strong>`;
+                const postTitle = post.isQuestion ? `<h4>Question: ${post.title}</h4>` : `<h4>${post.title}</h4>`;
+
+                postElement.innerHTML = `
+                    ${postTitle}
+                    <p class="post-date">${post.date}</p>
+                    <p>${postUsername}: ${postContent}</p>
+                    <div class="reaction-buttons">
+                        ${!post.isQuestion ? `
+                            <span class="reaction-button" onclick="reactToPost(${index}, true)">👍 ${post.likes}</span>
+                            <span class="reaction-button" onclick="reactToPost(${index}, false)">👎 ${post.dislikes}</span>
+                        ` : ''}
+                    </div>
                 `;
 
-                eventsContainer.appendChild(eventElement);
+                blogPostsContainer.appendChild(postElement);
             });
         }
 
-        // Call the function to display events
-        displayEvents(currentEvents);
+        function createPost() {
+            const username = document.getElementById('username').value;
+            const title = document.getElementById('post-title').value;
+            const content = document.getElementById('post-content').value;
+            const isQuestion = document.getElementById('is-question').checked;
+            const isAnonymous = document.getElementById('is-anonymous').checked;
+
+            if (title && content) {
+                const newPost = {
+                    username,
+                    title,
+                    date: getCurrentDate(),
+                    content,
+                    isQuestion,
+                    isAnonymous,
+                    likes: 0,
+                    dislikes: 0,
+                    reacted: false // New property
+                };
+
+                blogPosts.push(newPost);
+                displayBlogPosts(blogPosts);
+
+                // Clear form fields
+                document.getElementById('username').value = "";
+                document.getElementById('post-title').value = "";
+                document.getElementById('post-content').value = "";
+                document.getElementById('is-question').checked = false;
+                document.getElementById('is-anonymous').checked = false;
+            } else {
+                alert("Please fill in title and content fields.");
+            }
+        }
+
+        function getCurrentDate() {
+            const today = new Date();
+            const year = today.getFullYear();
+            let month = today.getMonth() + 1;
+            let day = today.getDate();
+
+            // Add leading zero if needed
+            month = month < 10 ? '0' + month : month;
+            day = day < 10 ? '0' + day : day;
+
+            return `${year}-${month}-${day}`;
+        }
+
+        function reactToPost(postIndex, isLike) {
+    const post = blogPosts[postIndex];
+
+    // Check if the user has already reacted to this post
+    if (!post.reacted) {
+        if (isLike) {
+            post.likes++;
+        } else {
+            post.dislikes++;
+        }
+
+        // Mark the post as reacted
+        post.reacted = true;
+
+        // Update the display
+        displayBlogPosts(blogPosts);
+    } else {
+        alert("You can only react once to a post.");
+    }
+}
+
+        // Initial display of blog posts
+        displayBlogPosts(blogPosts);
     </script>
 </body>
 </html>
-

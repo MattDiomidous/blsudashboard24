@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Events Display</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <main>
+        <nav class="black">
+  
+          <div class="nav-wrapper">
+              <a href="#" class="brand-logo">BCA BLSU</a>
+              <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="tutoring.html">Tutoring</a>   </a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"> <a href="material.html"> Club Materials </a>  </a> </li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown3"> BHM </a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="events.html">Current Events</a></li>
+  
+              </ul>
+            </div>
+          </nav>
+            
+            <!-- Dropdown Structure -->
+            <ul id="dropdown1" class="dropdown-content">
+              <li><a href="/tutoring.html">Tutoring</a></li>
+              <li><a href="/tutoring.html">Sub-Item 1</a></li>
+              <li><a href="/tutoring.html">Sub-Item 2</a></li>
+            </ul>
+            
+            <ul id="dropdown2" class="dropdown-content">
+              <li><a href="/club-materials.html">Club Materials</a></li>
+              <li><a href="/club-materials.html">Sub-Item 1</a></li>
+              <li><a href="/club-materials.html">Sub-Item 2</a></li>
+            </ul>
+            
+            <ul id="dropdown3" class="dropdown-content">
+              <li><a href="/black-history-month.html">Black History Month</a></li>
+              <li><a href="/black-history-month.html">Sub-Item 1</a></li>
+              <li><a href="/black-history-month.html">Sub-Item 2</a></li>
+            </ul>
+            
+      </main>
+  
+    <div class="container">
+        <header>
+            <h1>Current Events</h1>
+        </header>
+        <div id="events-container">
+            <!-- Events will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        // Initialize dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            var dropdowns = document.querySelectorAll('.dropdown-trigger');
+            var options = {
+                alignment: 'right',
+                hover: true,
+                coverTrigger: false
+            };
+            var instances = M.Dropdown.init(dropdowns, options);
+        });
+
+        // Dummy data representing current events
+        const currentEvents = [
+            {
+                title: "Event 1",
+                date: "2023-12-15",
+                description: "This is a description for event 1."
+            },
+            {
+                title: "Event 2",
+                date: "2023-12-16",
+                description: "This is a description for event 2."
+            },
+            // Add more events here
+        ];
+
+        // Function to display events
+        function displayEvents(events) {
+            const eventsContainer = document.getElementById('events-container');
+            events.forEach(event => {
+                const eventElement = document.createElement('div');
+                eventElement.classList.add('event');
+
+                eventElement.innerHTML = `
+                    <h2 class="event-title">${event.title}</h2>
+                    <p class="event-date">${event.date}</p>
+                    <p class="event-description">${event.description}</p>
+                `;
+
+                eventsContainer.appendChild(eventElement);
+            });
+        }
+
+        // Call the function to display events
+        displayEvents(currentEvents);
+    </script>
+</body>
+</html>
+
