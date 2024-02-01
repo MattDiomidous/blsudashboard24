@@ -126,11 +126,10 @@ app.get('/profile', (req, res) => {
 });
 
 
-
-app.get('subpages/hhm.html', async (req, res) => {
+// IDK TESTING THEIHFSLKFD
+app.get('/subpages/hhm.html', async (req, res) => {
   try {
-    // Read and send the content of the HTML file
-    let htmlContent = await fs.readFile('hhm.html', 'utf8');
+    let htmlContent = await fs.readFile('./subpages/hhm.html', 'utf8');
     res.send(htmlContent);
   } catch (error) {
     console.error('Error reading HTML file:', error);
@@ -138,10 +137,9 @@ app.get('subpages/hhm.html', async (req, res) => {
   }
 });
 
-app.get('subpages/tutoring.html', async (req, res) => {
+app.get('/subpages/tutoring.html', async (req, res) => {
   try {
-    // Read and send the content of the HTML file
-    let htmlContent = await fs.readFile('tutoring.html', 'utf8');
+    let htmlContent = await fs.readFile('./subpages/tutoring.html', 'utf8');
     res.send(htmlContent);
   } catch (error) {
     console.error('Error reading HTML file:', error);
@@ -149,10 +147,10 @@ app.get('subpages/tutoring.html', async (req, res) => {
   }
 });
 
-app.get('subpages/material.html', async (req, res) => {
+
+app.get('/subpages/material.html', async (req, res) => {
   try {
-    // Read and send the content of the HTML file
-    let htmlContent = await fs.readFile('material.html', 'utf8');
+    let htmlContent = await fs.readFile('./subpages/material.html', 'utf8');
     res.send(htmlContent);
   } catch (error) {
     console.error('Error reading HTML file:', error);
@@ -160,10 +158,11 @@ app.get('subpages/material.html', async (req, res) => {
   }
 });
 
-app.get('subpages/events.html', async (req, res) => {
+
+app.get('/subpages/events.html', async (req, res) => {
   try {
     // Read and send the content of the HTML file
-    let htmlContent = await fs.readFile('events.html', 'utf8');
+    let htmlContent = await fs.readFile('./subpages/events.html', 'utf8');
     res.send(htmlContent);
   } catch (error) {
     console.error('Error reading HTML file:', error);
