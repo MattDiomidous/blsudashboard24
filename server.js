@@ -64,7 +64,7 @@ app.use((req, res, next) => {
     const subject = 'Mathematics'; // Or fetch this from user input
     const dayAvailable = 'Monday'; // Or fetch this from user input
     const timeAvailable = '5 PM'; // Or fetch this from user input
-    const accountType = 'Student'; // Or set this based on user input or some logic
+    const accountType = 'Admin'; // Or set this based on user input or some logic
 
     // Include account_type in the INSERT statement
     db.run('INSERT OR IGNORE INTO users (email, username, subject, day_available, time_available, account_type) VALUES (?, ?, ?, ?, ?, ?)', [email, username, subject, dayAvailable, timeAvailable, accountType], function(err) {
@@ -75,8 +75,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
-
 
 
 app.get('/', async (req, res) => {
