@@ -74,26 +74,27 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/api/files')
-        .then(response => response.json())
-        .then(files => {
-            const list = document.querySelector('.document-list'); // Assuming you have this in your HTML
-            files.forEach(file => {
-                const item = document.createElement('li');
-                item.className = 'collection-item avatar';
-                item.innerHTML = `
-                    <i class="material-icons circle">insert_drive_file</i>
-                    <span class="title">${file.name}</span>
-                    <p>Last Modified: ${file.lastModified}</p>
-                    <a href="${file.path}" target="_blank">Download</a>
-                `;
-                list.appendChild(item);
-            });
-        })
-        .catch(error => console.error('Error loading files:', error));
-});
-</script>
+  document.addEventListener('DOMContentLoaded', function() {
+      fetch('/api/materials')
+          .then(response => response.json())
+          .then(materials => {
+              const list = document.querySelector('.document-list');
+              materials.forEach(material => {
+                  const item = document.createElement('li');
+                  item.className = 'collection-item avatar';
+                  item.innerHTML = `
+                      <i class="material-icons circle">insert_drive_file</i>
+                      <span class="title">${material.originalName}</span>
+                      <p>Last Modified: ${material.uploadDate}</p>
+                      <a href="${material.filePath}" target="_blank" class="secondary-content"><i class="material-icons">file_download</i></a>
+                  `;
+                  list.appendChild(item);
+              });
+          })
+          .catch(error => console.error('Error:', error));
+  });
+  </script>
+  
 
 
 <!-- Document List Section -->

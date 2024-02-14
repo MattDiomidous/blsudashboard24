@@ -4,7 +4,7 @@ const fs = require('fs').promises;
 const { auth } = require('express-openid-connect');
 const sqlite3 = require('sqlite3').verbose();
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' }); // Files will be saved in the "uploads" directory
+const upload = multer({ dest: 'uploads/' });
 
 
 const config = {
@@ -49,6 +49,20 @@ db.serialize(() => {
 });
 
 });
+
+db.serialize(() => {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS materials (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      originalName TEXT,
+      filePath TEXT,
+      mimeType TEXT,
+      size INTEGER,
+      uploadDate DATE DEFAULT CURRENT_DATE
+    )
+  `);
+});
+
 
 
 
@@ -322,10 +336,39 @@ app.post('/signup', (req, res) => {
 
 
 
+
+// Endpoint to handle file uploads
 app.post('/upload', upload.single('file'), (req, res) => {
-  console.log(req.file); // Information about the uploaded file
-  res.send('File uploaded successfully');
+  if (!req.file) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  // Extract file metadata
+  const { originalname, path, mimetype, size } = req.file;
+
+  // Insert file metadata into the "materials" table
+  const query = `INSERT INTO materials (originalName, filePath, mimeType, size) VALUES (?, ?, ?, ?)`;
+  db.run(query, [originalname, path, mimetype, size], (err) => {
+    if (err) {
+      console.error('Error saving file metadata:', err);
+      return res.status(500).send('Error saving file information');
+    }
+
+    res.send('File uploaded and saved successfully');
+  });
+  
 });
+
+app.get('/api/materials', (req, res) => {
+  db.all("SELECT * FROM materials", [], (err, rows) => {
+    if (err) {
+      res.status(500).send("Error fetching materials: " + err.message);
+      return;
+    }
+    res.json(rows);
+  });
+});
+
 
 
 
