@@ -3,6 +3,9 @@ const express = require('express');
 const fs = require('fs').promises; 
 const { auth } = require('express-openid-connect');
 const sqlite3 = require('sqlite3').verbose();
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // Files will be saved in the "uploads" directory
+
 
 const config = {
   authRequired: false,
@@ -316,6 +319,14 @@ app.post('/signup', (req, res) => {
       }
   });
 });
+
+
+
+app.post('/upload', upload.single('file'), (req, res) => {
+  console.log(req.file); // Information about the uploaded file
+  res.send('File uploaded successfully');
+});
+
 
 
 
