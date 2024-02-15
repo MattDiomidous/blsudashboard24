@@ -5,6 +5,8 @@ const { auth } = require('express-openid-connect');
 const sqlite3 = require('sqlite3').verbose();
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
+const path = require('path'); // Use path module for file paths
+
 
 
 const config = {
@@ -242,13 +244,31 @@ app.get('/accountType', (req, res) => {
 });
 
 app.get('/admin.html', async (req, res) => {
-  try {
-    // Read and send the content of the HTML file
-    let htmlContent = await fs.readFile('admin.html', 'utf8');
-    res.send(htmlContent);
-  } catch (error) {
-    console.error('Error reading HTML file:', error);
-    res.status(500).send('Internal Server Error');
+  if (req.oidc.isAuthenticated()) {
+    try {
+      const email = req.oidc.user.email;
+      const row = await new Promise((resolve, reject) => {
+        db.get('SELECT account_type FROM users WHERE email = ?', [email], (err, row) => {
+          if (err) reject(err);
+          else resolve(row);
+        });
+      });
+
+      if (row && row.account_type === 'Admin') {
+        const adminFilePath = path.join(__dirname, 'admin.html'); // Correctly resolve the file path
+        const htmlContent = await fs.readFile(adminFilePath, 'utf8');
+        res.send(htmlContent);
+      } else {
+        // Not an admin or not found
+        res.send('Access Denied: You do not have permission to view this page.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  } else {
+    // User not authenticated
+    res.redirect('/login');
   }
 });
 
