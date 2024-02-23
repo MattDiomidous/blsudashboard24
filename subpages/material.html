@@ -131,6 +131,58 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 });
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/api/materials')
+        .then(response => response.json())
+        .then(materials => {
+            const list = document.querySelector('.document-list');
+            materials.forEach(material => {
+                const item = document.createElement('li');
+                item.className = 'collection-item avatar';
+                item.innerHTML = `
+                    <i class="material-icons circle">insert_drive_file</i>
+                    <span class="title">${material.originalName}</span>
+                    <p>Last Modified: ${material.uploadDate}</p>
+                    <a href="${material.filePath}" target="_blank" class="secondary-content"><i class="material-icons">file_download</i></a>
+                    <button onclick="deleteFile('${material.fileName}')" class="secondary-content btn-small red"><i class="material-icons">delete</i></button>
+                `;
+                list.appendChild(item);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+});
+
+function deleteFile(fileName) {
+    if (!confirm('Are you sure you want to delete this file?')) return;
+    fetch('/delete-file', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ filename: fileName }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Materialize.toast({html: 'File deleted successfully'});
+            // Optionally, refresh the document list or remove the item from the DOM
+        } else {
+            Materialize.toast({html: 'Failed to delete the file'});
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        Materialize.toast({html: 'Error deleting file'});
+    });
+}
+
+
+
+
 </script>
 </body>
 </html>

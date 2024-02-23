@@ -366,6 +366,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
   // Extract file metadata
   const { originalname, path, mimetype, size } = req.file;
 
+
+  
   // Insert file metadata into the "materials" table
   const query = `INSERT INTO materials (originalName, filePath, mimeType, size) VALUES (?, ?, ?, ?)`;
   db.run(query, [originalname, path, mimetype, size], (err) => {
@@ -388,10 +390,6 @@ app.get('/api/materials', (req, res) => {
     res.json(rows);
   });
 });
-
-
-
-
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
