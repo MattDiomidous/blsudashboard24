@@ -153,6 +153,19 @@
                 }
             });
         });
+        $('#preferencesForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const subject = $('#subjectInput').val();
+            const day = $('#dayInput').val();
+            const time = $('#timeInput').val();
+
+            $.post('/setPreferences', { subject, day, time }, function(response) {
+                $('#submitResult').text(response.message);
+            }).fail(function() {
+                $('#submitResult').text('Failed to update preferences.');
+            });
+        });
     });
 </script>
 
