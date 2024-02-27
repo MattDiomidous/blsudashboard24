@@ -124,6 +124,8 @@
                     <label for="post-title">Post Title</label>
                 </div>
             </div>
+
+            <p class="user-email">You are {{email}}</p>
             <div class="row">
                 <div class="input-field col s12">
                     <textarea id="post-content" class="materialize-textarea"></textarea>
@@ -226,6 +228,7 @@
         }
 
         function createPost() {
+            const email = document.getElementById('user-email').value;
             const title = document.getElementById('post-title').value;
             const content = document.getElementById('post-content').value;
             const isQuestion = document.getElementById('is-question').checked;
