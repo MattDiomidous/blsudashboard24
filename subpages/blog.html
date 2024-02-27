@@ -121,16 +121,12 @@
         <form id="create-post-form" class="col s12">
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="username" type="text" class="validate">
-                    <label for="username">Username</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s12">
                     <input id="post-title" type="text" class="validate">
                     <label for="post-title">Post Title</label>
                 </div>
             </div>
+
+            <p class="user-email">You are {{email}}</p>
             <div class="row">
                 <div class="input-field col s12">
                     <textarea id="post-content" class="materialize-textarea"></textarea>
@@ -182,7 +178,6 @@
 
         const blogPosts = [
             {
-                username: "Matthew Diomidous",
                 title: "Post 1",
                 date: "2023-12-15",
                 content: "This is the content for post 1.",
@@ -193,7 +188,6 @@
                 reacted: false // New property
             },
             {
-                username: "Alice Peng",
                 title: "Post 2",
                 date: "2023-12-16",
                 content: "This is the content for post 2.",
@@ -215,13 +209,13 @@
                 postElement.classList.add('post', 'card-panel');
 
                 const postContent = post.content;
-                const postUsername = post.isAnonymous ? "Anonymous" : `<strong>${post.username}</strong>`;
+                const postEmail = post.isAnonymous ? "Anonymous" : `<strong>${post.email}</strong>`;
                 const postTitle = post.isQuestion ? `<h4>Question: ${post.title}</h4>` : `<h4>${post.title}</h4>`;
 
                 postElement.innerHTML = `
                     ${postTitle}
                     <p class="post-date">${post.date}</p>
-                    <p>${postUsername}: ${postContent}</p>
+                    <p>${postEmail}: ${postContent}</p>
                     <div class="reaction-buttons">
                         ${!post.isQuestion ? `
                             <span class="reaction-button" onclick="reactToPost(${index}, true)">👍 ${post.likes}</span>
@@ -235,7 +229,7 @@
         }
 
         function createPost() {
-            const username = document.getElementById('username').value;
+            const email = document.getElementById('user-email').value;
             const title = document.getElementById('post-title').value;
             const content = document.getElementById('post-content').value;
             const isQuestion = document.getElementById('is-question').checked;
@@ -243,7 +237,6 @@
 
             if (title && content) {
                 const newPost = {
-                    username,
                     title,
                     date: getCurrentDate(),
                     content,
