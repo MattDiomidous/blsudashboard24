@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+    .tutor {
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    } 
+    </style>
+
+
+</head>
+<body> 
+    <div class="container">
+        <div class="section">
+            <h4>Schedule a Tutoring Session</h4>
+            <div id="calendar"></div> <!-- This will hold the calendar -->
+            <form id="scheduleForm">
+                <div class="input-field">
+                    <input type="date" id="dateInput" required>
+                    <label for="dateInput">Select Date</label>
+                </div>
+                <div class="input-field">
+                    <input type="text" id="timeInput" required>
+                    <label for="timeInput">Time (e.g., 2:00 PM)</label>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit">Schedule</button>
+            </form>
+        </div>
+    </div>
+    
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    var scheduledSessions = []; // This will store scheduled tutoring sessions
+
+    function generateCalendar() {
+        var calendar = document.getElementById('calendar');
+        calendar.innerHTML = ''; // Clear existing calendar entries
+
+        scheduledSessions.forEach(function(session) {
+            var sessionDiv = document.createElement('div');
+            sessionDiv.textContent = `Scheduled on ${session.date} at ${session.time}`;
+            calendar.appendChild(sessionDiv);
+        });
+    }
+
+    document.getElementById('scheduleForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent form from submitting normally
+
+        var dateInput = document.getElementById('dateInput').value;
+        var timeInput = document.getElementById('timeInput').value;
+
+        scheduledSessions.push({ date: dateInput, time: timeInput }); // Add the session to the array
+        generateCalendar(); // Update the calendar display
+
+        // Optionally clear the form fields here
+        document.getElementById('scheduleForm').reset();
+    });
+
+    generateCalendar(); // Initial calendar generation
+});
+
+
+</script>
+    
+</body>
+</html>
