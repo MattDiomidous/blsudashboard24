@@ -138,10 +138,10 @@ app.get('/subpages/material.html', async (req, res) => {
 });
 
 
-app.get('/subpages/events.html', async (req, res) => {
+app.get('/subpages/blog.html', async (req, res) => {
   try {
     // Read and send the content of the HTML file
-    let htmlContent = await fs.readFile('./subpages/events.html', 'utf8');
+    let htmlContent = await fs.readFile('./subpages/blog.html', 'utf8');
     res.send(htmlContent);
   } catch (error) {
     console.error('Error reading HTML file:', error);
