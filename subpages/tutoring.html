@@ -13,28 +13,11 @@
     border: 1px solid #ddd;
     border-radius: 4px;
   }
-
-  .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Use full viewport height */
-  }
-
-  iframe {
-    max-width: 100%; /* Ensure iframe is responsive and fits within the screen */
-    max-height: 100vh; /* Optional: Adjust iframe height to fit within the viewport */
-  }
-
-
-
+  /* No need to hide the tutors by default */
 </style>
-
     <link rel="stylesheet" href="index.css">
-
 </head>
 <body>
-
 <!-- <nav class="grey lighten-4">
   <div class="nav-wrapper container">
     <a href="#" class="brand-logo black-text">BCA BLSU</a>
@@ -43,11 +26,8 @@
     </ul>
   </div>
 </nav> -->
-
-
 <main>
     <nav class="black">
-
       <div class="nav-wrapper">
           <a href="#" class="brand-logo">BCA BLSU</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -55,9 +35,7 @@
             <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"> <a href="material.html"> Club Materials </a>  </a> </li>
             <li><a class="dropdown-trigger" href="#!" data-target="dropdown3"> BHM </a></li>
             <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="events.html">Blog</a></li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="currentevents.html">Gallery</a></li>
-
+            <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="events.html">Current Events</a></li>
           </ul>
         </div>
       </nav>
@@ -82,22 +60,107 @@
         </ul>
         
   </main>
-
-
-  <div class="container">
-
-<!-- 
-    <iframe src="https://embed.styledcalendar.com/#4ZLPu5xfV5d8t9xOkqB4" title="Styled Calendar" class="styled-calendar-container" style="width: 100%; border: none;" data-cy="calendar-embed-iframe"></iframe>
-<script async type="module" src="https://embed.styledcalendar.com/assets/parent-window.js"></script> -->
-
-    <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&src=emFwZW5nNzc2QGdtYWlsLmNvbQ&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=Y2xhc3Nyb29tMTE0ODYwNTQ4ODU4NzY1Nzc2MTgzQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=NTU1MmUxMjZlOWI2YWMwZjJiYzhiYjE4YjhiNzAxNjIwNWI0OWQ2ZmRhZWE4YzVhNjk5ZDE2YzMwMDlkN2U5M0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Y2xhc3Nyb29tMTEzMDI2NjA2OTIyNDI5NTQ5NDY3QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=bWVrcmV2aWV3LmNvbV9jbGFzc3Jvb20zMzI2MzA4NUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%2333B679&color=%230047a8&color=%23F09300&color=%230047a8&color=%230B8043&color=%230047a8" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe> 
+<div class="container">
+    <div class="section">
+      <h4>Tutoring Schedule</h4>
+      <div class="row">
+        <div class="input-field col s12 m6">
+          <input id="search" type="text" class="validate">
+          <label for="search">Search by Tutor Name</label>
+        </div>
+        <div class="input-field col s12 m6">
+          <select id="subject-filter">
+            <option value="" disabled selected>Choose Subject</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Science">Science</option>
+            <option value="Literature">Literature</option>
+            <!-- Add more subjects as needed -->
+          </select>
+          <label>Filter by Subject</label>
+        </div>
+        <div class="col s12">
+          <button class="btn waves-effect waves-light" onclick="searchTutors()">Search
+            <i class="material-icons right"></i>
+          </button>
+        </div>
+      </div>
+<div class="container">
+  <div class="section">
+    <!-- Other content and filter options can go here -->
+    <div class="row">
+      <!-- Calendar structure -->
+      <!-- HTML Structure -->
+        <div class="col s12">
+          <!-- Monday -->
+          <ul id="tutor-list" class="collection with-header">
+            <li class="collection-header"><h5>Monday</h5></li>
+          </ul>
+          <!-- Tuesday -->
+          <!-- ... (other days) ... -->
+        </div>
+    </div>
   </div>
+</div>
 
 
 
 
+<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&src=emFwZW5nNzc2QGdtYWlsLmNvbQ&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=Y2xhc3Nyb29tMTE0ODYwNTQ4ODU4NzY1Nzc2MTgzQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=NTU1MmUxMjZlOWI2YWMwZjJiYzhiYjE4YjhiNzAxNjIwNWI0OWQ2ZmRhZWE4YzVhNjk5ZDE2YzMwMDlkN2U5M0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Y2xhc3Nyb29tMTEzMDI2NjA2OTIyNDI5NTQ5NDY3QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=bWVrcmV2aWV3LmNvbV9jbGFzc3Jvb20zMzI2MzA4NUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%2333B679&color=%230047a8&color=%23F09300&color=%230047a8&color=%230B8043&color=%230047a8" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+
+<footer class="page-footer grey lighten-3">
+  <div class="container">
+    <span class="black-text">Footer: with Insta, Facebook, Linkedin (the what-if socials)</span>
+  </div>
+</footer>
 <!-- Compiled and minified Materialize JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elemsSelect = document.querySelectorAll('select');
+    var instancesSelect = M.FormSelect.init(elemsSelect);
+  
+    // Fetch tutor data from the server
+    fetch('/tutors') // Replace with the correct server endpoint
+      .then(response => response.json())
+      .then(data => {
+        const tutorList = document.getElementById('tutor-list');
+        data.forEach(tutor => {
+          const tutorItem = document.createElement('li');
+          tutorItem.classList.add('collection-item', 'tutor');
+          tutorItem.textContent = `${tutor.username} - ${tutor.email}`;
+          
+          // Set the subject as a data attribute
+          tutorItem.setAttribute('data-subject', tutor.subject);
+          
+          tutorList.appendChild(tutorItem);
+        });
+        
+      })
+      .catch(error => {
+        console.error('Error fetching tutor data:', error);
+      });
+  });
+  
+  function searchTutors() {
+    var searchInput = document.getElementById('search').value.toLowerCase();
+    var subjectFilter = document.getElementById('subject-filter').value;
+    var tutors = document.querySelectorAll('.tutor');
+  
+    tutors.forEach(function(tutor) {
+      var name = tutor.textContent.toLowerCase();
+      var subject = tutor.getAttribute('data-subject'); // Get the subject from the data attribute
+  
+      if ((name.includes(searchInput) || searchInput === '') && 
+          (subject === subjectFilter || subjectFilter === null || subjectFilter === '' || subjectFilter === 'All')) {
+        tutor.style.display = 'block';
+      } else {
+        tutor.style.display = 'none';
+      }
+    });
+  }
+  
+  
+  </script>
 </body>
 </html>
