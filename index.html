@@ -5,99 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BCA BLSU</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- <link rel="stylesheet" href="index.css"> -->
-
-
-    <style>
-    .uniform-nav {
-    background-color: #333; /* Background color */
-    color: white; /* Text color */
-    font-family: Arial, sans-serif; /* Font family */
-    padding: 10px; /* Padding */
-    }
-
-html {
-    margin: 0; 
-    padding: 0;
-    align-items: center;
-    text-align: center; 
-  }
-
-  main h1 {
-    font-weight: bolder;
-    color: black;
-    text-align: center;
-  }
-
-  nav{
-    background-color: black;
-  }
-
-  .dropdown-content{
-    position: relative;
-    top: -60px;
-  }
-
-  .carousel-item img {
-      margin: 0;
-      display: block; /* This makes margin: auto effective */
-      max-width: 75%; /* This ensures the image is responsive and fits the container */
-      height: auto; /* Maintain aspect ratio */
-  }
-
-  .carousel-item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%; /* Example height, adjust as needed */
-    }
-    .container {
-        margin: 20px auto;
-        background-color: #fff;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    header, .nav-wrapper {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .event-title {
-        font-size: 20px;
-        color: #333;
-        margin: 0 0 5px 0;
-    }
-    .event-date {
-        font-size: 16px;
-        color: #666;
-        margin: 0;
-    }
-    .event-description {
-        margin: 10px 0 0 0;
-    }
-    nav {
-        background-color: #444;
-    }
-    nav a.brand-logo {
-        color: #f3f3f3;
-    }
-    .dropdown-content {
-        background-color: #444;
-        color: #f3f3f3;
-    }
-    .mission-statement {
-        background-color: #f0f0f0; 
-        border-left: 5px solid #333; 
-        padding: 10px;
-        margin: 10px 0; 
-        /* font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
-        /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
-    }
-      
-
-    </style>
-
-
+  
+    <link rel="stylesheet" href="new.css">
 
 </head>
 <body>
@@ -108,30 +17,13 @@ html {
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="subpages/tutoring.html">Tutoring</a>   </a></li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"> <a href="subpages/material.html"> Club Materials </a>  </a> </li>
-              <li><a class="dropdown-trigger" href="#!" data-target="dropdown3"> BHM </a></li>
+              <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="subpages/hhm.html">  BHM </a></li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="subpages/hhm.html"> HHM </a> </a></li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="subpages/blog.html">Blog</a></li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="subpages/currentevents.html">Gallery</a></li>
               <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>            </ul>
         </div>
       </nav>
-          
-          <!-- Dropdown Structure -->
-          <ul id="dropdown1" class="dropdown-content">
-            <li><a href="/tutoring.html">Tutoring</a></li>
-            <li><a href="/tutoring.html">Sub-Item 1</a></li>
-            <li><a href="/tutoring.html">Sub-Item 2</a></li>
-          </ul>
-          
-          <ul id="dropdown2" class="dropdown-content">
-            <li><a href="/material.html">Club Materials</a></li>
-            <li><a href="/material.html">Sub-Item 1</a></li>
-          
-          <ul id="dropdown3" class="dropdown-content">
-            <li><a href="/black-history-month.html">Black History Month</a></li>
-            <li><a href="/black-history-month.html">Sub-Item 1</a></li>
-            <li><a href="/black-history-month.html">Sub-Item 2</a></li>
-          </ul>
           
     </main>
 
@@ -160,18 +52,15 @@ html {
 
 
       
-      <div class="mission-statement">
-        <h2>Mission Statement</h2>
-        <p>
-          ⤷ We are BCA's B.L.S.U. Chapter
-          <br>
-          ⤷ A student-run organization working to empower Black & Latine Students @Bergen County Academies.
-          <br>
-          ⤷ Strives towards a more supportive and equitable BCA for Black and Latine students.
-          <br>
-          ⤷ We aim to create a more diverse community and atmosphere here at BCA.
-        </p>
-      </div>
+    <div class="mission-statement">
+        <h3>Mission Statement</h3>
+        <ul>
+            <li>WE ARE THE BCA BLSU</li>
+            <li>A student-run organization working to empower Black & Latine Students @Bergen County Academies.</li>
+            <li>Strives towards a more supportive and equitable BCA for Black and Latine students.</li>
+            <li>We aim to create a more diverse community and atmosphere here at BCA.</li>
+        </ul>
+    </div>
       
 
 
@@ -180,21 +69,23 @@ html {
     <div class="col s12 m6 offset-m3">
         <div class="card">
             <div class="card-content">
-                <p class="center-align">You are {{loginStatus}}logged in.</p>
+                <p class="center-align text">You are {{loginStatus}}logged in.</p>
             </div>
             <div class="card-action center-align">
                 <button class="btn waves-effect waves-light" id="loginBtn">Login</button>
+                <br>
+                
+                <!-- User Preference Form -->
+                <form class="form" id="preferencesForm">
+                    <input class="inputText" type="text" id="subjectInput" placeholder="Subject" required>
+                    <input type="text" id="dayInput" placeholder="Day Available" required>
+                    <input type="text" id="timeInput" placeholder="Time Available" required>
+                    <button type="submit" class="submit-btn btn waves-effect waves-light">Submit Preferences</button>
+                </form>
+                <div id="submitResult"></div>
                 <button class="btn waves-effect waves-light" id="logoutBtn">Logout</button>
                 <button class="btn waves-effect waves-light" id="showProfile">Show Profile</button>
                 
-                <!-- User Preference Form -->
-                <form id="preferencesForm">
-                    <input type="text" id="subjectInput" placeholder="Subject" required>
-                    <input type="text" id="dayInput" placeholder="Day Available" required>
-                    <input type="text" id="timeInput" placeholder="Time Available" required>
-                    <button type="submit" class="btn waves-effect waves-light">Submit Preferences</button>
-                </form>
-                <div id="submitResult"></div>
             </div>
         </div>
     </div>
