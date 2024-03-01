@@ -115,7 +115,8 @@
      <!--       <p class="user-email">{{email}}</p> --> 
         </header>
 
-        <p class="center-align text">You are {{userEmail}}</p>
+
+        <p class="center-align text" id="user-email">{{userEmail}}</p>
 
         <!-- Create Post Form -->
         <form id="create-post-form" class="col s12">
@@ -232,7 +233,7 @@
         }
 
         function createPost() {
-         //   const email = document.getElementById('user-email').value;
+            const email = document.getElementById('user-email').value;
             const title = document.getElementById('post-title').value;
             const content = document.getElementById('post-content').value;
             const isQuestion = document.getElementById('is-question').checked;
@@ -240,6 +241,7 @@
 
             if (title && content) {
                 const newPost = {
+                    email,
                     title,
                     date: getCurrentDate(),
                     content,

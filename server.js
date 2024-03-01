@@ -145,8 +145,12 @@ app.get('/subpages/blog.html', async (req, res) => {
 
       // Set authentication status based on req.oidc.isAuthenticated()
       const isAuthenticated = req.oidc.isAuthenticated();
-
-    htmlContent = htmlContent.replace('{{userEmail}}', isAuthenticated ? email : 'not logged in.');
+      const email = 'happy'
+  if (req.oidc.isAuthenticated()) {  
+    email = req.oidc.user.email;
+  }
+    
+      htmlContent = htmlContent.replace('{{userEmail}}', isAuthenticated ? email : 'You are not logged in.');
 
     res.send(htmlContent);
   } catch (error) {
