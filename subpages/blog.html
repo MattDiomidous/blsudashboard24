@@ -100,11 +100,10 @@
             <a href="#" class="brand-logo">BCA BLSU</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="tutoring.html">Tutoring</a></li>
-                <li><a href="material.html">Club Materials</a></li>
+                <li><a href="club-materials.html">Club Materials</a></li>
                 <li><a href="black-history-month.html">Black History Month</a></li>
                 <li><a href="hhm.html">HHM</a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="events.html">Blog</a></li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="currentevents.html">Gallery</a></li>
+                <li><a href="events.html">Current Events</a></li>
             </ul>
         </div>
     </nav>
@@ -113,6 +112,7 @@
     <div class="container">
         <header>
             <h1>BLSU Blog</h1>
+     <!--       <p class="user-email">{{email}}</p> --> 
         </header>
 
         <!-- Create Post Form -->
@@ -124,13 +124,14 @@
                 </div>
             </div>
 
-            <p class="user-email">You are {{email}}</p>
+         <!--      <p class="display-email">You are {{email}}</p> --> 
             <div class="row">
                 <div class="input-field col s12">
                     <textarea id="post-content" class="materialize-textarea"></textarea>
                     <label for="post-content">Post Content</label>
                 </div>
             </div>
+            
             <div class="row">
                 <div class="col s6">
                     <label>
@@ -176,6 +177,7 @@
 
         const blogPosts = [
             {
+                email: "matdio24@bergen.org",
                 title: "Post 1",
                 date: "2023-12-15",
                 content: "This is the content for post 1.",
@@ -186,6 +188,7 @@
                 reacted: false // New property
             },
             {
+                email: "matdio24@bergen.org",
                 title: "Post 2",
                 date: "2023-12-16",
                 content: "This is the content for post 2.",
@@ -227,7 +230,7 @@
         }
 
         function createPost() {
-            const email = document.getElementById('user-email').value;
+         //   const email = document.getElementById('user-email').value;
             const title = document.getElementById('post-title').value;
             const content = document.getElementById('post-content').value;
             const isQuestion = document.getElementById('is-question').checked;

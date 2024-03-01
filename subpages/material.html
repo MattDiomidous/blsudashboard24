@@ -153,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(materials => {
             const list = document.querySelector('.document-list');
             materials.forEach(material => {
+              //if(isValidFileType(material.filePath)){
                 const item = document.createElement('li');
                 item.className = 'collection-item avatar';
                 item.innerHTML = `
@@ -163,10 +164,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button onclick="deleteFile('${material.fileName}')" class="secondary-content btn-small red"><i class="material-icons">delete</i></button>
                 `;
                 list.appendChild(item);
+              //}
             });
         })
         .catch(error => console.error('Error:', error));
 });
+
+/*function isValidFileType(filePath) {
+        const allowedExtensions = ['.pdf', '.png', '.jpeg', '.jpg']; 
+        const fileExtension = filePath.slice((filePath.lastIndexOf(".") - 1 >>> 0) + 2);
+        return allowedExtensions.includes('.' + fileExtension.toLowerCase());
+}*/
+
+
+
 
 function deleteFile(fileName) {
     if (!confirm('Are you sure you want to delete this file?')) return;
