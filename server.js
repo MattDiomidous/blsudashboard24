@@ -147,7 +147,7 @@ app.get('/subpages/blog.html', async (req, res) => {
       const email = req.oidc.user.email;
 
       // Replace placeholders in the HTML content
-      htmlContent = htmlContent.replace('{{email}}', email ? '' : 'email not retrieved ');
+      htmlContent = htmlContent.replace('{{email}}', isAuthenticated ? email : 'not logged in.');
 
     res.send(htmlContent);
   } catch (error) {
