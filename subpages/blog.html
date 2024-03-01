@@ -114,7 +114,7 @@
     <div class="container">
         <header>
             <h1>BLSU Blog</h1>
-            <p class="user-email">{{email}}</p>
+     <!--       <p class="user-email">{{email}}</p> --> 
         </header>
 
         <!-- Create Post Form -->
@@ -126,7 +126,7 @@
                 </div>
             </div>
 
-            <p class="display-email">You are {{email}}</p>
+         <!--      <p class="display-email">You are {{email}}</p> --> 
             <div class="row">
                 <div class="input-field col s12">
                     <textarea id="post-content" class="materialize-textarea"></textarea>
@@ -232,7 +232,7 @@
         }
 
         function createPost() {
-            const email = document.getElementById('user-email').value;
+         //   const email = document.getElementById('user-email').value;
             const title = document.getElementById('post-title').value;
             const content = document.getElementById('post-content').value;
             const isQuestion = document.getElementById('is-question').checked;
