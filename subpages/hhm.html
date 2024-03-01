@@ -131,6 +131,18 @@
                 notes: document.getElementById('textarea1').value
             };
 
+            /*if (name.trim() === "") {
+              alert("Name is required");
+              return;
+            }
+
+            if (email.trim() === "") {
+              alert("Email is required");
+              return;
+            }*/
+
+
+
             fetch('/signup', {
                 method: 'POST',
                 headers: {
