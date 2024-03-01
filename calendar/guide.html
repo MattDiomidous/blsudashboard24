@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .gallery-container {
+            text-align: center;
+        }
+
+        #gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        #gallery img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+<div class="gallery-container">
+    <h2>Photo Gallery</h2>
+    <div id="gallery"></div>
+    <input type="file" id="imageUpload" accept="image/*" multiple>
+    <button onclick="uploadImages()">Upload Images</button>
+</div>
+
+<script>
+    function uploadImages() {
+        const imageUpload = document.getElementById('imageUpload');
+        if (!imageUpload.files.length) return;
+
+        for (const file of imageUpload.files) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                document.getElementById('gallery').appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    document.getElementById('imageUpload').addEventListener('change', uploadImages);
+</script>
+</body>
+</html>

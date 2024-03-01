@@ -1,82 +1,39 @@
 require('dotenv').config();
 const express = require('express');
-const fs = require('fs').promises; 
+const fs = require('fs').promises;
 const { auth } = require('express-openid-connect');
-const sqlite3 = require('sqlite3').verbose();
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
-const path = require('path'); // Use path module for file paths
-
-
+const path = require('path');
+const mysql = require('mysql2/promise');
 
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: process.env.AUTH0_SECRET, // Environment variable for Auth0 secret
-  baseURL: process.env.BASE_URL, // Environment variable for the base URL of the app
-  clientID: process.env.AUTH0_CLIENT_ID, // Environment variable for Auth0 client ID
-  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL, // Environment variable for Auth0 issuer base URL
+  secret: process.env.AUTH0_SECRET,
+  baseURL: process.env.BASE_URL,
+  clientID: process.env.AUTH0_CLIENT_ID,
+  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
 };
 
-
-// Set up the database
-const db = new sqlite3.Database('./mydb.sqlite3', (err) => {
-  if (err) {
-    console.error(err.message);
-  }
-  console.log('Connected to the SQLite database.');
+// Create a MySQL connection pool
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT || 3306,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
-
-
-
-
-// Create a table if it doesn't exist with additional columns for day_available and time_available
-db.serialize(() => {
-  db.run('CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, username TEXT, subject TEXT, day_available TEXT, time_available TEXT, account_type TEXT)');
-});
-
-db.serialize(() => {
-  db.run(`CREATE TABLE IF NOT EXISTS signups (
-    id INTEGER PRIMARY KEY AUTOINCREMENT, 
-    name TEXT, 
-    email TEXT, 
-    phone TEXT, 
-    notes TEXT
-  )`, (err) => {
-  if (err) {
-    console.error("Error creating 'signups' table:", err.message);
-  } else {
-    console.log("'signups' table created or already exists");
-  }
-});
-
-});
-
-db.serialize(() => {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS materials (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      originalName TEXT,
-      filePath TEXT,
-      mimeType TEXT,
-      size INTEGER,
-      uploadDate DATE DEFAULT CURRENT_DATE
-    )
-  `);
-});
-
-
-
 
 const app = express();
 app.use(auth(config));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-// Middleware to add the user's email and username to the database if they're logged in
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   if (req.oidc.isAuthenticated()) {
     const email = req.oidc.user.email;
     const username = req.oidc.user.nickname;
@@ -86,15 +43,18 @@ app.use((req, res, next) => {
     const accountType = 'Admin'; // Or set this based on user input or some logic
 
     // Include account_type in the INSERT statement
-    db.run('INSERT OR IGNORE INTO users (email, username, subject, day_available, time_available, account_type) VALUES (?, ?, ?, ?, ?, ?)', [email, username, subject, dayAvailable, timeAvailable, accountType], function(err) {
-      if (err) {
-        console.error('Error inserting user:', err.message);
-      }
-    });
+    try {
+      await pool.execute(
+        "INSERT INTO users (email, username, subject, day_available, time_available, account_type) VALUES (?, ?, ?, ?, ?, ?)",
+        [email, username, subject, dayAvailable, timeAvailable, accountType]
+      );
+      console.log(`Upserted user: ${email}`);
+    } catch (err) {
+      console.error('Error inserting user:', err.message);
+    }
   }
   next();
 });
-
 
 app.get('/', async (req, res) => {
   try {
@@ -115,7 +75,6 @@ app.get('/', async (req, res) => {
   }
 });
 
-// Logout route
 app.get('/logout', (req, res) => {
   req.oidc.logout({
     returnTo: config.baseURL,
@@ -123,25 +82,28 @@ app.get('/logout', (req, res) => {
 });
 
 // Profile route to fetch user info from the database
-app.get('/profile', (req, res) => {
+app.get('/profile', async (req, res) => {
   if (req.oidc.isAuthenticated()) {
-    db.get('SELECT email, subject, day_available, time_available, account_type FROM users WHERE email = ?', [req.oidc.user.email], (err, row) => {
-      if (err) {
-        res.send('Error fetching profile information');
-        return console.error(err.message);
-      }
-      if(row) {
-          // Send the email, subject, day_available, time_available, and account_type as a JSON object
-          res.json({ email: row.email, subject: row.subject, day_available: row.day_available, time_available: row.time_available, account_type: row.account_type });
+    try {
+      const email = req.oidc.user.email;
+      const connection = await pool.getConnection();
+      const [rows] = await connection.execute('SELECT email, subject, day_available, time_available, account_type FROM users WHERE email = ?', [email]);
+      connection.release();
+
+      if (rows.length > 0) {
+        // Send the email, subject, day_available, time_available, and account_type as a JSON object
+        res.json(rows[0]);
       } else {
-          res.send('Profile not found');
+        res.send('Profile not found');
       }
-    });
+    } catch (err) {
+      console.error(err.message);
+      res.send('Error fetching profile information');
+    }
   } else {
     res.send('User not logged in');
   }
 });
-
 
 // IDK TESTING THEIHFSLKFD
 app.get('/subpages/hhm.html', async (req, res) => {
@@ -176,10 +138,17 @@ app.get('/subpages/material.html', async (req, res) => {
 });
 
 
-app.get('/subpages/events.html', async (req, res) => {
+app.get('/subpages/blog.html', async (req, res) => {
   try {
     // Read and send the content of the HTML file
-    let htmlContent = await fs.readFile('./subpages/events.html', 'utf8');
+    let htmlContent = await fs.readFile('./subpages/blog.html', 'utf8');
+
+      // Set authentication status based on req.oidc.isAuthenticated()
+      const email = req.oidc.user.email;
+
+      // Replace placeholders in the HTML content
+      htmlContent = htmlContent.replace('{{email}}', isAuthenticated ? email : 'not logged in.');
+
     res.send(htmlContent);
   } catch (error) {
     console.error('Error reading HTML file:', error);
@@ -187,57 +156,62 @@ app.get('/subpages/events.html', async (req, res) => {
   }
 });
 
-
-app.get('/users', (req, res) => {
-  db.all("SELECT * FROM users", [], (err, rows) => {
-      if (err) {
-          res.status(500).send("Error fetching users: " + err.message);
-          return;
-      }
-      // Send data as JSON (or you can format it as HTML)
-      res.json(rows);
-  });
-});
-
-app.get('/tutors', (req, res) => {
-  // Fetch the list of tutors/users from your database or wherever it's stored
-  // Return the data as JSON
-  db.all("SELECT * FROM users WHERE account_type = 'Tutor'", [], (err, rows) => {
-    if (err) {
-        res.status(500).send("Error fetching tutors: " + err.message);
-        return;
-    }
+app.get('/users', async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM users");
     res.json(rows);
-  });
-});
-
-app.post('/setPreferences', (req, res) => {
-  if (req.oidc.isAuthenticated()) {
-      const { subject, day, time } = req.body;
-      const email = req.oidc.user.email;
-
-      db.run('UPDATE users SET subject = ?, day_available = ?, time_available = ? WHERE email = ?', [subject, day, time, email], function(err) {
-          if (err) {
-              res.json({ message: 'Error updating preferences' });
-          } else {
-              res.json({ message: 'Preferences updated successfully' });
-          }
-      });
-  } else {
-      res.json({ message: 'User not logged in' });
+  } catch (err) {
+    console.error("Error fetching users:", err.message);
+    res.status(500).send("Error fetching users: " + err.message);
   }
 });
 
-app.get('/accountType', (req, res) => {
+app.get('/tutors', async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM users WHERE account_type = 'Tutor'");
+    res.json(rows);
+  } catch (err) {
+    console.error("Error fetching tutors:", err.message);
+    res.status(500).send("Error fetching tutors: " + err.message);
+  }
+});
+
+app.post('/setPreferences', async (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    const { subject, day, time } = req.body;
+    const email = req.oidc.user.email;
+
+    try {
+      const [result] = await pool.query('UPDATE users SET subject = ?, day_available = ?, time_available = ? WHERE email = ?', [subject, day, time, email]);
+      if (result.affectedRows > 0) {
+        res.json({ message: 'Preferences updated successfully' });
+      } else {
+        res.json({ message: 'No changes made or user not found' });
+      }
+    } catch (err) {
+      console.error('Error updating preferences:', err.message);
+      res.json({ message: 'Error updating preferences' });
+    }
+  } else {
+    res.json({ message: 'User not logged in' });
+  }
+});
+
+app.get('/accountType', async (req, res) => {
   if (req.oidc.isAuthenticated()) {
     const email = req.oidc.user.email;
-    db.get('SELECT account_type FROM users WHERE email = ?', [email], (err, row) => {
-      if (err) {
-        res.status(500).send('Error fetching account type');
+
+    try {
+      const [rows] = await pool.query('SELECT account_type FROM users WHERE email = ?', [email]);
+      if (rows.length > 0) {
+        res.json({ account_type: rows[0].account_type });
       } else {
-        res.json({ account_type: row ? row.account_type : null });
+        res.json({ account_type: null });
       }
-    });
+    } catch (err) {
+      console.error('Error fetching account type:', err.message);
+      res.status(500).send('Error fetching account type');
+    }
   } else {
     res.json({ account_type: null });
   }
@@ -245,16 +219,11 @@ app.get('/accountType', (req, res) => {
 
 app.get('/admin.html', async (req, res) => {
   if (req.oidc.isAuthenticated()) {
-    try {
-      const email = req.oidc.user.email;
-      const row = await new Promise((resolve, reject) => {
-        db.get('SELECT account_type FROM users WHERE email = ?', [email], (err, row) => {
-          if (err) reject(err);
-          else resolve(row);
-        });
-      });
+    const email = req.oidc.user.email;
 
-      if (row && row.account_type === 'Admin') {
+    try {
+      const [rows] = await pool.query('SELECT account_type FROM users WHERE email = ?', [email]);
+      if (rows.length > 0 && rows[0].account_type === 'Admin') {
         const adminFilePath = path.join(__dirname, 'admin.html'); // Correctly resolve the file path
         const htmlContent = await fs.readFile(adminFilePath, 'utf8');
         res.send(htmlContent);
@@ -272,127 +241,110 @@ app.get('/admin.html', async (req, res) => {
   }
 });
 
-app.get('/api/users', (req, res) => {
-  // Check if the user is authenticated
+app.get('/api/users', async (req, res) => {
   if (req.oidc.isAuthenticated()) {
-      const email = req.oidc.user.email;
-
-      // Query the database for the user's account type
-      db.get('SELECT account_type FROM users WHERE email = ?', [email], (err, row) => {
-          if (err) {
-              res.status(500).send('Internal Server Error');
-          } else if (row && row.account_type === 'Admin') {
-              // User is an admin, fetch and send all users' data
-              db.all("SELECT * FROM users", [], (err, rows) => {
-                  if (err) {
-                      res.status(500).send("Error fetching users: " + err.message);
-                  } else {
-                      res.json(rows);
-                  }
-              });
-          } else {
-              // User is not an admin or user not found
-              res.status(403).send('Access Denied');
-          }
-      });
-  } else {
-      // User is not authenticated
-      res.status(401).send('Unauthorized');
-  }
-});
-
-app.delete('/api/deleteUser/:email', (req, res) => {
-  if (req.oidc.isAuthenticated()) {
-      const adminEmail = req.oidc.user.email;
-
-      // First, check if the authenticated user is an admin
-      db.get('SELECT account_type FROM users WHERE email = ?', [adminEmail], (err, row) => {
-          if (err) {
-              res.status(500).send('Internal Server Error');
-          } else if (row && row.account_type === 'Admin') {
-              // Admin confirmed, proceed with deletion
-              const emailToDelete = req.params.email;
-              db.run('DELETE FROM users WHERE email = ?', [emailToDelete], function(err) {
-                  if (err) {
-                      res.status(500).json({ success: false, message: 'Internal Server Error' });
-                  } else {
-                      res.json({ success: true, message: 'User deleted' });
-                  }
-              });
-          } else {
-              // User is not an admin
-              res.status(403).send('Access Denied');
-          }
-      });
-  } else {
-      // User is not authenticated
-      res.status(401).send('Unauthorized');
-  }
-});
-
-app.get('/signups', (req, res) => {
-  db.all("SELECT * FROM signups", [], (err, rows) => {
-      if (err) {
-          res.status(500).send("Error fetching signups: " + err.message);
+    const email = req.oidc.user.email;
+    try {
+      const [adminCheck] = await pool.query('SELECT account_type FROM users WHERE email = ?', [email]);
+      if (adminCheck.length > 0 && adminCheck[0].account_type === 'Admin') {
+        const [users] = await pool.query("SELECT * FROM users");
+        res.json(users);
       } else {
-          res.json(rows);
+        res.status(403).send('Access Denied');
       }
-  });
+    } catch (err) {
+      console.error('Database error:', err);
+      res.status(500).send('Internal Server Error');
+    }
+  } else {
+    res.status(401).send('Unauthorized');
+  }
 });
 
-app.post('/signup', (req, res) => {
+app.delete('/api/deleteUser/:email', async (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    const adminEmail = req.oidc.user.email;
+    try {
+      const [adminCheck] = await pool.query('SELECT account_type FROM users WHERE email = ?', [adminEmail]);
+      if (adminCheck.length > 0 && adminCheck[0].account_type === 'Admin') {
+        const emailToDelete = req.params.email;
+        const [result] = await pool.query('DELETE FROM users WHERE email = ?', [emailToDelete]);
+        if (result.affectedRows > 0) {
+          res.json({ success: true, message: 'User deleted' });
+        } else {
+          res.status(404).send('User not found');
+        }
+      } else {
+        res.status(403).send('Access Denied');
+      }
+    } catch (err) {
+      console.error('Database error:', err);
+      res.status(500).send('Internal Server Error');
+    }
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+});
+
+app.get('/signups', async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM signups");
+    res.json(rows);
+  } catch (err) {
+    console.error('Database error:', err);
+    res.status(500).send("Error fetching signups");
+  }
+});
+
+app.post('/signup', async (req, res) => {
   const { name, email, phone, notes } = req.body;
-  const query = `INSERT INTO signups (name, email, phone, notes) VALUES (?, ?, ?, ?)`;
-
-  db.run(query, [name, email, phone, notes], (err) => {
-      if (err) {
-          console.error('Database error:', err);
-          res.status(500).json({ success: false, message: 'Error saving to database', error: err.message });
-      } else {
-          res.json({ success: true, message: 'Successfully signed up' });
-      }
-  });
+  try {
+    const [result] = await pool.query(`INSERT INTO signups (name, email, phone, notes) VALUES (?, ?, ?, ?)`, [name, email, phone, notes]);
+    if (result.affectedRows > 0) {
+      res.json({ success: true, message: 'Successfully signed up' });
+    } else {
+      res.status(400).send('Signup failed');
+    }
+  } catch (err) {
+    console.error('Database error:', err);
+    res.status(500).json({ success: false, message: 'Error saving to database', error: err.message });
+  }
 });
 
-
-
-
-// Endpoint to handle file uploads
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/upload', upload.single('file'), async (req, res) => {
   if (!req.file) {
     return res.status(400).send('No files were uploaded.');
   }
 
-  // Extract file metadata
   const { originalname, path, mimetype, size } = req.file;
 
-
-  
-  // Insert file metadata into the "materials" table
-  const query = `INSERT INTO materials (originalName, filePath, mimeType, size) VALUES (?, ?, ?, ?)`;
-  db.run(query, [originalname, path, mimetype, size], (err) => {
-    if (err) {
-      console.error('Error saving file metadata:', err);
-      return res.status(500).send('Error saving file information');
+  try {
+    const [result] = await pool.query(`INSERT INTO materials (originalName, filePath, mimeType, size) VALUES (?, ?, ?, ?)`, [originalname, path, mimetype, size]);
+    if (result.affectedRows > 0) {
+      res.send('File uploaded and saved successfully');
+    } else {
+      res.status(400).send('Error saving file information');
     }
-
-    res.send('File uploaded and saved successfully');
-  });
-  
+  } catch (err) {
+    console.error('Error saving file metadata:', err);
+    res.status(500).send('Error saving file information');
+  }
 });
 
-app.get('/api/materials', (req, res) => {
-  db.all("SELECT * FROM materials", [], (err, rows) => {
-    if (err) {
-      res.status(500).send("Error fetching materials: " + err.message);
-      return;
-    }
+app.get('/api/materials', async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM materials");
     res.json(rows);
-  });
+  } catch (err) {
+    console.error('Error fetching materials:', err);
+    res.status(500).send("Error fetching materials");
+  }
 });
 
+
+
+// Start the server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-
