@@ -143,13 +143,13 @@ app.get('/subpages/blog.html', async (req, res) => {
     // Read and send the content of the HTML file
     let htmlContent = await fs.readFile('./subpages/blog.html', 'utf8');
 
-    const isAuthenticated = req.oidc.isAuthenticated();
+    // const isAuthenticated = req.oidc.isAuthenticated();
 
-    // Set authentication status based on req.oidc.isAuthenticated()
-    const email = req.oidc.user.email;
+    // // Set authentication status based on req.oidc.isAuthenticated()
+    // const email = req.oidc.user.email;
 
-    // Replace placeholders in the HTML content
-    htmlContent = htmlContent.replace('{{email}}', isAuthenticated ? email : 'not logged in.');
+    // // Replace placeholders in the HTML content
+    // htmlContent = htmlContent.replace('{{email}}', isAuthenticated ? email : 'not logged in.');
 
     res.send(htmlContent);
   } catch (error) {
