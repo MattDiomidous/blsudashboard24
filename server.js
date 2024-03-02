@@ -366,6 +366,27 @@ app.get('/api/materials', async (req, res) => {
   }
 });
 
+app.post('/api/updateUserType', async (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    // Check if the user is an admin
+    const adminEmail = req.oidc.user.email;
+    const [adminCheck] = await pool.query('SELECT account_type FROM users WHERE email = ?', [adminEmail]);
+    if (adminCheck.length > 0 && adminCheck[0].account_type === 'Admin') {
+      const { email, newType } = req.body;
+      const [result] = await pool.query('UPDATE users SET account_type = ? WHERE email = ?', [newType, email]);
+      if (result.affectedRows > 0) {
+        res.json({ success: true, message: 'Account type updated successfully' });
+      } else {
+        res.status(404).send('User not found');
+      }
+    } else {
+      res.status(403).send('Access Denied');
+    }
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+});
+
 
 
 // Start the server

@@ -44,6 +44,37 @@
     </div>
 
     <script>
+        function updateAccountType(email, newType, row) {
+            // Call the server with fetch to update the account type
+            fetch('/api/updateUserType', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                // If you have a session-based authentication or token you should include it here
+                // 'Authorization': 'Bearer <token>'
+              },
+              body: JSON.stringify({ email: email, newType: newType })
+            })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+              }
+              return response.json();
+            })
+            .then(data => {
+              if (data.success) {
+                // This is where you can handle the UI updates or alerts
+                alert('Account type updated successfully.');
+                // Optionally refresh the user list or update the UI
+              } else {
+                alert('Failed to update account type.');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('Error updating account type.');
+            });
+          }
         function deleteUser(email, row) {
             if (confirm(`Are you sure you want to delete the account for ${email}?`)) {
                 fetch(`/api/deleteUser/${email}`, { method: 'DELETE' })
@@ -62,6 +93,7 @@
                     });
             }
         }
+        
 
         document.addEventListener('DOMContentLoaded', function() {
             fetch('/api/users')
@@ -85,12 +117,33 @@
                         timeAvailable.innerHTML = user.time_available;
                         accountType.innerHTML = user.account_type;
 
+                        let accountTypeDropdown = document.createElement('select');
+                        accountTypeDropdown.classList.add('browser-default'); // Add this if you want to keep the default styling
+
+                        ['Guest', 'Tutor', 'Student', 'Admin'].forEach(type => {
+                        let option = document.createElement('option');
+                        option.value = type;
+                        option.innerText = type;
+                        option.selected = user.account_type === type;
+                        accountTypeDropdown.appendChild(option);
+                        });
+
+                        accountTypeDropdown.onchange = () => updateAccountType(user.email, accountTypeDropdown.value, row);
+                        accountType.innerHTML = ''; // Clear the cell before appending new content
+                        accountType.appendChild(accountTypeDropdown);
+
+                        // After appending the dropdown, re-initialize all select elements. 
+                        // You need to do this every time you dynamically add a select element.
+                        M.FormSelect.init(document.querySelectorAll('select'));
+
+
                         // Add delete button
                         let deleteButton = document.createElement('button');
                         deleteButton.innerText = 'Delete';
                         deleteButton.onclick = () => deleteUser(user.email, row);
                         actions.appendChild(deleteButton);
                     });
+                    
                 })
                 .catch(error => console.error('Error:', error));
         });
