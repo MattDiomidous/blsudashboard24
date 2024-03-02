@@ -78,7 +78,7 @@
             </div>
         </div>
         <div class="row">
-            <form class="col s12" id="preferencesForm">
+            <form class="col s12" id="preferencesForm" style="display: none;">
                 <div class="card">
                     <div class="card-content">
                         <span class="card-title">Update Preferences</span>
@@ -137,8 +137,14 @@
                 if(data.time_available) profileHtml += `Time Available: ${data.time_available}<br>`;
                 profileHtml += `Account Type: ${data.account_type}`;
                 $('#profileInfo').html(profileHtml);
+        
+                // Check if the user is a tutor to show preferences form
+                if(data.account_type == 'Tutor') {
+                    $('#preferencesForm').show(); // Hide preferences form if not a tutor
+                }
             }).fail(function() {
                 $('#profileInfo').text('Failed to load profile information.');
+                $('#preferencesForm').hide(); // Hide preferences form on fail as well
             });
             function checkAccountType() {
                 $.get('/accountType', function(data) {
