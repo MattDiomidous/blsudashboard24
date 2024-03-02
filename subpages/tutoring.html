@@ -109,11 +109,21 @@
       <!-- HTML Structure -->
         <div class="col s12">
           <!-- Monday -->
-          <ul id="tutor-list" class="collection with-header">
+          <ul id="monday-tutors" class="collection with-header">
             <li class="collection-header"><h5>Monday</h5></li>
           </ul>
-          <!-- Tuesday -->
-          <!-- ... (other days) ... -->
+          <ul id="tuesday-tutors" class="collection with-header">
+            <li class="collection-header"><h5>Tuesday</h5></li>
+          </ul>
+          <ul id="wednesday-tutors" class="collection with-header">
+            <li class="collection-header"><h5>Wednesday</h5></li>
+          </ul>
+          <ul id="thursday-tutors" class="collection with-header">
+            <li class="collection-header"><h5>Thursday</h5></li>
+          </ul>
+          <ul id="friday-tutors" class="collection with-header">
+            <li class="collection-header"><h5>Friday</h5></li>
+          </ul>
         </div>
     </div>
   </div>
@@ -154,27 +164,38 @@
   
     // Fetch tutor data from the server
     fetch('/tutors') // Make sure this is the correct endpoint
-    .then(response => response.json())
-    .then(data => {
-        console.log(data); // This will log the data to the console
-        const tutorList = document.getElementById('tutor-list');
-        data.forEach(tutor => {
-            // Ensure the 'day' and 'time' properties exist in the 'tutor' object
-            console.log(tutor.day, tutor.time); // This will log each tutor's day and time to the console
-            const tutorItem = document.createElement('li');
-            tutorItem.classList.add('collection-item', 'tutor');
-            tutorItem.textContent = `${tutor.username} - ${tutor.email} - ${tutor.subject} - ${tutor.day_available} - ${tutor.time_available}`;
-            
-            tutorItem.setAttribute('data-subject', tutor.subject || 'N/A');
-            tutorItem.setAttribute('data-day_available', tutor.day_available || 'N/A');
-            tutorItem.setAttribute('data-time_available', tutor.time_available || 'N/A');
-            
-            tutorList.appendChild(tutorItem);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching tutor data:', error);
+.then(response => response.json())
+.then(data => {
+    // Assume you have an object with keys for each day of the week
+    const days = {
+        'Monday': document.getElementById('monday-tutors'),
+        'Tuesday': document.getElementById('tuesday-tutors'),
+        'Wednesday': document.getElementById('wednesday-tutors'),
+        'Thursday': document.getElementById('thursday-tutors'),
+        'Friday': document.getElementById('friday-tutors'),
+    };
+
+    data.forEach(tutor => {
+        const tutorItem = document.createElement('li');
+        tutorItem.classList.add('collection-item', 'tutor');
+        tutorItem.textContent = `${tutor.username} - ${tutor.email} - ${tutor.subject} - ${tutor.day_available} - ${tutor.time_available}`;
+        
+        tutorItem.setAttribute('data-subject', tutor.subject || 'N/A');
+        tutorItem.setAttribute('data-day_available', tutor.day_available || 'N/A');
+        tutorItem.setAttribute('data-time_available', tutor.time_available || 'N/A');
+
+        // Append the tutor to the correct day list based on their availability
+        if (days[tutor.day_available]) {
+            days[tutor.day_available].appendChild(tutorItem);
+        } else {
+            console.error('Day not found for tutor:', tutor);
+        }
     });
+})
+.catch(error => {
+    console.error('Error fetching tutor data:', error);
+});
+
   });
   
   function searchTutors() {
