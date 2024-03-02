@@ -175,17 +175,17 @@
                         $('#adminLink').show();
                         $('#materials').show();
                     }
-                    
+                    if (data.account_type !== 'Guest') {
+                        $('#tutoring').show();
+                    }
                 });
             }
     
             function updateLoginStatus() {
               $.get('/loginStatus', function(data) {
                   if (data.isAuthenticated) {
-                      $('#tutoring').show(); 
                       $('#manageAccount').show();
                   } else {                 
-                      $('#tutoring').hide();
                       $('#manageAccount').show();
                   }
               });

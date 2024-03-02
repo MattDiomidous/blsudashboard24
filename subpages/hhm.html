@@ -121,22 +121,22 @@
     $(document).ready(function() {
         // Check account type
         function checkAccountType() {
-            $.get('/accountType', function(data) {
-                if (data.account_type === 'Admin') {
-                    $('#adminLink').show();
-                    $('#materials').show();
-                }
-                
-            });
-        }
+          $.get('/accountType', function(data) {
+              if (data.account_type === 'Admin') {
+                  $('#adminLink').show();
+                  $('#materials').show();
+              }
+              if (data.account_type !== 'Guest') {
+                  $('#tutoring').show();
+              }
+          });
+      }
 
         function updateLoginStatus() {
           $.get('/loginStatus', function(data) {
               if (data.isAuthenticated) {
-                  $('#tutoring').show();
                   $('#manageAccount').show();
               } else {                 
-                  $('#tutoring').hide();
                   $('#manageAccount').show();
               }
           });

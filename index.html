@@ -182,12 +182,10 @@
                     $('#loginBtn').hide();
                     $('#logoutBtn').show();
                     $('#manageAccount').show();
-                    $('#tutoring').show();
                 } else {
                     $('#loginBtn').show();
                     $('#logoutBtn').hide();
                     $('#manageAccount').hide();
-                    $('#tutoring').hide(); 
                 }
             });
         }
@@ -200,6 +198,9 @@
                 if (data.account_type === 'Admin') {
                     $('#adminLink').show();
                     $('#materials').show();
+                }
+                if (data.account_type !== 'Guest') {
+                    $('#tutoring').show();
                 }
             });
         }
