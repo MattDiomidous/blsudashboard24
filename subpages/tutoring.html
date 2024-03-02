@@ -72,21 +72,17 @@
                 <label for="search">Search by Tutor Name</label>
             </div>
             <div class="input-field col s12 m3">
-                <select id="subject-filter">
-                    <option value="" disabled selected>Choose Subject</option>
-                    <option value="Mathematics">Mathematics</option>
-                    <option value="Science">Science</option>
-                    <option value="Literature">Literature</option>
-                    <!-- Add more subjects as needed -->
-                </select>
-                <label>Filter by Subject</label>
-            </div>
+              <input id="subject-filter" type="text" class="validate">
+              <label for="subject-filter">Filter by Subject</label>
+          </div>          
             <div class="input-field col s12 m3">
                 <select id="day-filter">
                     <option value="" disabled selected>Choose Day</option>
                     <option value="Monday">Monday</option>
                     <option value="Tuesday">Tuesday</option>
-                    <!-- Add more days as needed -->
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
                 </select>
                 <label>Filter by Day</label>
             </div>
@@ -203,7 +199,7 @@
   
   function searchTutors() {
     var searchInput = document.getElementById('search').value.toLowerCase();
-    var subjectFilter = document.getElementById('subject-filter').value;
+    var subjectFilter = document.getElementById('subject-filter').value.toLowerCase();
     var dayFilter = document.getElementById('day-filter').value;
     var timeFilter = document.getElementById('time-filter').value.toLowerCase();
     var tutors = document.querySelectorAll('.tutor');
@@ -215,7 +211,7 @@
         var time = tutor.getAttribute('data-time_available').toLowerCase();
         console.log('Tutor Data:', {name, subject, day, time});
         var nameMatch = name.includes(searchInput);
-        var subjectMatch = (subjectFilter === '' || subject === subjectFilter.toLowerCase());
+        var subjectMatch = (subjectFilter === '' || subject.includes(subjectFilter));
         var dayMatch = (dayFilter === '' || day === dayFilter.toLowerCase());
         var timeMatch = (timeFilter === '' || time.includes(timeFilter));
         console.log('Matches:', {nameMatch, subjectMatch, dayMatch, timeMatch});
