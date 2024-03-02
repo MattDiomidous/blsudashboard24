@@ -126,16 +126,17 @@
                     $('#adminLink').show();
                     $('#materials').show();
                 }
+                if (data.account_type == 'Tutor') {
+                    $('#manageAccount').show();
+                }
             });
         }
 
         function updateLoginStatus() {
           $.get('/loginStatus', function(data) {
               if (data.isAuthenticated) {
-                  $('#manageAccount').show(); // Show the link to manage account
                   $('#tutoring').show(); // Show the link to manage account
               } else {                 
-                  $('#manageAccount').hide(); // Hide the link to manage account
                   $('#tutoring').hide(); // Show the link to manage account
               }
           });

@@ -37,7 +37,7 @@
                 <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="hhm.html">  BHM </a></li>
                 <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
                 <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="blog.html">Blog</a></li>
-                <li id="manageAccount"><a href="account.html">Manage Account</a></li>            
+                <li id="manageAccount" style="display: none;"><a href="account.html">Manage Account</a></li>            
                 <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>   
             </ul>
         </div>
@@ -146,13 +146,16 @@
   $(document).ready(function() {
       // Check account type
       function checkAccountType() {
-          $.get('/accountType', function(data) {
-              if (data.account_type === 'Admin') {
-                  $('#adminLink').show();
-                  $('#materials').show();
-              }
-          });
-      }
+        $.get('/accountType', function(data) {
+            if (data.account_type === 'Admin') {
+                $('#adminLink').show();
+                $('#materials').show();
+            }
+            if (data.account_type == 'Tutor') {
+                $('#manageAccount').show();
+            }
+        });
+    }
 
       checkAccountType();  
   });
@@ -164,15 +167,15 @@
   
     // Fetch tutor data from the server
     fetch('/tutors') // Make sure this is the correct endpoint
-.then(response => response.json())
-.then(data => {
+      .then(response => response.json())
+      .then(data => {
     // Assume you have an object with keys for each day of the week
-    const days = {
-        'Monday': document.getElementById('monday-tutors'),
-        'Tuesday': document.getElementById('tuesday-tutors'),
-        'Wednesday': document.getElementById('wednesday-tutors'),
-        'Thursday': document.getElementById('thursday-tutors'),
-        'Friday': document.getElementById('friday-tutors'),
+      const days = {
+          'Monday': document.getElementById('monday-tutors'),
+          'Tuesday': document.getElementById('tuesday-tutors'),
+          'Wednesday': document.getElementById('wednesday-tutors'),
+          'Thursday': document.getElementById('thursday-tutors'),
+          'Friday': document.getElementById('friday-tutors'),
     };
 
     data.forEach(tutor => {
