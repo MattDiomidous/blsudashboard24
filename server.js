@@ -122,9 +122,9 @@ app.get('/subpages/hhm.html', async (req, res) => {
   }
 });
 
-app.get('/account.html', async (req, res) => {
+app.get('/subpages/account.html', async (req, res) => {
   try {
-    let htmlContent = await fs.readFile('./account.html', 'utf8');
+    let htmlContent = await fs.readFile('./subpages/account.html', 'utf8');
     res.send(htmlContent);
   } catch (error) {
     console.error('Error reading HTML file:', error);
@@ -242,14 +242,14 @@ app.get('/loginStatus', (req, res) => {
   res.json({ isAuthenticated: req.oidc.isAuthenticated() });
 });
 
-app.get('/admin.html', async (req, res) => {
+app.get('/subpages/admin.html', async (req, res) => {
   if (req.oidc.isAuthenticated()) {
     const email = req.oidc.user.email;
 
     try {
       const [rows] = await pool.query('SELECT account_type FROM users WHERE email = ?', [email]);
       if (rows.length > 0 && rows[0].account_type === 'Admin') {
-        const adminFilePath = path.join(__dirname, 'admin.html'); // Correctly resolve the file path
+        const adminFilePath = path.join(__dirname, 'subpages/admin.html'); // Correctly resolve the file path
         const htmlContent = await fs.readFile(adminFilePath, 'utf8');
         res.send(htmlContent);
       } else {

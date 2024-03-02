@@ -29,14 +29,17 @@
 <main>
     <nav class="black">
       <div class="nav-wrapper">
-          <a href="#" class="brand-logo">BCA BLSU</a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="tutoring.html">Tutoring</a>   </a></li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"> <a href="material.html"> Club Materials </a>  </a> </li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown3"> BHM </a></li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="blog.html">Blog</a></li>
-          </ul>
+            <a href="#" class="brand-logo">BCA BLSU</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <!-- ... all other navigation links from index.html ... -->
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="/">Home</a>   </a></li>
+                <li id="materials" style="display: none;"><a href="material.html">Club Materials</a></li>                        
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="hhm.html">  BHM </a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="blog.html">Blog</a></li>
+                <li id="manageAccount"><a href="account.html">Manage Account</a></li>            
+                <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>   
+            </ul>
         </div>
       </nav>
         
@@ -127,8 +130,23 @@
 </footer> -->
 
 
-<!-- Compiled and minified Materialize JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+  $(document).ready(function() {
+      // Check account type
+      function checkAccountType() {
+          $.get('/accountType', function(data) {
+              if (data.account_type === 'Admin') {
+                  $('#adminLink').show();
+                  $('#materials').show();
+              }
+          });
+      }
+
+      checkAccountType();  
+  });
+</script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var elemsSelect = document.querySelectorAll('select');
@@ -183,6 +201,7 @@
             tutor.style.display = 'none';
         }
     });
+    
 }
   
   </script>
