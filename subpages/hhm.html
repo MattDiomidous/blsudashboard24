@@ -125,8 +125,9 @@
               if (data.account_type === 'Admin') {
                   $('#adminLink').show();
                   $('#materials').show();
+                  $('#tutoring').show();
               }
-              if (data.account_type !== 'Guest') {
+              if (data.account_type === 'Student' || data.account_type === 'Tutor') {
                   $('#tutoring').show();
               }
           });
@@ -137,7 +138,7 @@
               if (data.isAuthenticated) {
                   $('#manageAccount').show();
               } else {                 
-                  $('#manageAccount').show();
+                  $('#manageAccount').hide();
               }
           });
       }
