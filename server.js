@@ -37,24 +37,30 @@ app.use(async (req, res, next) => {
   if (req.oidc.isAuthenticated()) {
     const email = req.oidc.user.email;
     const username = req.oidc.user.nickname;
-    const subject = 'Mathematics'; // Or fetch this from user input
-    const dayAvailable = 'Monday'; // Or fetch this from user input
-    const timeAvailable = '5 PM'; // Or fetch this from user input
-    const accountType = 'Admin'; // Or set this based on user input or some logic
+    
+    // Set default values for new user
+    const accountType = 'Guest'; // Default account type is 'Guest'
+    const subject = null; // Default is NULL
+    const dayAvailable = null; // Default is NULL
+    const timeAvailable = null; // Default is NULL
 
     // Include account_type in the INSERT statement
     try {
       await pool.execute(
-        "INSERT INTO users (email, username, subject, day_available, time_available, account_type) VALUES (?, ?, ?, ?, ?, ?)",
+        `INSERT INTO users (email, username, subject, day_available, time_available, account_type)
+         VALUES (?, ?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+         email = VALUES(email), username = VALUES(username), account_type = IF(account_type IS NULL, VALUES(account_type), account_type)`,
         [email, username, subject, dayAvailable, timeAvailable, accountType]
       );
-      console.log(`Upserted user: ${email}`);
+      console.log(`User record ensured for: ${email}`);
     } catch (err) {
-      console.error('Error inserting user:', err.message);
+      console.error('Error upserting user:', err.message);
     }
   }
   next();
 });
+
 
 app.get('/', async (req, res) => {
   try {
