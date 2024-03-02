@@ -122,6 +122,16 @@ app.get('/subpages/hhm.html', async (req, res) => {
   }
 });
 
+app.get('/account.html', async (req, res) => {
+  try {
+    let htmlContent = await fs.readFile('./account.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/subpages/tutoring.html', async (req, res) => {
   try {
     let htmlContent = await fs.readFile('./subpages/tutoring.html', 'utf8');
@@ -226,6 +236,10 @@ app.get('/accountType', async (req, res) => {
   } else {
     res.json({ account_type: null });
   }
+});
+
+app.get('/loginStatus', (req, res) => {
+  res.json({ isAuthenticated: req.oidc.isAuthenticated() });
 });
 
 app.get('/admin.html', async (req, res) => {

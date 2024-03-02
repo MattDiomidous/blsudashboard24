@@ -60,9 +60,7 @@
     background-color: #bbb299;
 }
 
-#showProfile {
-    background-color: #bbb299;
-}
+
 
 #showProfile:hover {
     background-color: #f0d942;
@@ -102,6 +100,7 @@
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="subpages/hhm.html">  BHM </a></li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="subpages/hhm.html"> HHM </a> </a></li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="subpages/blog.html">Blog</a></li>
+              <li id="manageAccount" style="display: none;"><a href="account.html">Manage Account</a></li>            
               <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>            </ul>
         </div>
       </nav>
@@ -154,8 +153,8 @@
                 
             </div>
             <div class="card-action center-align">
-                <button class="btn waves-effect waves-light" id="loginBtn">Login</button>
-                <button class="btn waves-effect waves-light" id="logoutBtn">Logout</button>
+                <button class="btn waves-effect waves-light" id="loginBtn" style="display: none;">Login</button>
+                <button class="btn waves-effect waves-light" id="logoutBtn" style="display: none;">Logout</button>
                 <br>
             </div>
         </div>
@@ -180,14 +179,17 @@
         function updateLoginStatus() {
             $.get('/loginStatus', function(data) {
                 if (data.isAuthenticated) {
-                    $('#loginStatus').text(' ');
-                    $('#buttons').show();
+                    $('#loginBtn').hide();
+                    $('#logoutBtn').show();
+                    $('#manageAccount').show(); // Show the link to manage account
                 } else {
-                    $('#loginStatus').text('not ');
-                    $('#buttons').hide();
+                    $('#loginBtn').show();
+                    $('#logoutBtn').hide();
+                    $('#manageAccount').hide(); // Hide the link to manage account
                 }
             });
         }
+        
         
 
         // Check account type
@@ -205,18 +207,7 @@
         // Event listeners for buttons
         $('#loginBtn').on('click', function() { location.href = '/login'; });
         $('#logoutBtn').on('click', function() { location.href = '/logout'; });
-        $('#showProfile').on('click', function() {
-            $.get('/profile', function(data) {
-                let profileHtml = `Your email: ${data.email}<br>`;
-                if(data.subject) profileHtml += `Your subject: ${data.subject}<br>`;
-                if(data.day_available) profileHtml += `Day Available: ${data.day_available}<br>`;
-                if(data.time_available) profileHtml += `Time Available: ${data.time_available}<br>`;
-                profileHtml += `Account Type: ${data.account_type}`;
-                $('#profileInfo').html(profileHtml);
-            }).fail(function() {
-                $('#profileInfo').text('Failed to load profile information.');
-            });
-        });
+        
         
         $('#preferencesForm').on('submit', function(e) {
             e.preventDefault();
