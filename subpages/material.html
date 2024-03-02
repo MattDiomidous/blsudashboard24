@@ -115,7 +115,6 @@
 <div class="section">
   <div class="container">
     <ul class="collection with-header document-list">
-      <li class="collection-header"><h5>2023-24</h5></li>
       <!-- Dynamically inserted document entries will go here -->
     </ul>
   </div>
@@ -165,27 +164,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('/api/materials')
-        .then(response => response.json())
-        .then(materials => {
-            const list = document.querySelector('.document-list');
-            materials.forEach(material => {
-              //if(isValidFileType(material.filePath)){
-                const item = document.createElement('li');
-                item.className = 'collection-item avatar';
-                item.innerHTML = `
-                    <i class="material-icons circle">insert_drive_file</i>
-                    <span class="title">${material.originalName}</span>
-                    <p>Last Modified: ${material.uploadDate}</p>
-                    <a href="${material.filePath}" target="_blank" class="secondary-content"><i class="material-icons">file_download</i></a>
-                    <button onclick="deleteFile('${material.fileName}')" class="secondary-content btn-small red"><i class="material-icons">delete</i></button>
-                `;
-                list.appendChild(item);
-              //}
-            });
-        })
-        .catch(error => console.error('Error:', error));
+  fetch('/api/materials')
+    .then(response => response.json())
+    .then(materials => {
+      const list = document.querySelector('.document-list');
+      // Clear the list before appending items to avoid duplicates
+      list.innerHTML = '';
+      materials.forEach(material => {
+        //if(isValidFileType(material.filePath)){
+        const item = document.createElement('li');
+        item.className = 'collection-item avatar';
+        item.innerHTML = `
+          <i class="material-icons circle">insert_drive_file</i>
+          <span class="title">${material.originalName}</span>
+          <p>Last Modified: ${material.uploadDate}</p>
+          <a href="${material.filePath}" target="_blank" class="secondary-content">
+            <i class="material-icons">file_download</i>
+          </a>
+          <button onclick="deleteFile('${material.fileName}')" class="secondary-content btn-small red">
+            <i class="material-icons">delete</i>
+          </button>
+        `;
+        console.log('Appending item:', material);
+        list.appendChild(item);
+        //}
+      });
+    })
+    .catch(error => console.error('Error:', error));
 });
+
 
 /*function isValidFileType(filePath) {
         const allowedExtensions = ['.pdf', '.png', '.jpeg', '.jpg']; 
