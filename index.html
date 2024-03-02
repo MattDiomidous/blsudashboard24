@@ -181,11 +181,13 @@
                 if (data.isAuthenticated) {
                     $('#loginBtn').hide();
                     $('#logoutBtn').show();
-                    $('#tutoring').show(); // Show the link to manage account
+                    $('#manageAccount').show();
+                    $('#tutoring').show();
                 } else {
                     $('#loginBtn').show();
                     $('#logoutBtn').hide();
-                    $('#tutoring').hide(); // Show the link to manage account
+                    $('#manageAccount').hide();
+                    $('#tutoring').hide(); 
                 }
             });
         }
@@ -198,9 +200,6 @@
                 if (data.account_type === 'Admin') {
                     $('#adminLink').show();
                     $('#materials').show();
-                }
-                if (data.account_type == 'Tutor') {
-                    $('#manageAccount').show();
                 }
             });
         }

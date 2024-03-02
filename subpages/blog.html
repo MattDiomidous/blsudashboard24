@@ -175,18 +175,18 @@
                         $('#adminLink').show();
                         $('#materials').show();
                     }
-                    if (data.account_type == 'Tutor') {
-                        $('#manageAccount').show();
-                    }
+                    
                 });
             }
     
             function updateLoginStatus() {
               $.get('/loginStatus', function(data) {
                   if (data.isAuthenticated) {
-                      $('#tutoring').show(); // Show the link to manage account
+                      $('#tutoring').show(); 
+                      $('#manageAccount').show();
                   } else {                 
-                      $('#tutoring').hide(); // Show the link to manage account
+                      $('#tutoring').hide();
+                      $('#manageAccount').show();
                   }
               });
           }
