@@ -6,6 +6,7 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const path = require('path');
 const mysql = require('mysql2/promise');
+const bodyParser = require('body-parser');
 
 const config = {
   authRequired: false,
@@ -32,6 +33,7 @@ const app = express();
 app.use(auth(config));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(bodyParser.json());
 
 app.use(async (req, res, next) => {
   if (req.oidc.isAuthenticated()) {
@@ -53,9 +55,7 @@ app.use(async (req, res, next) => {
          email = VALUES(email), username = VALUES(username), account_type = IF(account_type IS NULL, VALUES(account_type), account_type)`,
         [email, username, subject, dayAvailable, timeAvailable, accountType]
       );
-      console.log(`User record ensured for: ${email}`);
     } catch (err) {
-      console.error('Error upserting user:', err.message);
     }
   }
   next();
@@ -385,6 +385,27 @@ app.post('/api/updateUserType', async (req, res) => {
   } else {
     res.status(401).send('Unauthorized');
   }
+});
+
+app.delete('/delete-file', (req, res) => {
+  const { filename } = req.body; // Extract filename from request body
+  console.log('Attempting to delete file:', filename); // Debugging line
+
+
+  if (!filename) {
+      return res.status(400).json({ success: false, message: 'Filename is required' });
+  }
+
+  const filePath = path.join(__dirname, 'uploads', filename); // Adjust the path as necessary
+
+  // Check if file exists and delete
+  fs.unlink(filePath, (err) => {
+      if (err) {
+          console.error(err);
+          return res.status(500).json({ success: false, message: 'Failed to delete the file' });
+      }
+      res.json({ success: true, message: 'File deleted successfully' });
+  });
 });
 
 
