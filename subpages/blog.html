@@ -99,13 +99,17 @@
         <div class="nav-wrapper">
             <a href="#" class="brand-logo">BCA BLSU</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="tutoring.html">Tutoring</a></li>
-                <li><a href="club-materials.html">Club Materials</a></li>
-                <li><a href="black-history-month.html">Black History Month</a></li>
-                <li><a href="hhm.html">HHM</a></li>
-                <li><a href="events.html">Current Events</a></li>
+                <!-- ... all other navigation links from index.html ... -->
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="/">Home</a>   </a></li>
+                <li id="tutoring" style="display: none;"><a href="tutoring.html">Tutoring</a></li>
+                <li id="materials" style="display: none;"><a href="material.html">Club Materials</a></li>                        
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="hhm.html">  BHM </a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
+                <li id="manageAccount" style="display: none;"><a href="account.html">Manage Account</a></li>            
+                <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>   
             </ul>
         </div>
+      </nav>
     </nav>
 
     <!-- Main Content -->
@@ -114,6 +118,9 @@
             <h1>BLSU Blog</h1>
      <!--       <p class="user-email">{{email}}</p> --> 
         </header>
+
+
+        <p class="center-align text" id="user-email">{{userEmail}}</p>
 
         <!-- Create Post Form -->
         <form id="create-post-form" class="col s12">
@@ -159,6 +166,35 @@
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Check account type
+            function checkAccountType() {
+                $.get('/accountType', function(data) {
+                    if (data.account_type === 'Admin') {
+                        $('#adminLink').show();
+                        $('#materials').show();
+                    }
+                    if (data.account_type !== 'Guest') {
+                        $('#tutoring').show();
+                    }
+                });
+            }
+    
+            function updateLoginStatus() {
+              $.get('/loginStatus', function(data) {
+                  if (data.isAuthenticated) {
+                      $('#manageAccount').show();
+                  } else {                 
+                      $('#manageAccount').show();
+                  }
+              });
+          }
+      
+            checkAccountType();  
+            updateLoginStatus();
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize dropdown
@@ -230,7 +266,7 @@
         }
 
         function createPost() {
-         //   const email = document.getElementById('user-email').value;
+            const email = document.getElementById('user-email').innerText;
             const title = document.getElementById('post-title').value;
             const content = document.getElementById('post-content').value;
             const isQuestion = document.getElementById('is-question').checked;
@@ -238,6 +274,7 @@
 
             if (title && content) {
                 const newPost = {
+                    email,
                     title,
                     date: getCurrentDate(),
                     content,

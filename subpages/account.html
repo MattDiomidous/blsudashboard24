@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCA BLSU - Account Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  
+    <!-- Transfer the CSS styles from index.html -->
+    <style> 
+        .brand-logo {
+            font-weight: bold;
+            color: #FFD700;
+            font-size: 80px;
+        }
+
+        .mission-statement {
+            background-color: #f5b301;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .mission-statement h3 {
+            color: black;
+            font-size: 50px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bolder;
+        }
+
+        .mission-statement ul {
+            color: #666;
+            font-size: 18px;
+            line-height: 2;
+            text-align: center;
+        }
+
+        .text {
+            font-weight: bolder;
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Transfer the navigation bar from index.html -->
+    <nav class="black">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">BCA BLSU</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <!-- ... all other navigation links from index.html ... -->
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="/">Home</a>   </a></li>
+                <li id="tutoring" style="display: none;"><a href="tutoring.html">Tutoring</a></li>                        
+                <li id="materials" style="display: none;"><a href="material.html">Club Materials</a></li>                        
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="hhm.html">  BHM </a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="blog.html">Blog</a></li>
+                <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>   
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="mission-statement">
+            <h3>Manage Account</h3>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Your Information</span>
+                        <div id="profileInfo" class="profile-info">
+                            <!-- Profile information will be loaded here automatically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <form class="col s12" id="preferencesForm" style="display: none;">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Update Preferences</span>
+                        <div class="row">
+                            <!-- Input fields with labels for better UX -->
+                            <div class="input-field col s12">
+                                <input id="subjectInput" type="text" class="validate">
+                                <label for="subjectInput">Subject</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="dayInput" type="text" class="validate">
+                                <label for="dayInput">Day Available</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="timeInput" type="text" class="validate">
+                                <label for="timeInput">Time Available</label>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                        <button type="submit" class="submit-btn btn waves-effect waves-light">Submit Preferences</button>
+                        <div id="submitResult"></div>
+                    </div>
+                    </div>
+                    
+                </div>
+            </form>
+        </div>
+        <!-- User Profile Information Card -->
+        
+    </div>
+
+    <!-- Include the same scripts from index.html -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            
+            
+            $('#preferencesForm').on('submit', function(e) {
+                e.preventDefault();
+    
+                const subject = $('#subjectInput').val();
+                const day = $('#dayInput').val();
+                const time = $('#timeInput').val();
+    
+                $.post('/setPreferences', { subject, day, time }, function(response) {
+                    $('#submitResult').text(response.message);
+                }).fail(function() {
+                    $('#submitResult').text('Failed to update preferences.');
+                });
+            });
+            $.get('/profile', function(data) {
+                let profileHtml = `Your email: ${data.email}<br>`;
+                if(data.subject) profileHtml += `Your subject: ${data.subject}<br>`;
+                if(data.day_available) profileHtml += `Day Available: ${data.day_available}<br>`;
+                if(data.time_available) profileHtml += `Time Available: ${data.time_available}<br>`;
+                profileHtml += `Account Type: ${data.account_type}`;
+                $('#profileInfo').html(profileHtml);
+        
+                // Check if the user is a tutor to show preferences form
+                if(data.account_type == 'Tutor') {
+                    $('#preferencesForm').show(); // Hide preferences form if not a tutor
+                }
+            }).fail(function() {
+                $('#profileInfo').text('Failed to load profile information.');
+                $('#preferencesForm').hide(); // Hide preferences form on fail as well
+            });
+            function checkAccountType() {
+                $.get('/accountType', function(data) {
+                    if (data.account_type === 'Admin') {
+                        $('#adminLink').show();
+                        $('#materials').show();
+                    }
+                    if (data.account_type !== 'Guest') {
+                        $('#tutoring').show();
+                    }
+                });
+            }
+            checkAccountType();
+        });
+    </script>
+</body>
+</html>
+

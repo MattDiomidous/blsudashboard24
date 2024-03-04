@@ -37,24 +37,30 @@ app.use(async (req, res, next) => {
   if (req.oidc.isAuthenticated()) {
     const email = req.oidc.user.email;
     const username = req.oidc.user.nickname;
-    const subject = 'Mathematics'; // Or fetch this from user input
-    const dayAvailable = 'Monday'; // Or fetch this from user input
-    const timeAvailable = '5 PM'; // Or fetch this from user input
-    const accountType = 'Admin'; // Or set this based on user input or some logic
+    
+    // Set default values for new user
+    const accountType = 'Guest'; // Default account type is 'Guest'
+    const subject = null; // Default is NULL
+    const dayAvailable = null; // Default is NULL
+    const timeAvailable = null; // Default is NULL
 
     // Include account_type in the INSERT statement
     try {
       await pool.execute(
-        "INSERT INTO users (email, username, subject, day_available, time_available, account_type) VALUES (?, ?, ?, ?, ?, ?)",
+        `INSERT INTO users (email, username, subject, day_available, time_available, account_type)
+         VALUES (?, ?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+         email = VALUES(email), username = VALUES(username), account_type = IF(account_type IS NULL, VALUES(account_type), account_type)`,
         [email, username, subject, dayAvailable, timeAvailable, accountType]
       );
-      console.log(`Upserted user: ${email}`);
+      console.log(`User record ensured for: ${email}`);
     } catch (err) {
-      console.error('Error inserting user:', err.message);
+      console.error('Error upserting user:', err.message);
     }
   }
   next();
 });
+
 
 app.get('/', async (req, res) => {
   try {
@@ -116,6 +122,16 @@ app.get('/subpages/hhm.html', async (req, res) => {
   }
 });
 
+app.get('/subpages/account.html', async (req, res) => {
+  try {
+    let htmlContent = await fs.readFile('./subpages/account.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/subpages/tutoring.html', async (req, res) => {
   try {
     let htmlContent = await fs.readFile('./subpages/tutoring.html', 'utf8');
@@ -140,16 +156,19 @@ app.get('/subpages/material.html', async (req, res) => {
 
 app.get('/subpages/blog.html', async (req, res) => {
   try {
-    // Read and send the content of the HTML file
-    let htmlContent = await fs.readFile('./subpages/blog.html', 'utf8');
+      // Read the content of the HTML file
+      let htmlContent = await fs.readFile('./subpages/blog.html', 'utf8');
 
-    // const isAuthenticated = req.oidc.isAuthenticated();
+      // Set authentication status based on req.oidc.isAuthenticated()
+      const isAuthenticated = req.oidc.isAuthenticated();
+    if (req.oidc.isAuthenticated()) {  
+      const email = req.oidc.user.email;
+      htmlContent = htmlContent.replace('{{userEmail}}', isAuthenticated ? email : 'You are not logged in.');
+    }
 
-    // // Set authentication status based on req.oidc.isAuthenticated()
-    // const email = req.oidc.user.email;
-
-    // // Replace placeholders in the HTML content
-    // htmlContent = htmlContent.replace('{{email}}', isAuthenticated ? email : 'not logged in.');
+    else {
+      htmlContent = htmlContent.replace('{{userEmail}}', isAuthenticated ? ' ' : 'You are not logged in');
+    }
 
     res.send(htmlContent);
   } catch (error) {
@@ -219,14 +238,18 @@ app.get('/accountType', async (req, res) => {
   }
 });
 
-app.get('/admin.html', async (req, res) => {
+app.get('/loginStatus', (req, res) => {
+  res.json({ isAuthenticated: req.oidc.isAuthenticated() });
+});
+
+app.get('/subpages/admin.html', async (req, res) => {
   if (req.oidc.isAuthenticated()) {
     const email = req.oidc.user.email;
 
     try {
       const [rows] = await pool.query('SELECT account_type FROM users WHERE email = ?', [email]);
       if (rows.length > 0 && rows[0].account_type === 'Admin') {
-        const adminFilePath = path.join(__dirname, 'admin.html'); // Correctly resolve the file path
+        const adminFilePath = path.join(__dirname, 'subpages/admin.html'); // Correctly resolve the file path
         const htmlContent = await fs.readFile(adminFilePath, 'utf8');
         res.send(htmlContent);
       } else {
@@ -340,6 +363,27 @@ app.get('/api/materials', async (req, res) => {
   } catch (err) {
     console.error('Error fetching materials:', err);
     res.status(500).send("Error fetching materials");
+  }
+});
+
+app.post('/api/updateUserType', async (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    // Check if the user is an admin
+    const adminEmail = req.oidc.user.email;
+    const [adminCheck] = await pool.query('SELECT account_type FROM users WHERE email = ?', [adminEmail]);
+    if (adminCheck.length > 0 && adminCheck[0].account_type === 'Admin') {
+      const { email, newType } = req.body;
+      const [result] = await pool.query('UPDATE users SET account_type = ? WHERE email = ?', [newType, email]);
+      if (result.affectedRows > 0) {
+        res.json({ success: true, message: 'Account type updated successfully' });
+      } else {
+        res.status(404).send('User not found');
+      }
+    } else {
+      res.status(403).send('Access Denied');
+    }
+  } else {
+    res.status(401).send('Unauthorized');
   }
 });
 
