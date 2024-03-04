@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+
+    <script type ='text/javascript'>
+        var CLIENT_ID = '760416223091-rpt1uq9hc8qcrjdtuf6pamtnpslt8frp.apps.googleusercontent.com';
+        var SCOPEs = ['https//www.googleapis.com/auth/calendar']; 
+
+        function checkAuth() {
+            gapi.auth.authorize(
+            {
+                'client_id': CLIENT_ID,
+                'scope': SCOPES,
+                'immediate': true
+            }, handleAuthResult);
+        }
+
+        function handleAuthResult(authResult) {
+            var authorizeDiv = document.getElementById('authorize-div');
+            if (authResult && !authResult.error) {
+                // Hide auth UI, then load client library.
+                authorizeDiv.style.display = 'none';
+                loadCalendarApi();
+            } else {
+                // Show auth UI, allowing the user to initiate authorization by
+                // clicking authorize button.
+                authorizeDiv.style.display = 'inline';
+            }
+        }
+
+        function handleAuthClick(event) {
+        gapi.auth.authorize(
+            {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
+            handleAuthResult);
+        return false;
+        }
+
+        function loadCalendarApi() {
+        gapi.client.load('calendar', 'v3', addEvents);
+        }
+
+        function addEvents() {
+            var event = {
+                'summary': 'Tutoring Meeting with _____',
+                'location': 'RV Library',
+                'description': 'Adding to the calendar',
+                'start': {
+                'date': '2016-12-10'
+                },
+                'end': {
+                'date': '2016-12-12'
+                }
+            };
+
+            var request = gapi.client.calendar.events.insert({
+                'calendarId': 'primary',
+                'resource': event
+            });
+
+            request.execute(function(event) {
+                appendPre('Event created: ' + event.htmlLink);
+            });
+            }
+
+    
+            function appendPre(message) {
+            var pre = document.getElementById('output');
+            var textContent = document.createTextNode(message + '\n');
+            pre.appendChild(textContent);
+            }
+    </script>
+
+
+   <script src="https://apis.google.com/js/client.js?onload=checkAuth">
+</script>
+</head>
+<body>
+<div id="authorize-div" style="display: none">
+  <span>Authorize access to Google Calendar API</span>
+  <button id="authorize-button" onclick="handleAuthClick(event)">
+    Authorize
+  </button>
+</div>
+<pre id="output"></pre>
+</body>
+
+</html>
