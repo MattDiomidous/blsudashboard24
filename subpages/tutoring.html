@@ -13,9 +13,165 @@
     border: 1px solid #ddd;
     border-radius: 4px;
   }
-  /* No need to hide the tutors by default */
+
+
+  .calendar-iframe {
+  border: none; /* Removes the border */
+  width: 100%; /* Makes the iframe take the full width of its container */
+  max-width: 800px; /* Maximum width, feel free to adjust */
+  height: 600px; /* Height, feel free to adjust */
+  box-shadow: 0 4px 8px 0 rgba(218, 24, 24, 0.2); /* Optional: Adds a shadow for some depth */
+  border-radius: 10px; /* Optional: Rounds the corners */
+  overflow: hidden; /* Ensures the content doesn't overflow */
+}
+
+/* Import the Roboto font from Google Fonts */
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
+
+/* Base button style */
+.button {
+    font-family: 'Roboto', sans-serif; /* Material Design typography */
+    font-size: 14px; /* Standard font size */
+    font-weight: 500; /* Medium weight */
+    text-transform: uppercase; /* Capitalize text */
+    color: #fff; /* Text color on the button */
+    background-color: #009688; /* Replace with your primary color */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 20px; /* Padding inside the button */
+    margin: 10px; /* Margin around the button */
+    cursor: pointer; /* Hand cursor on hover */
+    transition: box-shadow 0.2s; /* Smooth transition for the shadow */
+    outline: none; /* Remove the outline */
+}
+
+/* Ripple effect on click */
+.button::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #000000 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform 0.5s, opacity 1s;
+}
+
+.button:active::after {
+    transform: scale(0, 0);
+    opacity: 0.3;
+    transition: 0s;
+}
+
+/* Hover effect for the button */
+.button:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+/* Secondary button style if needed */
+.secondary-button {
+    background-color: #607D8B; /* Secondary color */
+}
+
+/* Apply this class for disabled buttons */
+.button:disabled {
+    background-color: #E0E0E0; /* Greyed out */
+    color: #9E9E9E;
+    cursor: default;
+    box-shadow: none;
+}
+
+/* Ensure that the HTML elements that represent buttons have the class 'button' */
+
+
+
+
 </style>
     <link rel="stylesheet" href="index.css">
+
+
+<script type ='text/javascript'>
+
+var CLIENT_ID=760416223091-rpt1uq9hc8qcrjdtuf6pamtnpslt8frp.apps.googleusercontent.com
+
+var CLIENT_SECRET=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
+
+require('dotenv').config();
+const express = require('express');
+const {google} = require('googleapis');
+const app = express();
+const port = 3000;
+
+// Replace with your credentials
+// const CLIENT_ID = process.env.CLIENT_ID;
+// const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = 'http://localhost:3000/oauth2callback';
+
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+
+// Visit this URL to authorize the app
+app.get('/', (req, res) => {
+  const authUrl = oAuth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: ['https://www.googleapis.com/auth/calendar'],
+  });
+  res.send(`<a href="${authUrl}">Authorize Google Calendar</a>`);
+});
+
+// Google redirects here after authorization
+app.get('/oauth2callback', async (req, res) => {
+  const {tokens} = await oAuth2Client.getToken(req.query.code);
+  oAuth2Client.setCredentials(tokens);
+
+  const calendar = google.calendar({version: 'v3', auth: oAuth2Client});
+  const event = {
+    summary: 'New Event',
+    location: '800 Howard St., San Francisco, CA 94103',
+    description: 'A chance to hear more about Google\'s developer products.',
+    start: {
+      dateTime: '2024-03-05T09:00:00-07:00',
+      timeZone: 'America/Los_Angeles',
+    },
+    end: {
+      dateTime: '2024-03-05T17:00:00-07:00',
+      timeZone: 'America/Los_Angeles',
+    },
+  };
+
+  try {
+    const result = await calendar.events.insert({
+      calendarId: 'primary',
+      resource: event,
+    });
+    res.send('Event created: ' + result.data.htmlLink);
+  } catch (error) {
+    res.send(error.message);
+  }
+});
+
+function handleAuthClick(event) {
+    // Redirect the user to the server endpoint that initiates the OAuth flow
+}
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+
+  </script>
+
+
+ <script src="https://apis.google.com/js/client.js?onload=checkAuth">
+</script>
+
+
+
+
 </head>
 <body>
 <!-- <nav class="grey lighten-4">
@@ -26,6 +182,7 @@
     </ul>
   </div>
 </nav> -->
+
 <main>
     <nav class="black">
       <div class="nav-wrapper">
@@ -86,16 +243,22 @@
                 </select>
                 <label>Filter by Day</label>
             </div>
-            <div class="input-field col s12 m3">
+
+          <div class="input-field col s12 m3">
                 <input id="time-filter" type="text" class="validate">
                 <label for="time-filter">Filter by Time</label>
-            </div>
+            </div> 
+            
             <div class="col s12">
                 <button class="btn waves-effect waves-light" onclick="searchTutors()">Search
                     <i class="material-icons right"></i>
-                </button>
+                </button> 
             </div>
+
         </div>
+        </div> 
+
+
 <div class="container">
   <div class="section">
     <h4>Tutoring Schedule</h4>
@@ -124,10 +287,58 @@
     </div>
   </div>
 </div>
-<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&src=emFwZW5nNzc2QGdtYWlsLmNvbQ&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=Y2xhc3Nyb29tMTE0ODYwNTQ4ODU4NzY1Nzc2MTgzQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=NTU1MmUxMjZlOWI2YWMwZjJiYzhiYjE4YjhiNzAxNjIwNWI0OWQ2ZmRhZWE4YzVhNjk5ZDE2YzMwMDlkN2U5M0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Y2xhc3Nyb29tMTEzMDI2NjA2OTIyNDI5NTQ5NDY3QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=bWVrcmV2aWV3LmNvbV9jbGFzc3Jvb20zMzI2MzA4NUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%2333B679&color=%230047a8&color=%23F09300&color=%230047a8&color=%230B8043&color=%230047a8" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+<h4>Schedule a Tutor</h4>
+
+<!-- Google Calendar Appointment Scheduling begin -->
 
 
-<footer class="page-footer grey lighten-3">
+Book you Appointment today: 
+<link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+<script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+<script>
+(function() {
+  var target = document.currentScript;
+  window.addEventListener('load', function() {
+    calendar.schedulingButton.load({
+      url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1V8jNTsTeOY-ti5UpCiSgfg4PBvdHhGriNDDi0vJZqomwU4zAd5uwOTVttrVCpwXPfSrerLMci?gv=true',
+      color: '#26a69a',
+      label: 'Book an appointment',
+      target,
+    });
+  });
+})();
+</script>
+<!-- end Google Calendar Appointment Scheduling -->
+
+
+<!-- Authorize access to Google Calendar API to Sync your calendar with all BLSU events  -->
+<!-- 
+
+<div id="authorize-div" class="col s12">
+
+  <button class="btn waves-effect waves-light" onclick="handleAuthClick(event)">
+    Authorize
+  </button> 
+  <pre id="output"></pre>
+</div>
+ -->
+
+<br>
+
+<iframe src="https://embed.styledcalendar.com/#U4mo0AvsmePhH5r980HE" title="Styled Calendar" class="styled-calendar-container" style="width: 100%; border: none;" data-cy="calendar-embed-iframe"></iframe>
+<script async type="module" src="https://embed.styledcalendar.com/assets/parent-window.js"></script>
+<!-- 
+<iframe id = class="calendar-iframe"
+
+src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&src=emFwZW5nNzc2QGdtYWlsLmNvbQ&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=Y2xhc3Nyb29tMTE0ODYwNTQ4ODU4NzY1Nzc2MTgzQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=NTU1MmUxMjZlOWI2YWMwZjJiYzhiYjE4YjhiNzAxNjIwNWI0OWQ2ZmRhZWE4YzVhNjk5ZDE2YzMwMDlkN2U5M0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Y2xhc3Nyb29tMTEzMDI2NjA2OTIyNDI5NTQ5NDY3QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=bWVrcmV2aWV3LmNvbV9jbGFzc3Jvb20zMzI2MzA4NUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%2333B679&color=%230047a8&color=%23F09300&color=%230047a8&color=%230B8043&color=%230047a8" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+
+ -->
+
+
+<!-- end Google Calendar Appointment Scheduling -->
+
 <!-- <footer class="page-footer grey lighten-3">
   <div class="container">
     <span class="black-text">Footer: with Insta, Facebook, Linkedin (the what-if socials)</span>
