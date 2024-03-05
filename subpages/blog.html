@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
         /* Add your custom styles here if needed */
+
+        strong {
+            font-weight: 600;
+        }
         body {
             background-color: #f5f5f5;
             font-family: Arial, sans-serif;
@@ -100,6 +104,10 @@
         .replies-container {
             margin-top: 10px;
         }
+        
+        .blog-heading {
+            font-weight: 650;
+        }
 
     </style>
     
@@ -127,8 +135,7 @@
     <!-- Main Content -->
     <div class="container">
         <header>
-            <h1>BLSU Blog</h1>
-     <!--       <p class="user-email">{{email}}</p> --> 
+            <h1 class="blog-heading">Blog</h1>
         </header>
 
 
@@ -142,8 +149,7 @@
                     <label for="post-title">Post Title</label>
                 </div>
             </div>
-
-         <!--      <p class="display-email">You are {{email}}</p> --> 
+ 
             <div class="row">
                 <div class="input-field col s12">
                     <textarea id="post-content" class="materialize-textarea"></textarea>
