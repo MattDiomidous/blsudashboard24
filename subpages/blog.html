@@ -186,14 +186,45 @@
               $.get('/loginStatus', function(data) {
                   if (data.isAuthenticated) {
                       $('#manageAccount').show();
+                      $('.reply-button').show();
+                      $('.reply-box').show()
+                      $('.reaction-button').prop('disabled', false);
                   } else {                 
                       $('#manageAccount').hide();
+                      $('.reply-button').hide();
+                      $('.reply-box').hide()
+                      $('.reaction-button').prop('disabled', true);
                   }
               });
           }
+
+
+        function getUserType() {
+            let userType = ''; // Initialize user type variable
+    
+            $.get('/accountType', function(data) {
+                userType = data.account_type
+            });
+
+            return userType;
+        }
+
+          function toggleCreatePostForm() {
+            const userType = getUserType(); // Function to determine the type of user (admin, tutor, student)
+
+            if (userType === 'admin' || userType === 'tutor' || userType === 'student') {
+                // Show the create post form
+                document.getElementById('create-post-form').style.display = 'block';
+            } else {
+                // Hide the create post form
+                document.getElementById('create-post-form').style.display = 'none';
+            }
+        }
+
       
             checkAccountType();  
             updateLoginStatus();
+            toggleCreatePostForm();
         });
     </script>
     <script>
@@ -256,11 +287,35 @@
                     <p>${postEmail}: ${postContent}</p>
                     <div class="reaction-buttons">
                         ${!post.isQuestion ? `
-                            <span class="reaction-button" onclick="reactToPost(${index}, true)">👍 ${post.likes}</span>
-                            <span class="reaction-button" onclick="reactToPost(${index}, false)">👎 ${post.dislikes}</span>
+                            <span class="reaction-button" onclick="reactToPostHandler(${index}, true)">👍 ${post.likes}</span>
+                            <span class="reaction-button" onclick="reactToPostHandler(${index}, false)">👎 ${post.dislikes}</span>
                         ` : ''}
                     </div>
+                    <div class="row">
+                <div class="input-field col s12 reply-box">
+                    <input id="reply-content-${index}" type="text" class="validate">
+                    <label for="reply-content-${index}">Reply</label>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light reply-button" onclick="replyToPost(${index})">Reply</button>
+
                 `;
+            // Display replies
+            if (post.replies && post.replies.length > 0) {
+                post.replies.forEach((reply) => {
+                    const replyElement = document.createElement('div');
+                    replyElement.classList.add('reply');
+                    replyElement.innerHTML = `
+                        <p class="reply-content">${reply.content}</p>
+                        <p class="reply-date">${reply.date}</p>
+                        <div class="reaction-buttons">
+                            <span class="reaction-button" onclick="reactToReplyHandler(${index}, ${post.replies.indexOf(reply)}, true)">👍 ${reply.likes}</span>
+                            <span class="reaction-button" onclick="reactToReplyHandler(${index}, ${post.replies.indexOf(reply)}, false)">👎 ${reply.dislikes}</span>
+                        </div>
+                    `;
+                    postElement.appendChild(replyElement);
+                });
+            }
 
                 blogPostsContainer.appendChild(postElement);
             });
@@ -298,6 +353,30 @@
                 alert("Please fill in title and content fields.");
             }
         }
+        function replyToPost(postIndex) {
+    const replyContent = document.getElementById(`reply-content-${postIndex}`).value;
+
+    if (replyContent.trim() !== "") {
+        const reply = {
+            content: replyContent,
+            date: getCurrentDate(),
+            likes: 0,
+            dislikes: 0
+        };
+
+        // Add the reply to the respective post
+        blogPosts[postIndex].replies = blogPosts[postIndex].replies || [];
+        blogPosts[postIndex].replies.push(reply);
+
+        // Update the display
+        displayBlogPosts(blogPosts);
+
+        // Clear the reply input field
+        document.getElementById(`reply-content-${postIndex}`).value = "";
+    } else {
+        alert("Please enter a valid reply.");
+    }
+}
 
         function getCurrentDate() {
             const today = new Date();
@@ -311,6 +390,59 @@
 
             return `${year}-${month}-${day}`;
         }
+        function reactToReplyHandler(postIndex, replyIndex, isLike) {
+             // Check if the user is authenticated
+        $.get('/loginStatus', function(data) {
+            if (data.isAuthenticated) {
+                // User is logged in, proceed with the reaction
+                reactToReplyHandler(postIndex, replyIndex, isLike);
+            } else {
+                // User is not logged in, show an alert
+                alert('Please log in to react.');
+            }
+        });
+        }
+
+        function reactToReply(postIndex, replyIndex, isLike) {
+    const reply = blogPosts[postIndex].replies[replyIndex];
+
+    if (!reply.reacted) {
+        if (isLike) {
+            reply.likes++;
+        } else {
+            reply.dislikes++;
+        }
+
+        reply.reacted = true;
+        displayBlogPosts(blogPosts);
+    } else {
+        if ((isLike && reply.likes > 0) || (!isLike && reply.dislikes > 0)) {
+            if (isLike) {
+                reply.likes--;
+            } else {
+                reply.dislikes--;
+            }
+            reply.reacted = false;
+            displayBlogPosts(blogPosts);
+        } else {
+            alert("You can only react once to a reply.");
+        }
+    }
+}
+
+function reactToPostHandler(index, isLike) {
+    // Check if the user is authenticated
+    $.get('/loginStatus', function(data) {
+        if (data.isAuthenticated) {
+            // User is logged in, proceed with the reaction
+            reactToPost(index, isLike);
+        } else {
+            // User is not logged in, show an alert
+            alert('Please log in to react.');
+        }
+    });
+}
+
 
         function reactToPost(postIndex, isLike) {
     const post = blogPosts[postIndex];
