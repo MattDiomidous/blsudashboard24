@@ -89,6 +89,18 @@
             max-width: 80%;
             max-height: 80%;
         }
+
+        .reply {
+            margin-left: 20px; /* Adjust the indentation */
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgb(226, 220, 220)
+        }
+
+        .replies-container {
+            margin-top: 10px;
+        }
+
     </style>
     
 </head>
@@ -244,82 +256,105 @@
         });
 
         const blogPosts = [
+    {
+        email: "matdio24@bergen.org",
+        title: "Post 1",
+        date: "2023-12-15",
+        content: "This is the content for post 1.",
+        isQuestion: false,
+        isAnonymous: false,
+        likes: 0,
+        dislikes: 0,
+        reacted: false, // New property
+        replies: [ // Sample replies for Post 1
             {
-                email: "matdio24@bergen.org",
-                title: "Post 1",
-                date: "2023-12-15",
-                content: "This is the content for post 1.",
-                isQuestion: false,
-                isAnonymous: false,
-                likes: 0,
-                dislikes: 0,
-                reacted: false // New property
-            },
-            {
-                email: "matdio24@bergen.org",
-                title: "Post 2",
+                email: "user1@example.com",
+                content: "Sample reply 1 for Post 1.",
                 date: "2023-12-16",
-                content: "This is the content for post 2.",
-                isQuestion: false,
-                isAnonymous: false,
                 likes: 0,
                 dislikes: 0,
                 reacted: false // New property
             },
-            // Add more posts here
-        ];
-
-        function displayBlogPosts(posts) {
-            const blogPostsContainer = document.getElementById('blog-posts-container');
-            blogPostsContainer.innerHTML = ""; // Clear existing content
-
-            posts.forEach((post, index) => {
-                const postElement = document.createElement('div');
-                postElement.classList.add('post', 'card-panel');
-
-                const postContent = post.content;
-                const postEmail = post.isAnonymous ? "Anonymous" : `<strong>${post.email}</strong>`;
-                const postTitle = post.isQuestion ? `<h4>Question: ${post.title}</h4>` : `<h4>${post.title}</h4>`;
-
-                postElement.innerHTML = `
-                    ${postTitle}
-                    <p class="post-date">${post.date}</p>
-                    <p>${postEmail}: ${postContent}</p>
-                    <div class="reaction-buttons">
-                        ${!post.isQuestion ? `
-                            <span class="reaction-button" onclick="reactToPostHandler(${index}, true)">👍 ${post.likes}</span>
-                            <span class="reaction-button" onclick="reactToPostHandler(${index}, false)">👎 ${post.dislikes}</span>
-                        ` : ''}
-                    </div>
-                    <div class="row">
-                <div class="input-field col s12 reply-box">
-                    <input id="reply-content-${index}" type="text" class="validate">
-                    <label for="reply-content-${index}">Reply</label>
-                </div>
-            </div>
-            <button class="btn waves-effect waves-light reply-button" onclick="replyToPost(${index})">Reply</button>
-
-                `;
-            // Display replies
-            if (post.replies && post.replies.length > 0) {
-                post.replies.forEach((reply) => {
-                    const replyElement = document.createElement('div');
-                    replyElement.classList.add('reply');
-                    replyElement.innerHTML = `
-                        <p class="reply-content">${reply.content}</p>
-                        <p class="reply-date">${reply.date}</p>
-                        <div class="reaction-buttons">
-                            <span class="reaction-button" onclick="reactToReplyHandler(${index}, ${post.replies.indexOf(reply)}, true)">👍 ${reply.likes}</span>
-                            <span class="reaction-button" onclick="reactToReplyHandler(${index}, ${post.replies.indexOf(reply)}, false)">👎 ${reply.dislikes}</span>
-                        </div>
-                    `;
-                    postElement.appendChild(replyElement);
-                });
+            {
+                email: "user2@example.com",
+                content: "Sample reply 2 for Post 1.",
+                date: "2023-12-17",
+                likes: 0,
+                dislikes: 0,
+                reacted: false // New property
             }
+        ]
+    },
+    {
+        email: "matdio24@bergen.org",
+        title: "Post 2",
+        date: "2023-12-16",
+        content: "This is the content for post 2.",
+        isQuestion: false,
+        isAnonymous: false,
+        likes: 0,
+        dislikes: 0,
+        reacted: false, // New property
+        replies: [] // No sample replies for Post 2
+    },
+    // Add more posts here
+];
+function displayBlogPosts(posts) {
+    const blogPostsContainer = document.getElementById('blog-posts-container');
+    blogPostsContainer.innerHTML = ""; // Clear existing content
 
-                blogPostsContainer.appendChild(postElement);
+    posts.forEach((post, index) => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post', 'card-panel');
+
+        const postContent = post.content;
+        const postEmail = post.isAnonymous ? "Anonymous" : `<strong>${post.email}</strong>`;
+        const postTitle = post.isQuestion ? `<h4>Question: ${post.title}</h4>` : `<h4>${post.title}</h4>`;
+
+        postElement.innerHTML = `
+            ${postTitle}
+            <p class="post-date">${post.date}</p>
+            <p>${postEmail}: ${postContent}</p>
+            <div class="reaction-buttons">
+                ${!post.isQuestion ? `
+                    <span class="reaction-button" onclick="reactToPostHandler(${index}, true)">👍 ${post.likes}</span>
+                    <span class="reaction-button" onclick="reactToPostHandler(${index}, false)">👎 ${post.dislikes}</span>
+                ` : ''}
+            </div>
+        `;
+
+        // Display replies
+        if (post.replies && post.replies.length > 0) {
+            const repliesContainer = document.createElement('div');
+            repliesContainer.classList.add('replies-container');
+
+            post.replies.forEach((reply) => {
+                const replyElement = document.createElement('div');
+                replyElement.classList.add('reply', 'card-panel', 'indented-box');
+
+                const replyContent = reply.content;
+                const replyEmail = reply.isAnonymous ? "Anonymous" : `<strong>${reply.email}</strong>`;
+
+                replyElement.innerHTML = `
+                    <p>${replyEmail}: ${replyContent}</p>
+                    <p class="reply-date">${reply.date}</p>
+                    <div class="reaction-buttons">
+                        <span class="reaction-button" onclick="reactToReplyHandler(${index}, ${post.replies.indexOf(reply)}, true)">👍 ${reply.likes}</span>
+                        <span class="reaction-button" onclick="reactToReplyHandler(${index}, ${post.replies.indexOf(reply)}, false)">👎 ${reply.dislikes}</span>
+                    </div>
+                `;
+
+                repliesContainer.appendChild(replyElement);
             });
+
+            postElement.appendChild(repliesContainer);
         }
+
+        blogPostsContainer.appendChild(postElement);
+    });
+}
+
+
 
         function createPost() {
             const email = document.getElementById('user-email').innerText;
