@@ -485,7 +485,37 @@ function reactToPostHandler(index, isLike) {
 }
 
 
-        // Initial display of blog posts
+        function reactToPost(postIndex, isLike) {
+    const post = blogPosts[postIndex];
+
+    // Check if the user has already reacted to this post
+    if (!post.reacted) {
+        if (isLike) {
+            post.likes++;
+        } else {
+            post.dislikes++;
+        }
+
+        post.reacted = true;
+
+        displayBlogPosts(blogPosts);
+    } else {
+        if ((isLike && post.likes > 0) || (!isLike && post.dislikes > 0)) {
+            if (isLike) {
+                post.likes--;
+            } else {
+                post.dislikes--;
+            }
+            
+            post.reacted = false;
+
+            displayBlogPosts(blogPosts);
+        } else {
+            alert("You can only react once to a post.");
+        }
+    }
+}
+
         displayBlogPosts(blogPosts);
     </script>
 </body>
