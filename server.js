@@ -167,7 +167,7 @@ app.get('/subpages/blog.html', async (req, res) => {
     }
 
     else {
-      htmlContent = htmlContent.replace('{{userEmail}}', isAuthenticated ? ' ' : 'You are not logged in');
+      htmlContent = htmlContent.replace('{{userEmail}}', isAuthenticated ? ' ' : 'You are not logged in.');
     }
 
     res.send(htmlContent);
