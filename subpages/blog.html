@@ -496,13 +496,10 @@ function reactToPostHandler(index, isLike) {
             post.dislikes++;
         }
 
-        // Mark the post as reacted
         post.reacted = true;
 
-        // Update the display
         displayBlogPosts(blogPosts);
     } else {
-        // If the user already reacted, check if they are unreacting
         if ((isLike && post.likes > 0) || (!isLike && post.dislikes > 0)) {
             if (isLike) {
                 post.likes--;
@@ -510,10 +507,8 @@ function reactToPostHandler(index, isLike) {
                 post.dislikes--;
             }
             
-            // Unmark the post as reacted
             post.reacted = false;
 
-            // Update the display
             displayBlogPosts(blogPosts);
         } else {
             alert("You can only react once to a post.");
@@ -521,7 +516,6 @@ function reactToPostHandler(index, isLike) {
     }
 }
 
-        // Initial display of blog posts
         displayBlogPosts(blogPosts);
     </script>
 </body>
