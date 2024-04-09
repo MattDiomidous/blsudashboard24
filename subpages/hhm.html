@@ -8,11 +8,33 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
   <style>
-    nav{
-        flex: display;
-        align-items: center;
-        justify-content: center;
+  
+  .container {
+    display: flex;
+    justify-content: space-around; 
+    padding: 20px;} 
+
+  .box {
+    width: 30%; /* Adjust the width as necessary */
+    background-color: #fff3e0; /* The color of the box */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* This will give the box-shadow effect */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center;
+    font-family: Arial, sans-serif; /* Font family */
+    margin: 10px; /* Space around the boxes */
+    /* background-image: url(blsu.png); */
+  }
+
+  /* Responsive design: If the screen size is less than 600px, boxes take full width */
+  @media screen and (max-width: 600px) {
+    .box {
+      width: 100%;
+      margin: 10px 0; /* Stack the boxes with space in between */
     }
+  } 
+
+
   </style>
 </head>
 <body>
@@ -41,28 +63,25 @@
     </div>
   </div>
 
+
+
   <!-- Sign Up Section -->
-  <div class="section">
-    <div class="container">
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="card-panel yellow lighten-3">
-            <span class="black-text">Sign Up - for Lesson Plans</span>
-          </div>
-        </div>
-        <div class="col s12 m4">
-          <div class="card-panel yellow lighten-3">
-            <span class="black-text">Lesson Plans</span>
-          </div>
-        </div>
-        <div class="col s12 m4">
-          <div class="card-panel yellow lighten-3">
-            <span class="black-text">Scheduling Requests</span>
-          </div>
-        </div>
-      </div>
+
+  <div class="container">
+
+    <div class="box">
+      <h2>Sign In</h2>
+    </div>  
+
+    <div class="box">
+      <h2>Lesson Plans</h2>
+    </div>
+
+    <div class="box">
+      <h2>Scheduling Requests</h2>
     </div>
   </div>
+
 
   <!-- Form Section -->
   <div class="section">
@@ -94,6 +113,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- Footer -->
   <footer class="page-footer grey darken-3">
@@ -162,7 +182,7 @@
                 notes: document.getElementById('textarea1').value
             };
 
-            /*if (name.trim() === "") {
+            if (name.trim() === "") {
               alert("Name is required");
               return;
             }
@@ -170,10 +190,7 @@
             if (email.trim() === "") {
               alert("Email is required");
               return;
-            }*/
-
-
-
+            }
             fetch('/signup', {
                 method: 'POST',
                 headers: {

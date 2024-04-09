@@ -98,216 +98,216 @@
 
 <script type ='text/javascript'>
 
-var CLIENT_ID=760416223091-rpt1uq9hc8qcrjdtuf6pamtnpslt8frp.apps.googleusercontent.com
+          var CLIENT_ID=760416223091-rpt1uq9hc8qcrjdtuf6pamtnpslt8frp.apps.googleusercontent.com
 
-var CLIENT_SECRET=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
+          var CLIENT_SECRET=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
 
-require('dotenv').config();
-const express = require('express');
-const {google} = require('googleapis');
-const app = express();
-const port = 3000;
+          require('dotenv').config();
+          const express = require('express');
+          const {google} = require('googleapis');
+          const app = express();
+          const port = 3000;
 
-// Replace with your credentials
-// const CLIENT_ID = process.env.CLIENT_ID;
-// const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = 'http://localhost:3000/oauth2callback';
+          // Replace with your credentials
+          // const CLIENT_ID = process.env.CLIENT_ID;
+          // const CLIENT_SECRET = process.env.CLIENT_SECRET;
+          const REDIRECT_URI = 'http://localhost:3000/oauth2callback';
 
-const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+          const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
-// Visit this URL to authorize the app
-app.get('/', (req, res) => {
-  const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: ['https://www.googleapis.com/auth/calendar'],
-  });
-  res.send(`<a href="${authUrl}">Authorize Google Calendar</a>`);
-});
+          // Visit this URL to authorize the app
+          app.get('/', (req, res) => {
+            const authUrl = oAuth2Client.generateAuthUrl({
+              access_type: 'offline',
+              scope: ['https://www.googleapis.com/auth/calendar'],
+            });
+            res.send(`<a href="${authUrl}">Authorize Google Calendar</a>`);
+          });
 
-// Google redirects here after authorization
-app.get('/oauth2callback', async (req, res) => {
-  const {tokens} = await oAuth2Client.getToken(req.query.code);
-  oAuth2Client.setCredentials(tokens);
+          // Google redirects here after authorization
+          app.get('/oauth2callback', async (req, res) => {
+            const {tokens} = await oAuth2Client.getToken(req.query.code);
+            oAuth2Client.setCredentials(tokens);
 
-  const calendar = google.calendar({version: 'v3', auth: oAuth2Client});
-  const event = {
-    summary: 'New Event',
-    location: '800 Howard St., San Francisco, CA 94103',
-    description: 'A chance to hear more about Google\'s developer products.',
-    start: {
-      dateTime: '2024-03-05T09:00:00-07:00',
-      timeZone: 'America/Los_Angeles',
-    },
-    end: {
-      dateTime: '2024-03-05T17:00:00-07:00',
-      timeZone: 'America/Los_Angeles',
-    },
-  };
+            const calendar = google.calendar({version: 'v3', auth: oAuth2Client});
+            const event = {
+              summary: 'New Event',
+              location: '800 Howard St., San Francisco, CA 94103',
+              description: 'A chance to hear more about Google\'s developer products.',
+              start: {
+                dateTime: '2024-03-05T09:00:00-07:00',
+                timeZone: 'America/Los_Angeles',
+              },
+              end: {
+                dateTime: '2024-03-05T17:00:00-07:00',
+                timeZone: 'America/Los_Angeles',
+              },
+            };
 
-  try {
-    const result = await calendar.events.insert({
-      calendarId: 'primary',
-      resource: event,
-    });
-    res.send('Event created: ' + result.data.htmlLink);
-  } catch (error) {
-    res.send(error.message);
-  }
-});
+            try {
+              const result = await calendar.events.insert({
+                calendarId: 'primary',
+                resource: event,
+              });
+              res.send('Event created: ' + result.data.htmlLink);
+            } catch (error) {
+              res.send(error.message);
+            }
+          });
 
-function handleAuthClick(event) {
-    // Redirect the user to the server endpoint that initiates the OAuth flow
-}
+          function handleAuthClick(event) {
+              // Redirect the user to the server endpoint that initiates the OAuth flow
+          }
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+          app.listen(port, () => {
+            console.log(`Server running at http://localhost:${port}`);
+          });
 
-  </script>
-
-
- <script src="https://apis.google.com/js/client.js?onload=checkAuth">
-</script>
+            </script>
 
 
+          <script src="https://apis.google.com/js/client.js?onload=checkAuth">
+          </script>
 
 
-</head>
-<body>
-<!-- <nav class="grey lighten-4">
-  <div class="nav-wrapper container">
-    <a href="#" class="brand-logo black-text">BCA BLSU</a>
-    <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <li><a href="#" class="black-text">Login</a></li>
-    </ul>
-  </div>
-</nav> -->
 
-<main>
-    <nav class="black">
-      <div class="nav-wrapper">
-            <a href="#" class="brand-logo">BCA BLSU</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <!-- ... all other navigation links from index.html ... -->
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="/">Home</a>   </a></li>
-                <li id="materials" style="display: none;"><a href="material.html">Club Materials</a></li>                        
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="hhm.html">  BHM </a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="blog.html">Blog</a></li>
-                <li id="manageAccount"><a href="account.html">Manage Account</a></li>            
-                <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>   
-            </ul>
-        </div>
-      </nav>
-        
-        <!-- Dropdown Structure -->
-        <ul id="dropdown1" class="dropdown-content">
-          <li><a href="/tutoring.html">Tutoring</a></li>
-          <li><a href="/tutoring.html">Sub-Item 1</a></li>
-          <li><a href="/tutoring.html">Sub-Item 2</a></li>
-        </ul>
-        
-        <ul id="dropdown2" class="dropdown-content">
-          <li><a href="/club-materials.html">Club Materials</a></li>
-          <li><a href="/club-materials.html">Sub-Item 1</a></li>
-          <li><a href="/club-materials.html">Sub-Item 2</a></li>
-        </ul>
-        
-        <ul id="dropdown3" class="dropdown-content">
-          <li><a href="/black-history-month.html">Black History Month</a></li>
-          <li><a href="/black-history-month.html">Sub-Item 1</a></li>
-          <li><a href="/black-history-month.html">Sub-Item 2</a></li>
-        </ul>
-        
-  </main>
-  <div class="container">
-    <div class="section">
-        <h4>Tutoring Schedule</h4>
-        <div class="row">
-            <div class="input-field col s12 m3">
-                <input id="search" type="text" class="validate">
-                <label for="search">Search by Tutor Name</label>
+
+          </head>
+          <body>
+          <!-- <nav class="grey lighten-4">
+            <div class="nav-wrapper container">
+              <a href="#" class="brand-logo black-text">BCA BLSU</a>
+              <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#" class="black-text">Login</a></li>
+              </ul>
             </div>
-            <div class="input-field col s12 m3">
-              <input id="subject-filter" type="text" class="validate">
-              <label for="subject-filter">Filter by Subject</label>
-          </div>          
-            <div class="input-field col s12 m3">
-                <select id="day-filter">
-                    <option value="" disabled selected>Choose Day</option>
-                    <option value="Monday">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                </select>
-                <label>Filter by Day</label>
+          </nav> -->
+
+          <main>
+              <nav class="black">
+                <div class="nav-wrapper">
+                      <a href="#" class="brand-logo">BCA BLSU</a>
+                      <ul id="nav-mobile" class="right hide-on-med-and-down">
+                          <!-- ... all other navigation links from index.html ... -->
+                          <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="/">Home</a>   </a></li>
+                          <li id="materials" style="display: none;"><a href="material.html">Club Materials</a></li>                        
+                          <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="hhm.html">  BHM </a></li>
+                          <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
+                          <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="blog.html">Blog</a></li>
+                          <li id="manageAccount"><a href="account.html">Manage Account</a></li>            
+                          <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>   
+                      </ul>
+                  </div>
+                </nav>
+                  
+                  <!-- Dropdown Structure -->
+                  <ul id="dropdown1" class="dropdown-content">
+                    <li><a href="/tutoring.html">Tutoring</a></li>
+                    <li><a href="/tutoring.html">Sub-Item 1</a></li>
+                    <li><a href="/tutoring.html">Sub-Item 2</a></li>
+                  </ul>
+                  
+                  <ul id="dropdown2" class="dropdown-content">
+                    <li><a href="/club-materials.html">Club Materials</a></li>
+                    <li><a href="/club-materials.html">Sub-Item 1</a></li>
+                    <li><a href="/club-materials.html">Sub-Item 2</a></li>
+                  </ul>
+                  
+                  <ul id="dropdown3" class="dropdown-content">
+                    <li><a href="/black-history-month.html">Black History Month</a></li>
+                    <li><a href="/black-history-month.html">Sub-Item 1</a></li>
+                    <li><a href="/black-history-month.html">Sub-Item 2</a></li>
+                  </ul>
+                  
+            </main>
+            <div class="container">
+              <div class="section">
+                  <h4>Tutoring Schedule</h4>
+                  <div class="row">
+                      <div class="input-field col s12 m3">
+                          <input id="search" type="text" class="validate">
+                          <label for="search">Search by Tutor Name</label>
+                      </div>
+                      <div class="input-field col s12 m3">
+                        <input id="subject-filter" type="text" class="validate">
+                        <label for="subject-filter">Filter by Subject</label>
+                    </div>          
+                      <div class="input-field col s12 m3">
+                          <select id="day-filter">
+                              <option value="" disabled selected>Choose Day</option>
+                              <option value="Monday">Monday</option>
+                              <option value="Tuesday">Tuesday</option>
+                              <option value="Wednesday">Wednesday</option>
+                              <option value="Thursday">Thursday</option>
+                              <option value="Friday">Friday</option>
+                          </select>
+                          <label>Filter by Day</label>
+                      </div>
+
+                    <div class="input-field col s12 m3">
+                          <input id="time-filter" type="text" class="validate">
+                          <label for="time-filter">Filter by Time</label>
+                      </div> 
+                      
+                      <div class="col s12">
+                          <button class="btn waves-effect waves-light" onclick="searchTutors()">Search
+                              <i class="material-icons right"></i>
+                          </button> 
+                      </div>
+
+                  </div>
+                  </div> 
+
+
+          <div class="container">
+            <div class="section">
+              <h4>Tutoring Schedule</h4>
+              <!-- Other content and filter options can go here -->
+              <div class="row">
+                <!-- Calendar structure -->
+                <!-- HTML Structure -->
+                  <div class="col s12">
+                    <!-- Monday -->
+                    <ul id="monday-tutors" class="collection with-header">
+                      <li class="collection-header"><h5>Monday</h5></li>
+                    </ul>
+                    <ul id="tuesday-tutors" class="collection with-header">
+                      <li class="collection-header"><h5>Tuesday</h5></li>
+                    </ul>
+                    <ul id="wednesday-tutors" class="collection with-header">
+                      <li class="collection-header"><h5>Wednesday</h5></li>
+                    </ul>
+                    <ul id="thursday-tutors" class="collection with-header">
+                      <li class="collection-header"><h5>Thursday</h5></li>
+                    </ul>
+                    <ul id="friday-tutors" class="collection with-header">
+                      <li class="collection-header"><h5>Friday</h5></li>
+                    </ul>
+                  </div>
+              </div>
             </div>
+          </div>
 
-          <div class="input-field col s12 m3">
-                <input id="time-filter" type="text" class="validate">
-                <label for="time-filter">Filter by Time</label>
-            </div> 
-            
-            <div class="col s12">
-                <button class="btn waves-effect waves-light" onclick="searchTutors()">Search
-                    <i class="material-icons right"></i>
-                </button> 
-            </div>
+          <h4>Schedule a Tutor</h4>
 
-        </div>
-        </div> 
+          <!-- Google Calendar Appointment Scheduling begin -->
 
 
-<div class="container">
-  <div class="section">
-    <h4>Tutoring Schedule</h4>
-    <!-- Other content and filter options can go here -->
-    <div class="row">
-      <!-- Calendar structure -->
-      <!-- HTML Structure -->
-        <div class="col s12">
-          <!-- Monday -->
-          <ul id="monday-tutors" class="collection with-header">
-            <li class="collection-header"><h5>Monday</h5></li>
-          </ul>
-          <ul id="tuesday-tutors" class="collection with-header">
-            <li class="collection-header"><h5>Tuesday</h5></li>
-          </ul>
-          <ul id="wednesday-tutors" class="collection with-header">
-            <li class="collection-header"><h5>Wednesday</h5></li>
-          </ul>
-          <ul id="thursday-tutors" class="collection with-header">
-            <li class="collection-header"><h5>Thursday</h5></li>
-          </ul>
-          <ul id="friday-tutors" class="collection with-header">
-            <li class="collection-header"><h5>Friday</h5></li>
-          </ul>
-        </div>
-    </div>
-  </div>
-</div>
-
-<h4>Schedule a Tutor</h4>
-
-<!-- Google Calendar Appointment Scheduling begin -->
-
-
-Book you Appointment today: 
-<link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
-<script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
-<script>
-(function() {
-  var target = document.currentScript;
-  window.addEventListener('load', function() {
-    calendar.schedulingButton.load({
-      url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1V8jNTsTeOY-ti5UpCiSgfg4PBvdHhGriNDDi0vJZqomwU4zAd5uwOTVttrVCpwXPfSrerLMci?gv=true',
-      color: '#26a69a',
-      label: 'Book an appointment',
-      target,
-    });
-  });
-})();
+          Book you Appointment today: 
+          <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+          <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+          <script>
+          (function() {
+            var target = document.currentScript;
+            window.addEventListener('load', function() {
+              calendar.schedulingButton.load({
+                url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1V8jNTsTeOY-ti5UpCiSgfg4PBvdHhGriNDDi0vJZqomwU4zAd5uwOTVttrVCpwXPfSrerLMci?gv=true',
+                color: '#26a69a',
+                label: 'Book an appointment',
+                target,
+              });
+            });
+          })();
 </script>
 <!-- end Google Calendar Appointment Scheduling -->
 
