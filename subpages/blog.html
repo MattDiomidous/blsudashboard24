@@ -89,6 +89,9 @@
             color: #ffffff; 
             font-weight: bold;
         }
+        #submitBtn{
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -110,6 +113,22 @@
         <header>
             <h1 class="blog-heading">Announcements</h1>
         </header>
+ <!-- Form to create new announcements -->
+ <form id="announcement-form">
+    <div class="input-field">
+        <input id="announcement-title" type="text" required>
+        <label for="announcement-title">Announcement Title</label>
+    </div>
+    <div class="input-field">
+        <textarea id="announcement-content" class="materialize-textarea" required></textarea>
+        <label for="announcement-content">Announcement Content</label>
+    </div>
+    <div class="input-field">
+        <input id="announcement-date" type="date" required>
+        <label for="announcement-date">Announcement Date</label>
+    </div>
+    <button class="btn waves-effect waves-light" id="submitBtn" type="submit">Create Announcement</button>
+</form>
 
         <div id="announcements-container">
         </div>
@@ -120,9 +139,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Function to fetch and display announcements
+            var announcements = [];
             function fetchAnnouncements() {
-                const announcements = [
+                 announcements = [
                     {
                         title: "Important Announcement",
                         date: "04-16-2024",
@@ -138,12 +157,10 @@
                 displayAnnouncements(announcements);
             }
 
-            // Function to display announcements
             function displayAnnouncements(announcements) {
                 const announcementsContainer = document.getElementById('announcements-container');
-                announcementsContainer.innerHTML = ''; // Clear existing content
+                announcementsContainer.innerHTML = '';
 
-                // Loop through announcements and display them
                 announcements.forEach((announcement) => {
                     const announcementElement = document.createElement('div');
                     announcementElement.classList.add('announcement');
@@ -157,6 +174,28 @@
                     announcementsContainer.appendChild(announcementElement);
                 });
             }
+
+            $('#announcement-form').submit(function(event) {
+                event.preventDefault(); 
+
+                const title = $('#announcement-title').val();
+                const content = $('#announcement-content').val();
+                const date = $('#announcement-date').val();
+
+                const newAnnouncement = {
+                    title: title,
+                    date: date,
+                    content: content
+                };
+
+                announcements.push(newAnnouncement);
+
+                displayAnnouncements(announcements);
+
+                $('#announcement-title').val('');
+                $('#announcement-content').val('');
+                $('#announcement-date').val('');
+            });
 
             fetchAnnouncements();
         });
