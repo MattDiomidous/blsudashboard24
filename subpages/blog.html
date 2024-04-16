@@ -6,25 +6,44 @@
     <title>BCA BLSU</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
-        /* Add your custom styles here if needed */
-
-        strong {
-            font-weight: 600;
-        }
-        body {
-            background-color: #f5f5f5;
-            font-family: Arial, sans-serif;
-        }
     
-        .brand-logo {
-            margin-left: 20px;
-            font-size: 1.5rem;
-        }
-
         nav {
-            background-color: #26a69a; /* Teal color */
+            background-color: #26a69a; 
         }
-    
+
+        .nav-wrapper {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .brand-logo {
+            font-size: 1.5rem;
+            color: #ffffff; 
+            font-weight: bold;
+        }
+
+        .nav-mobile {
+            display: flex;
+            align-items: center;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-mobile li {
+            margin-left: 10px;
+        }
+
+        .nav-mobile li a {
+            color: #ffffff; 
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-mobile li a:hover {
+            color: #cccccc; 
+        }
+
         .container {
             margin-top: 20px;
             max-width: 800px;
@@ -43,17 +62,18 @@
         .announcement {
             margin-bottom: 20px;
             padding: 20px; 
-            background-color: #fff;
+            background-color: #ffffff; 
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
     
         .announcement h4 {
             margin-top: 0;
+            color: #333; 
         }
     
         .announcement-date {
-            color: #999;
+            color: #999; 
             margin-bottom: 10px;
         }
     </style>
@@ -91,14 +111,14 @@
             function fetchAnnouncements() {
                 const announcements = [
                     {
-                        title: "Important Announcement 1",
+                        title: "Important Announcement",
                         date: "2024-04-16",
-                        content: "This is an important announcement. Please take note."
+                        content: "This is an important announcement."
                     },
                     {
                         title: "Reminder: Event Tomorrow",
                         date: "2024-04-17",
-                        content: "Just a reminder that we have an event tomorrow. Don't forget to attend!"
+                        content: "This is a reminder for an event tomorrow."
                     },
                 ];
 
