@@ -140,9 +140,17 @@
     <script>
         $(document).ready(function() {
             var announcements = [];
-            const isAdmin = true; // Change this based on your authentication logic
+            var isAdmin = false;
+            function checkAccountType() {
+                $.get('/accountType', function(data) {
+                    if (data.account_type === 'Admin') {
+                        isAdmin = true
+                    }
+                });
+            }
+
+            checkAccountType();  
             
-            // Function to toggle visibility of the announcement form based on admin status
             function toggleAnnouncementFormVisibility() {
                 if (isAdmin) {
                     $('#announcement-form').show();
@@ -150,7 +158,7 @@
                     $('#announcement-form').hide();
                 }
             }
-            
+
             function fetchAnnouncements() {
                  announcements = [
                     {
