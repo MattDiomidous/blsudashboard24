@@ -1,0 +1,174 @@
+.uniform-nav {
+    background-color: #FFD700; /* Dark yellow background */
+    color: black; /* Black text color */
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    text-align: center;
+}
+
+main h1 {
+    font-weight: bolder;
+    color: black;
+    text-align: center;
+}
+
+nav {
+    background-color: black;
+}
+
+.dropdown-content {
+    position: relative;
+    top: -60px;
+}
+
+.carousel-item img {
+    margin: 0;
+    display: block;
+    max-width: 75%;
+    height: auto;
+}
+
+.carousel-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.container {
+    margin: 20px auto;
+    background-color: white; /* White background */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header,
+.nav-wrapper {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.event-title {
+    font-size: 20px;
+    color: black;
+    margin: 0 0 5px 0;
+}
+
+.event-date {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+.event-description {
+    margin: 10px 0 0 0;
+}
+
+nav {
+    background-color: #444;
+}
+
+nav a.brand-logo {
+    color: #FFD700; /* Dark yellow text color */
+}
+
+.dropdown-content {
+    background-color: #444;
+    color: white; /* White text color */
+}
+
+.mission-statement {
+    background-color: #f0f0f0;
+    border-left: 5px solid #333;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+
+
+.brand-logo {
+    font-weight: bold;
+    color: #FFD700;
+    font-size: 80px;
+}
+
+.mission-statement {
+    background-color: #f5b301;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mission-statement h3 {
+    color: black;
+    font-size: 50px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.mission-statement ul {
+    color: #666;
+    font-size: 18px;
+    line-height: 2;
+    text-align: center;
+    
+}
+
+ 
+.text {
+    font-weight: bolder;
+    font-size: 20px;
+}
+#loginBtn {
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 45px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+}
+#logoutBtn {
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 45px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+}
+.btn {
+    background-color: #bbb299;
+}
+
+
+
+#showProfile:hover {
+    background-color: #f0d942;
+}
+
+
+.submit-btn {
+    margin-bottom: 10px;
+}
+.btn:hover {
+    background-color: #f0d942; /* Change to the desired color */
+}
+.brand-logo {
+    margin-left: 20px;
+}
+
+.mission-statement ul li:first-child {
+    font-size: 30px; /* Increase font size for the first list item */
+    font-weight: bold; /* Make the first list item bold */
+    color: white;
+  }
+
+  .card {
+    background-color: rgba(242, 245, 247, 0.858);
+  } 
