@@ -113,22 +113,22 @@
         <header>
             <h1 class="blog-heading">Announcements</h1>
         </header>
- <!-- Form to create new announcements -->
- <form id="announcement-form">
-    <div class="input-field">
-        <input id="announcement-title" type="text" required>
-        <label for="announcement-title">Announcement Title</label>
-    </div>
-    <div class="input-field">
-        <textarea id="announcement-content" class="materialize-textarea" required></textarea>
-        <label for="announcement-content">Announcement Content</label>
-    </div>
-    <div class="input-field">
-        <input id="announcement-date" type="date" required>
-        <label for="announcement-date">Announcement Date</label>
-    </div>
-    <button class="btn waves-effect waves-light" id="submitBtn" type="submit">Create Announcement</button>
-</form>
+
+        <form id="announcement-form" style="display: none;">
+        <div class="input-field">
+            <input id="announcement-title" type="text" required>
+            <label for="announcement-title">Announcement Title</label>
+        </div>
+        <div class="input-field">
+            <textarea id="announcement-content" class="materialize-textarea" required></textarea>
+            <label for="announcement-content">Announcement Content</label>
+        </div>
+        <div class="input-field">
+            <input id="announcement-date" type="date" required>
+            <label for="announcement-date">Announcement Date</label>
+        </div>
+        <button class="btn waves-effect waves-light" id="submitBtn" type="submit">Create Announcement</button>
+    </form>
 
         <div id="announcements-container">
         </div>
@@ -140,6 +140,17 @@
     <script>
         $(document).ready(function() {
             var announcements = [];
+            const isAdmin = true; // Change this based on your authentication logic
+            
+            // Function to toggle visibility of the announcement form based on admin status
+            function toggleAnnouncementFormVisibility() {
+                if (isAdmin) {
+                    $('#announcement-form').show();
+                } else {
+                    $('#announcement-form').hide();
+                }
+            }
+            
             function fetchAnnouncements() {
                  announcements = [
                     {
