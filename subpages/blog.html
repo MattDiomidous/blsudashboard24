@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <title>Announcements</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
         /* Add your custom styles here if needed */
@@ -39,145 +39,39 @@
         h1 {
             color: #333;
         }
-    
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
 
-        textarea.materialize-textarea {
-            border: 0px solid #ccc;
-            border-bottom: 1px solid #9e9e9e;
-            padding: 10px;
-            border-radius: 5px;
-            width: 100%;
-        }
-    
-        .row {
+        .announcement {
             margin-bottom: 20px;
-        }
-    
-        .btn:hover {
-            background-color: #555;
-        }
-    
-        .post {
-            margin-bottom: 20px;
-            padding: 20px;
+            padding: 20px; 
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
     
-        .post h4 {
+        .announcement h4 {
             margin-top: 0;
         }
     
-        .post-date {
+        .announcement-date {
             color: #999;
             margin-bottom: 10px;
         }
-    
-        .reaction-buttons {
-            margin-top: 10px;
-        }
-    
-        .reaction-button {
-            cursor: pointer;
-            margin-right: 10px;
-        }
-    
-        .modal {
-            max-width: 80%;
-            max-height: 80%;
-        }
-
-        .reply {
-            margin-left: 20px; /* Adjust the indentation */
-            padding: 10px;
-            border-radius: 5px;
-            background-color: rgb(226, 220, 220)
-        }
-
-        .replies-container {
-            margin-top: 10px;
-        }
-        
-        .blog-heading {
-            font-weight: 650;
-        }
-
     </style>
-    
 </head>
 <body>
 
-    <!-- Navigation -->
     <nav class="black">
         <div class="nav-wrapper">
             <a href="#" class="brand-logo">BCA BLSU</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <!-- ... all other navigation links from index.html ... -->
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="/">Home</a>   </a></li>
-                <li id="tutoring" style="display: none;"><a href="tutoring.html">Tutoring</a></li>
-                <li id="materials" style="display: none;"><a href="material.html">Club Materials</a></li>                        
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="hhm.html">  BHM </a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
-                <li id="manageAccount" style="display: none;"><a href="account.html">Manage Account</a></li>            
-                <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>   
-            </ul>
         </div>
-      </nav>
     </nav>
 
-    <!-- Main Content -->
     <div class="container">
         <header>
-            <h1 class="blog-heading">Blog</h1>
+            <h1 class="blog-heading">Announcements</h1>
         </header>
 
-
-        <p class="center-align text" id="user-email">{{userEmail}}</p>
-
-        <!-- Create Post Form -->
-        <form id="create-post-form" class="col s12">
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="post-title" type="text" class="validate">
-                    <label for="post-title">Post Title</label>
-                </div>
-            </div>
- 
-            <div class="row">
-                <div class="input-field col s12">
-                    <textarea id="post-content" class="materialize-textarea"></textarea>
-                    <label for="post-content">Post Content</label>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col s6">
-                    <label>
-                        <input type="checkbox" id="is-question" />
-                        <span>Is Question</span>
-                    </label>
-                </div>
-                <div class="col s6">
-                    <label>
-                        <input type="checkbox" id="is-anonymous" />
-                        <span>Anonymous</span>
-                    </label>
-                </div>
-            </div>
-            <button class="btn waves-effect waves-light" type="button" onclick="createPost()">Create Post
-            </button>
-        </form>
-
-        <!-- Blog Posts -->
-        <div id="blog-posts-container">
-            <!-- Blog posts will be dynamically loaded here -->
+        <div id="announcements-container">
         </div>
     </div>
 
@@ -186,337 +80,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Check account type
-            function checkAccountType() {
-                $.get('/accountType', function(data) {
-                    if (data.account_type === 'Admin') {
-                        $('#adminLink').show();
-                        $('#materials').show();
-                        $('#tutoring').show();
-                    }
-                    if (data.account_type === 'Student' || data.account_type === 'Tutor') {
-                        $('#tutoring').show();
-                    }
+            // Function to fetch and display announcements
+            function fetchAnnouncements() {
+                const announcements = [
+                    {
+                        title: "Important Announcement 1",
+                        date: "2024-04-16",
+                        content: "This is an important announcement. Please take note."
+                    },
+                    {
+                        title: "Reminder: Event Tomorrow",
+                        date: "2024-04-17",
+                        content: "Just a reminder that we have an event tomorrow. Don't forget to attend!"
+                    },
+                ];
+
+                displayAnnouncements(announcements);
+            }
+
+            // Function to display announcements
+            function displayAnnouncements(announcements) {
+                const announcementsContainer = document.getElementById('announcements-container');
+                announcementsContainer.innerHTML = ''; // Clear existing content
+
+                // Loop through announcements and display them
+                announcements.forEach((announcement) => {
+                    const announcementElement = document.createElement('div');
+                    announcementElement.classList.add('announcement');
+
+                    announcementElement.innerHTML = `
+                        <h4>${announcement.title}</h4>
+                        <p>${announcement.content}</p>
+                        <p class="announcement-date">${announcement.date}</p>
+                    `;
+
+                    announcementsContainer.appendChild(announcementElement);
                 });
             }
-    
-            function updateLoginStatus() {
-              $.get('/loginStatus', function(data) {
-                  if (data.isAuthenticated) {
-                      $('#manageAccount').show();
-                      $('.reply-button').show();
-                      $('.reply-box').show()
-                      $('.reaction-button').prop('disabled', false);
-                  } else {                 
-                      $('#manageAccount').hide();
-                      $('.reply-button').hide();
-                      $('.reply-box').hide()
-                      $('.reaction-button').prop('disabled', true);
-                  }
-              });
-          }
 
-
-        function getUserType() {
-            let userType = ''; // Initialize user type variable
-    
-            $.get('/accountType', function(data) {
-                userType = data.account_type
-            });
-
-            return userType;
-        }
-
-          function toggleCreatePostForm() {
-            const userType = getUserType(); // Function to determine the type of user (admin, tutor, student)
-
-            if (userType === 'admin' || userType === 'tutor' || userType === 'student') {
-                // Show the create post form
-                document.getElementById('create-post-form').style.display = 'block';
-            } else {
-                // Hide the create post form
-                document.getElementById('create-post-form').style.display = 'none';
-            }
-        }
-
-      
-            checkAccountType();  
-            updateLoginStatus();
-            toggleCreatePostForm();
+            fetchAnnouncements();
         });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize dropdown
-            var dropdowns = document.querySelectorAll('.dropdown-trigger');
-            var options = {
-                alignment: 'right',
-                hover: true,
-                coverTrigger: false
-            };
-            var instances = M.Dropdown.init(dropdowns, options);
-
-            // Initialize modal
-            var modalElems = document.querySelectorAll('.modal');
-            var modalInstances = M.Modal.init(modalElems);
-        });
-
-        const blogPosts = [
-    {
-        email: "matdio24@bergen.org",
-        title: "Post 1",
-        date: "2023-12-15",
-        content: "This is the content for post 1.",
-        isQuestion: false,
-        isAnonymous: false,
-        likes: 0,
-        dislikes: 0,
-        reacted: false, // New property
-        replies: [ // Sample replies for Post 1
-            {
-                email: "user1@example.com",
-                content: "Sample reply 1 for Post 1.",
-                date: "2023-12-16",
-                likes: 0,
-                dislikes: 0,
-                reacted: false // New property
-            },
-            {
-                email: "user2@example.com",
-                content: "Sample reply 2 for Post 1.",
-                date: "2023-12-17",
-                likes: 0,
-                dislikes: 0,
-                reacted: false // New property
-            }
-        ]
-    },
-    {
-        email: "matdio24@bergen.org",
-        title: "Post 2",
-        date: "2023-12-16",
-        content: "This is the content for post 2.",
-        isQuestion: false,
-        isAnonymous: false,
-        likes: 0,
-        dislikes: 0,
-        reacted: false, // New property
-        replies: [] // No sample replies for Post 2
-    },
-    // Add more posts here
-];
-function displayBlogPosts(posts) {
-    const blogPostsContainer = document.getElementById('blog-posts-container');
-    blogPostsContainer.innerHTML = ""; // Clear existing content
-
-    posts.forEach((post, index) => {
-        const postElement = document.createElement('div');
-        postElement.classList.add('post', 'card-panel');
-
-        const postContent = post.content;
-        const postEmail = post.isAnonymous ? "Anonymous" : `<strong>${post.email}</strong>`;
-        const postTitle = post.isQuestion ? `<h4>Question: ${post.title}</h4>` : `<h4>${post.title}</h4>`;
-
-        postElement.innerHTML = `
-            ${postTitle}
-            <p class="post-date">${post.date}</p>
-            <p>${postEmail}: ${postContent}</p>
-            <div class="reaction-buttons">
-                ${!post.isQuestion ? `
-                    <span class="reaction-button" onclick="reactToPostHandler(${index}, true)">👍 ${post.likes}</span>
-                    <span class="reaction-button" onclick="reactToPostHandler(${index}, false)">👎 ${post.dislikes}</span>
-                ` : ''}
-            </div>
-        `;
-
-        // Display replies
-        if (post.replies && post.replies.length > 0) {
-            const repliesContainer = document.createElement('div');
-            repliesContainer.classList.add('replies-container');
-
-            post.replies.forEach((reply) => {
-                const replyElement = document.createElement('div');
-                replyElement.classList.add('reply', 'card-panel', 'indented-box');
-
-                const replyContent = reply.content;
-                const replyEmail = reply.isAnonymous ? "Anonymous" : `<strong>${reply.email}</strong>`;
-
-                replyElement.innerHTML = `
-                    <p>${replyEmail}: ${replyContent}</p>
-                    <p class="reply-date">${reply.date}</p>
-                    <div class="reaction-buttons">
-                        <span class="reaction-button" onclick="reactToReplyHandler(${index}, ${post.replies.indexOf(reply)}, true)">👍 ${reply.likes}</span>
-                        <span class="reaction-button" onclick="reactToReplyHandler(${index}, ${post.replies.indexOf(reply)}, false)">👎 ${reply.dislikes}</span>
-                    </div>
-                `;
-
-                repliesContainer.appendChild(replyElement);
-            });
-
-            postElement.appendChild(repliesContainer);
-        }
-
-        blogPostsContainer.appendChild(postElement);
-    });
-}
-
-
-
-        function createPost() {
-            const email = document.getElementById('user-email').innerText;
-            const title = document.getElementById('post-title').value;
-            const content = document.getElementById('post-content').value;
-            const isQuestion = document.getElementById('is-question').checked;
-            const isAnonymous = document.getElementById('is-anonymous').checked;
-
-            if (title && content) {
-                const newPost = {
-                    email,
-                    title,
-                    date: getCurrentDate(),
-                    content,
-                    isQuestion,
-                    isAnonymous,
-                    likes: 0,
-                    dislikes: 0,
-                    reacted: false // New property
-                };
-
-                blogPosts.push(newPost);
-                displayBlogPosts(blogPosts);
-
-                // Clear form fields
-                document.getElementById('post-title').value = "";
-                document.getElementById('post-content').value = "";
-                document.getElementById('is-question').checked = false;
-                document.getElementById('is-anonymous').checked = false;
-            } else {
-                alert("Please fill in title and content fields.");
-            }
-        }
-        function replyToPost(postIndex) {
-    const replyContent = document.getElementById(`reply-content-${postIndex}`).value;
-
-    if (replyContent.trim() !== "") {
-        const reply = {
-            content: replyContent,
-            date: getCurrentDate(),
-            likes: 0,
-            dislikes: 0
-        };
-
-        // Add the reply to the respective post
-        blogPosts[postIndex].replies = blogPosts[postIndex].replies || [];
-        blogPosts[postIndex].replies.push(reply);
-
-        // Update the display
-        displayBlogPosts(blogPosts);
-
-        // Clear the reply input field
-        document.getElementById(`reply-content-${postIndex}`).value = "";
-    } else {
-        alert("Please enter a valid reply.");
-    }
-}
-
-        function getCurrentDate() {
-            const today = new Date();
-            const year = today.getFullYear();
-            let month = today.getMonth() + 1;
-            let day = today.getDate();
-
-            // Add leading zero if needed
-            month = month < 10 ? '0' + month : month;
-            day = day < 10 ? '0' + day : day;
-
-            return `${year}-${month}-${day}`;
-        }
-        function reactToReplyHandler(postIndex, replyIndex, isLike) {
-             // Check if the user is authenticated
-        $.get('/loginStatus', function(data) {
-            if (data.isAuthenticated) {
-                // User is logged in, proceed with the reaction
-                reactToReplyHandler(postIndex, replyIndex, isLike);
-            } else {
-                // User is not logged in, show an alert
-                alert('Please log in to react.');
-            }
-        });
-        }
-
-        function reactToReply(postIndex, replyIndex, isLike) {
-    const reply = blogPosts[postIndex].replies[replyIndex];
-
-    if (!reply.reacted) {
-        if (isLike) {
-            reply.likes++;
-        } else {
-            reply.dislikes++;
-        }
-
-        reply.reacted = true;
-        displayBlogPosts(blogPosts);
-    } else {
-        if ((isLike && reply.likes > 0) || (!isLike && reply.dislikes > 0)) {
-            if (isLike) {
-                reply.likes--;
-            } else {
-                reply.dislikes--;
-            }
-            reply.reacted = false;
-            displayBlogPosts(blogPosts);
-        } else {
-            alert("You can only react once to a reply.");
-        }
-    }
-}
-
-function reactToPostHandler(index, isLike) {
-    // Check if the user is authenticated
-    $.get('/loginStatus', function(data) {
-        if (data.isAuthenticated) {
-            // User is logged in, proceed with the reaction
-            reactToPost(index, isLike);
-        } else {
-            // User is not logged in, show an alert
-            alert('Please log in to react.');
-        }
-    });
-}
-
-
-        function reactToPost(postIndex, isLike) {
-    const post = blogPosts[postIndex];
-
-    // Check if the user has already reacted to this post
-    if (!post.reacted) {
-        if (isLike) {
-            post.likes++;
-        } else {
-            post.dislikes++;
-        }
-
-        post.reacted = true;
-
-        displayBlogPosts(blogPosts);
-    } else {
-        if ((isLike && post.likes > 0) || (!isLike && post.dislikes > 0)) {
-            if (isLike) {
-                post.likes--;
-            } else {
-                post.dislikes--;
-            }
-            
-            post.reacted = false;
-
-            displayBlogPosts(blogPosts);
-        } else {
-            alert("You can only react once to a post.");
-        }
-    }
-}
-
-        displayBlogPosts(blogPosts);
     </script>
 </body>
 </html>
