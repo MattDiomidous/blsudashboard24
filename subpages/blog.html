@@ -140,18 +140,7 @@
 
     <script>
         $(document).ready(function() {
-            var announcements = [
-                    {
-                        title: "Important Announcement",
-                        date: "04-16-2024",
-                        content: "This is an important announcement."
-                    },
-                    {
-                        title: "Reminder: Event Tomorrow",
-                        date: "04-17-2024",
-                        content: "This is a reminder for an event tomorrow."
-                    },
-                ];
+            var announcements = [];
             function checkAccountType() {
               $.get('/accountType', function(data) {
                   if (data.account_type === 'Admin') {
@@ -159,36 +148,26 @@
                   }
                   
               });
-            
-            //   $.get('/announcements', function(data) {
-            //         alert(data.array_one[0]);
-            //         announcements[0].title = data.array_one[0]
-            //   });
           }
       
             checkAccountType();  
+            displayAnnouncements(announcements);
             
-
-
-
-                displayAnnouncements(announcements);
-            
-
             function displayAnnouncements(announcements) {
                 const announcementsContainer = document.getElementById('announcements-container');
                 announcementsContainer.innerHTML = '';
                 $.get('/announcements', function(data) { 
-                    data.array_one.forEach(() => {
-                    const announcementElement = document.createElement('div');
-                    announcementElement.classList.add('announcement');
-                    announcementElement.innerHTML = `
-                        <h4>${data.array_one[0]}</h4>
-                        <p>${data.array_one[1]}</p>
-                        <p class="announcement-date">${data.array_one[2]}</p>
-                    `;
-
-                    announcementsContainer.appendChild(announcementElement);
-                });
+                    for (let i = 0; i < data.array_one.length; i++) { 
+                        const announcementElement = document.createElement('div');
+                        announcementElement.classList.add('announcement');
+                        announcementElement.innerHTML = `
+                            <h4>${data.array_one[i][0]}</h4>
+                            <p>${data.array_one[i][1]}</p>
+                            <p class="announcement-date">${data.array_one[i][2].substring(0,10)}</p>
+                        `;
+                    
+                        announcementsContainer.appendChild(announcementElement);
+                    }
                 });
             }
 
@@ -199,13 +178,14 @@
                 const content = $('#announcement-content').val();
                 const date = $('#announcement-date').val();
 
-                const newAnnouncement = {
-                    title: title,
-                    date: date,
-                    content: content
-                };
+                // const newAnnouncement = {
+                //     title: title,
+                //     date: date,
+                //     content: content
+                // };
 
-                announcements.push(newAnnouncement);
+                // announcements.push(newAnnouncement);
+                
                 checkAccountType();
                 displayAnnouncements(announcements);
 
@@ -213,8 +193,6 @@
                 $('#announcement-content').val('');
                 $('#announcement-date').val('');
             });
-
-            fetchAnnouncements();
         });
     </script>
 </body>

@@ -195,7 +195,7 @@ app.get('/announcements', async (req, res) => {
     for (let index = 0; index < rows.length; index++) { 
       array.push([rows[index].title, rows[index].content, rows[index].date]);
     }
-    res.json({ array_one: array[0] });
+    res.json({ array_one: array });
   } catch (err) {
     console.error('Error fetching announcements:', err.message);
     res.status(500).send('Error fetching announcements');
@@ -233,8 +233,8 @@ app.get('/delete-announcement/:id', async (req, res) => {
 
 
 app.get('/add-announcements', async (req, res) => {
-  const title = "Title of Annoucement"
-  const content = "Content of this thing"
+  const title = "Title of Annoucement 2"
+  const content = "Content of this thing 2"
   const announcement = [title, content, new Date()]
   try {
     await pool.query(`INSERT INTO announcements (title, content, date) VALUES (?, ?, ?)`, announcement);
