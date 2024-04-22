@@ -217,31 +217,31 @@ app.get('/reset-announcements', async (req, res) => {
 
 app.delete('/delete-announcement/:id', async (req, res) => {
   const announcementId = parseInt(req.params.id.substring(1));
-
   try {
-      // Perform the deletion in the database
       await pool.query(`DELETE FROM announcements WHERE id= (?)`, [announcementId]);
-
       await pool.query(`UPDATE announcements SET id = id - 1 WHERE id > (?)`, [announcementId]);
   
-      res.status(200).send('Announcement deleted successfully.');
   } catch (err) {
-      console.error('Database error:', err);
-      res.status(500).send("An error occurred with the database");
+      console.log('Database error:', err);
   }
 });
 
 
-app.get('/add-announcements', async (req, res) => {
-  const title = "Title of Annoucement 2"
-  const content = "Content of this thing 2"
-  const announcement = [title, content, new Date()]
-  try {
-    await pool.query(`INSERT INTO announcements (title, content, date) VALUES (?, ?, ?)`, announcement);
-    res.status(200).send('Announcement added successfully.');
-  } catch (err) {
-    console.error('Database error:', err);
-  }
+app.post('/add-announcements', async (req, res) => {
+    const { title, content } = req.body;
+    const [row] = await pool.query('SELECT * FROM announcements');
+    const l = row.length;
+    try {
+      await pool.query(`INSERT INTO announcements (title, content, date) VALUES (?, ?, ?)`, [title, content, new Date()]);
+      const [rows] = await pool.query('SELECT * FROM announcements');
+      if (rows.length>l) {
+        res.json({ message: 'Annoucement successful' });
+      } else {
+        res.json({ message: 'Error with annoucement' });
+      }
+    } catch (err) {
+      res.json({ message: 'Uh oh' });
+  } 
 });
 
 app.get('/tutors', async (req, res) => {

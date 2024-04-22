@@ -123,10 +123,6 @@
             <textarea id="announcement-content" class="materialize-textarea" required></textarea>
             <label for="announcement-content">Announcement Content</label>
         </div>
-        <div class="input-field">
-            <input id="announcement-date" type="date" required>
-            <label for="announcement-date">Announcement Date</label>
-        </div>
         <button class="btn waves-effect waves-light" id="submitBtn" type="submit">Create Announcement</button>
     </form>
 
@@ -179,34 +175,27 @@
             // Send delete request to server with announcement id
             $.ajax({
                 url: `/delete-announcement/:${id}`,
-                type: 'DELETE',
-                success: function(result) {
-                    displayAnnouncements();
-                }
+                type: 'DELETE'
             });
+            displayAnnouncements();
         }
 
-            $('#announcement-form').submit(function(event) {
-                event.preventDefault(); 
-
+            $('#announcement-form').on('submit', function(e) {
+                event.preventDefault();
+    
                 const title = $('#announcement-title').val();
                 const content = $('#announcement-content').val();
-                const date = $('#announcement-date').val();
-
-                const newAnnouncement = {
-                    title: title,
-                    date: date,
-                    content: content
-                };
-                
-                // add to table
-                
-                displayAnnouncements();
-
+    
+                $.post('/add-announcements', { title, content }, function(response) {
+                    alert(response.message)
+                    displayAnnouncements();
+                }).fail(function() {
+                    alert("Error...")
+                });
                 $('#announcement-title').val('');
                 $('#announcement-content').val('');
-                $('#announcement-date').val('');
             });
+
         });
     </script>
 </body>
