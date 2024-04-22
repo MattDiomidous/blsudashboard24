@@ -163,11 +163,12 @@
                         `;
                 
                         announcementsContainer.appendChild(announcementElement);
-                    }
-                    $('.delete-btn').click(function() {
-                        deleteAnnouncement($(this).data('id'))
-                     });
-                });
+                    }}).done(function() {
+                    // Attach event listener using event delegation
+                    $('#announcements-container').on('click', '.delete-btn', function() {
+                        deleteAnnouncement($(this).data('id'));
+                    });
+    });
                 
             }
 
