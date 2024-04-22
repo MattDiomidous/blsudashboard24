@@ -215,7 +215,7 @@ app.get('/reset-announcements', async (req, res) => {
   }
 });
 
-app.get('/delete-announcement/:id', async (req, res) => {
+app.delete('/delete-announcement/:id', async (req, res) => {
   const announcementId = parseInt(req.params.id.substring(1));
 
   try {
@@ -238,6 +238,7 @@ app.get('/add-announcements', async (req, res) => {
   const announcement = [title, content, new Date()]
   try {
     await pool.query(`INSERT INTO announcements (title, content, date) VALUES (?, ?, ?)`, announcement);
+    res.status(200).send('Announcement added successfully.');
   } catch (err) {
     console.error('Database error:', err);
   }

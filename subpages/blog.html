@@ -140,7 +140,6 @@
 
     <script>
         $(document).ready(function() {
-            var announcements = [];
             function checkAccountType() {
               $.get('/accountType', function(data) {
                   if (data.account_type === 'Admin') {
@@ -151,9 +150,9 @@
           }
       
             checkAccountType();  
-            displayAnnouncements(announcements);
+            displayAnnouncements();
             
-            function displayAnnouncements(announcements) {
+            function displayAnnouncements() {
                 const announcementsContainer = document.getElementById('announcements-container');
                 announcementsContainer.innerHTML = '';
                 $.get('/announcements', function(data) { 
@@ -163,13 +162,29 @@
                         announcementElement.innerHTML = `
                             <h4>${data.array_one[i][0]}</h4>
                             <p>${data.array_one[i][1]}</p>
-                            <p class="announcement-date">${data.array_one[i][2].substring(0,10)}</p>
+                            <p class="announcement-date">${data.array_one[i][2].substring(0,10)}</p> 
+                        <button class="btn waves-effect waves-light delete-btn" data-id="${i}">Delete</button>
                         `;
-                    
+                
                         announcementsContainer.appendChild(announcementElement);
                     }
+                    $('.delete-btn').click(function() {
+                        deleteAnnouncement($(this).data('id'))
+                     });
                 });
+                
             }
+
+            function deleteAnnouncement(id) {
+            // Send delete request to server with announcement id
+            $.ajax({
+                url: `/delete-announcement/:${id}`,
+                type: 'DELETE',
+                success: function(result) {
+                    displayAnnouncements();
+                }
+            });
+        }
 
             $('#announcement-form').submit(function(event) {
                 event.preventDefault(); 
@@ -178,16 +193,15 @@
                 const content = $('#announcement-content').val();
                 const date = $('#announcement-date').val();
 
-                // const newAnnouncement = {
-                //     title: title,
-                //     date: date,
-                //     content: content
-                // };
-
-                // announcements.push(newAnnouncement);
+                const newAnnouncement = {
+                    title: title,
+                    date: date,
+                    content: content
+                };
                 
-                checkAccountType();
-                displayAnnouncements(announcements);
+                // add to table
+                
+                displayAnnouncements();
 
                 $('#announcement-title').val('');
                 $('#announcement-content').val('');
