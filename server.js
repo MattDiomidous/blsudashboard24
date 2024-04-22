@@ -190,10 +190,15 @@ app.get('/users', async (req, res) => {
 
 app.get('/announcements', async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM announcements");
-    res.json(rows);
+    const [rows] = await pool.query('SELECT * FROM announcements');
+    const array = [];
+    for (let index = 0; index < rows.length; index++) { 
+      array.push([rows[index].title, rows[index].content, rows[index].date]);
+    }
+    res.json({ array_one: array[0] });
   } catch (err) {
-    console.error('Database error:', err);
+    console.error('Error fetching announcements:', err.message);
+    res.status(500).send('Error fetching announcements');
   }
 });
 

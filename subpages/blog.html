@@ -140,22 +140,7 @@
 
     <script>
         $(document).ready(function() {
-            var announcements = [];
-            function checkAccountType() {
-              $.get('/accountType', function(data) {
-                  if (data.account_type === 'Admin') {
-                      $('#announcement-form').show();
-                  }
-                  
-              });
-          }
-      
-            checkAccountType();  
-            
-
-
-            function fetchAnnouncements() {
-                 announcements = [
+            var announcements = [
                     {
                         title: "Important Announcement",
                         date: "04-16-2024",
@@ -167,25 +152,43 @@
                         content: "This is a reminder for an event tomorrow."
                     },
                 ];
+            function checkAccountType() {
+              $.get('/accountType', function(data) {
+                  if (data.account_type === 'Admin') {
+                      $('#announcement-form').show();
+                  }
+                  
+              });
+            
+            //   $.get('/announcements', function(data) {
+            //         alert(data.array_one[0]);
+            //         announcements[0].title = data.array_one[0]
+            //   });
+          }
+      
+            checkAccountType();  
+            
+
+
 
                 displayAnnouncements(announcements);
-            }
+            
 
             function displayAnnouncements(announcements) {
                 const announcementsContainer = document.getElementById('announcements-container');
                 announcementsContainer.innerHTML = '';
-
-                announcements.forEach((announcement) => {
+                $.get('/announcements', function(data) { 
+                    data.array_one.forEach(() => {
                     const announcementElement = document.createElement('div');
                     announcementElement.classList.add('announcement');
-
                     announcementElement.innerHTML = `
-                        <h4>${announcement.title}</h4>
-                        <p>${announcement.content}</p>
-                        <p class="announcement-date">${announcement.date}</p>
+                        <h4>${data.array_one[0]}</h4>
+                        <p>${data.array_one[1]}</p>
+                        <p class="announcement-date">${data.array_one[2]}</p>
                     `;
 
                     announcementsContainer.appendChild(announcementElement);
+                });
                 });
             }
 
