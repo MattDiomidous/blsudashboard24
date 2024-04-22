@@ -130,6 +130,7 @@
                     $('#submitResult').text('Failed to update preferences.');
                 });
             });
+            
             $.get('/profile', function(data) {
                 let profileHtml = `Your email: ${data.email}<br>`;
                 if(data.subject) profileHtml += `Your subject: ${data.subject}<br>`;
