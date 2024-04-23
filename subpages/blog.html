@@ -102,8 +102,7 @@
                 <li><a href="/">Home</a></li>
                 <li id="tutoring" style="display: none;"><a href="tutoring.html">Tutoring</a></li>
                 <li id="materials" style="display: none;"><a href="material.html">Club Materials</a></li>                        
-                <li><a href="hhm.html">BHM</a></li>
-                <li><a href="hhm.html">HHM</a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="hhm.html">  Lesson Plans </a></li>
                 <li id="manageAccount" style="display: none;"><a href="account.html">Manage Account</a></li>            
                 <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>   
             </ul>
@@ -140,6 +139,10 @@
               $.get('/accountType', function(data) {
                   if (data.account_type === 'Admin') {
                       $('#announcement-form').show();
+                      $('#adminLink').show();
+                      $('#tutoring').show();
+                      $('#materials').show();
+                      $('#manageAccount').show();
                   }
                   
               });
