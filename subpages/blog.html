@@ -146,8 +146,11 @@
           }
       
             checkAccountType();  
-            displayAnnouncements();
             
+            $('#announcements-container').on('click', '.delete-btn', function() {
+                deleteAnnouncement($(this).data('id'));
+            });
+
             function displayAnnouncements() {
                 const announcementsContainer = document.getElementById('announcements-container');
                 announcementsContainer.innerHTML = '';
@@ -159,27 +162,28 @@
                             <h4>${data.array_one[i][0]}</h4>
                             <p>${data.array_one[i][1]}</p>
                             <p class="announcement-date">${data.array_one[i][2].substring(0,10)}</p> 
-                        <button class="btn waves-effect waves-light delete-btn" data-id="${i}">Delete</button>
+                        <button class="btn waves-effect waves-light delete-btn" data-id="${i+1}">Delete</button>
                         `;
-                
                         announcementsContainer.appendChild(announcementElement);
-                    }}).done(function() {
-                    // Attach event listener using event delegation
-                    $('#announcements-container').on('click', '.delete-btn', function() {
-                        deleteAnnouncement($(this).data('id'));
-                    });
-    });
-                
+                    }});
             }
 
-            function deleteAnnouncement(id) {
-            // Send delete request to server with announcement id
-            $.ajax({
-                url: `/delete-announcement/:${id}`,
-                type: 'DELETE'
-            });
             displayAnnouncements();
-        }
+
+            function deleteAnnouncement(id) {
+                $.ajax({
+                    url: '/delete-announcement/:' + id,
+                    type: 'DELETE',
+                    success: function(response) {
+                        alert(response.message);
+                        displayAnnouncements();
+                    },
+                    error: function() {
+                        alert("Error...");
+                    }
+                });
+
+            }
 
             $('#announcement-form').on('submit', function(e) {
                 event.preventDefault();

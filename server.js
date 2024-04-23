@@ -215,14 +215,29 @@ app.get('/reset-announcements', async (req, res) => {
   }
 });
 
+
 app.delete('/delete-announcement/:id', async (req, res) => {
   const announcementId = parseInt(req.params.id.substring(1));
+  const [rows] = await pool.query('SELECT * FROM announcements');
+  console.log(announcementId)
+  console.log(rows);
   try {
-      await pool.query(`DELETE FROM announcements WHERE id= (?)`, [announcementId]);
-      await pool.query(`UPDATE announcements SET id = id - 1 WHERE id > (?)`, [announcementId]);
-  
+    await pool.query(`DELETE FROM announcements WHERE id= (?)`, [announcementId]);
+     // Retrieve the remaining announcements to determine the new IDs
+     const [rows] = await pool.query('SELECT * FROM announcements ORDER BY id ASC');
+    
+     // Renumber the IDs to make them continuous
+     for (let i = 0; i < rows.length; i++) {
+       await pool.query('UPDATE announcements SET id = ? WHERE id = ?', [i + 1, rows[i].id]);
+     }
+     
+     // Reset the auto-increment value to the next available ID
+     await pool.query('ALTER TABLE announcements AUTO_INCREMENT = ?', [rows.length + 1]);
+     
+    res.json({ message: 'Announcement successfully deleted' });
   } catch (err) {
-      console.log('Database error:', err);
+    console.log('Database error:', err);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
