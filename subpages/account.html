@@ -13,6 +13,9 @@
             color: #FFD700;
             font-size: 80px;
         }
+        #nav-mobile li a:hover {
+        color: grey;
+    }
 
         .mission-statement {
             background-color: #f5b301;
@@ -130,6 +133,7 @@
                     $('#submitResult').text('Failed to update preferences.');
                 });
             });
+            
             $.get('/profile', function(data) {
                 let profileHtml = `Your email: ${data.email}<br>`;
                 if(data.subject) profileHtml += `Your subject: ${data.subject}<br>`;
