@@ -122,6 +122,26 @@ app.get('/subpages/hhm.html', async (req, res) => {
   }
 });
 
+app.get('/subpages/blm.html', async (req, res) => {
+  try {
+    let htmlContent = await fs.readFile('./subpages/blm.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/subpages/gallery.html', async (req, res) => {
+  try {
+    let htmlContent = await fs.readFile('./subpages/gallery.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/subpages/account.html', async (req, res) => {
   try {
     let htmlContent = await fs.readFile('./subpages/account.html', 'utf8');
