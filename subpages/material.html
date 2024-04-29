@@ -60,37 +60,31 @@
 
 </main>
 
-  <main>
-    <div class="container">
-      <!-- Instructions Section -->
-      <div class="row">
-        <div class="col s12">
-          <div class="card-panel yellow-panel info-panel">
-            <span class="black-text-main">
-              <strong>Instructions:</strong> Here you can upload new materials for the club or download existing ones. Please ensure that all documents are relevant and appropriate.
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Upload Section -->
-      <div class="row">
-        <div class="col s12">
-          <form action="#" method="post" enctype="multipart/form-data">
-            <!-- Form fields for document upload -->
+  <!-- Database Header -->
+<div class="section">
+  <div class="container">
+    <h4 class="document-header center-align">Database of Club Material</h4>
+    <div class="card document-card">
+      <div class="card-content">
+        <span class="card-title">Documents can be posted and seen here</span>
+        <!-- File Upload Form -->
+        <form id="uploadForm" enctype="multipart/form-data">
             <div class="file-field input-field">
-              <div class="btn yellow darken-1 black-text">
-                <span>File</span>
-                <input type="file" name="document">
-              </div>
-              <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" placeholder="Upload document">
-              </div>
+                <div class="btn yellow lighten-1 black-text">
+                    <span>File</span>
+                    <input type="file" name="file" required>
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Upload a document">
+                </div>
             </div>
-            <button class="btn yellow darken-1 black-text" type="submit">Upload<i class="material-icons right">cloud_upload</i></button>
-          </form>
-        </div>
+            <button class="btn yellow darken-1 black-text" type="submit">Upload</button>
+        </form>
+        <div id="uploadStatus"></div>
       </div>
+    </div>
+  </div>
+</div>
 
       <!-- Documents List Section -->
       <div class="row">
