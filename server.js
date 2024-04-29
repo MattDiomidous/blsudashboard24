@@ -122,6 +122,26 @@ app.get('/subpages/hhm.html', async (req, res) => {
   }
 });
 
+app.get('/subpages/blm.html', async (req, res) => {
+  try {
+    let htmlContent = await fs.readFile('./subpages/blm.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/subpages/gallery.html', async (req, res) => {
+  try {
+    let htmlContent = await fs.readFile('./subpages/gallery.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/subpages/account.html', async (req, res) => {
   try {
     let htmlContent = await fs.readFile('./subpages/account.html', 'utf8');
@@ -185,6 +205,78 @@ app.get('/users', async (req, res) => {
     console.error("Error fetching users:", err.message);
     res.status(500).send("Error fetching users: " + err.message);
   }
+});
+
+
+app.get('/announcements', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM announcements');
+    const array = [];
+    for (let index = 0; index < rows.length; index++) { 
+      array.push([rows[index].title, rows[index].content, rows[index].date]);
+    }
+    res.json({ array_one: array });
+  } catch (err) {
+    console.error('Error fetching announcements:', err.message);
+    res.status(500).send('Error fetching announcements');
+  }
+});
+
+app.get('/reset-announcements', async (req, res) => {
+  try {
+    // Delete all data from the table
+    await pool.query('DELETE FROM announcements');
+    // Reset the auto-increment counter to 1
+    await pool.query('ALTER TABLE announcements AUTO_INCREMENT = 1');
+    res.send("All announcements have been deleted and ID reset.");
+  } catch (err) {
+    console.error('Database error:', err);
+    res.status(500).send("An error occurred with the database");
+  }
+});
+
+
+app.delete('/delete-announcement/:id', async (req, res) => {
+  const announcementId = parseInt(req.params.id.substring(1));
+  const [rows] = await pool.query('SELECT * FROM announcements');
+  console.log(announcementId)
+  console.log(rows);
+  try {
+    await pool.query(`DELETE FROM announcements WHERE id= (?)`, [announcementId]);
+     // Retrieve the remaining announcements to determine the new IDs
+     const [rows] = await pool.query('SELECT * FROM announcements ORDER BY id ASC');
+    
+     // Renumber the IDs to make them continuous
+     for (let i = 0; i < rows.length; i++) {
+       await pool.query('UPDATE announcements SET id = ? WHERE id = ?', [i + 1, rows[i].id]);
+     }
+     
+     // Reset the auto-increment value to the next available ID
+     await pool.query('ALTER TABLE announcements AUTO_INCREMENT = ?', [rows.length + 1]);
+     
+    res.json({ message: 'Announcement successfully deleted' });
+  } catch (err) {
+    console.log('Database error:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+app.post('/add-announcements', async (req, res) => {
+    const { title, content } = req.body;
+    const [row] = await pool.query('SELECT * FROM announcements');
+    const l = row.length;
+    try {
+      await pool.query(`INSERT INTO announcements (title, content, date) VALUES (?, ?, ?)`, [title, content, new Date()]);
+      const [rows] = await pool.query('SELECT * FROM announcements');
+      if (rows.length>l) {
+        res.json({ message: 'Annoucement successful' });
+      } else {
+        res.json({ message: 'Error with annoucement' });
+      }
+    } catch (err) {
+      res.json({ message: 'Uh oh' });
+  } 
 });
 
 app.get('/tutors', async (req, res) => {
