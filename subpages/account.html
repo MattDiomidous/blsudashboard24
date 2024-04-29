@@ -41,6 +41,15 @@
             font-size: 20px;
         }
 
+        .card-panel {
+            margin-top: 2rem;
+        }
+
+        .warning-text {
+            color: #d32f2f; /* Red color for warnings */
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
@@ -107,7 +116,13 @@
             </form>
         </div>
         <!-- User Profile Information Card -->
-        
+        <div class="card-panel">
+            <h5 class="warning-text">Deactivate or Delete Account</h5>
+            <p>If you deactivate your account, you can always come back later.</p>
+            <p>If you delete your account, it's permanent.</p>
+            <button class="btn waves-effect waves-light red" onclick="deactivateAccount()">Deactivate Account</button>
+            <button class="btn waves-effect waves-light red" onclick="deleteUser()">Delete Account</button>
+        </div>
     </div>
 
     <!-- Include the same scripts from index.html -->
@@ -156,6 +171,30 @@
                         $('#tutoring').show();
                     }
                 });
+            }
+            function deactivateAccount() {
+                // Make an AJAX call to deactivate the account
+                // Redirect to home or show message
+            }
+
+            // Delete account
+            function deleteUser(email, row) {
+                if (confirm(`Are you sure you want to delete the account for ${email}?`)) {
+                    fetch(`/api/deleteUser/${email}`, { method: 'DELETE' })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Remove the row from the table
+                                row.remove();
+                            } else {
+                                alert('Failed to delete the user.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Error deleting user.');
+                        });
+                }
             }
             checkAccountType();
         });

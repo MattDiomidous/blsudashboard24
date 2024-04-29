@@ -1,217 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!-- Compiled and minified Materialize CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  
-  <!-- Compiled and minified Materialize JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCA BLSU Events</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #eeeeee; /* Light grey background for body */
+        }
 
-  <style>
-  
-  .container {
-    display: flex;
-    justify-content: space-around; 
-    padding: 20px;} 
+        .nav-wrapper {
+            background-color: #212121; /* Black color from the navbar */
+        }
 
-  .box {
-    width: 30%; /* Adjust the width as necessary */
-    background-color: #fff3e0; /* The color of the box */
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* This will give the box-shadow effect */
-    border-radius: 5px; /* Rounded corners */
-    text-align: center;
-    font-family: Arial, sans-serif; /* Font family */
-    margin: 10px; /* Space around the boxes */
-    /* background-image: url(blsu.png); */
-  }
+        .brand-logo {
+            color: #ffd600; /* Yellow color for the logo text */
+        }
 
-  /* Responsive design: If the screen size is less than 600px, boxes take full width */
-  @media screen and (max-width: 600px) {
-    .box {
-      width: 100%;
-      margin: 10px 0; /* Stack the boxes with space in between */
-    }
-  } 
+        h3, h4 {
+            color: #212121; /* Yellow color for headers */
+        }
 
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
 
-  </style>
+        .box {
+            background-color: #424242; /* Dark grey for the boxes, softer than black */
+            color: #fff; /* White text color */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            flex-basis: 30%; /* Sizing for box */
+            text-align: center;
+        }
+
+        .box h4 {
+            color: #ffd600; /* Yellow color for the box headers */
+        }
+
+        .instructions, .past-courses {
+            background-color: #ffd600; /* Yellow background for instructions and past courses */
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        footer.page-footer {
+            background-color: #212121; /* Black color for the footer */
+        }
+
+        @media screen and (max-width: 600px) {
+            .box {
+                flex-basis: 100%; /* Full width on small screens */
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <!-- Navigation Bar -->
-  <main>
-    <nav class="black">
-      <div class="nav-wrapper">
-        <a href="#" class="brand-logo">BCA BLSU</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"> <a href="/">Home</a>   </a></li>
-            <li id="tutoring" style="display: none;"><a href="tutoring.html">Tutoring</a></li>
-            <li id="materials" style="display: none;"><a href="material.html">Club Materials</a></li>                        
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="blog.html">Announcements</a></li>
-            <li id="manageAccount" style="display: none;"><a href="account.html">Manage Account</a></li>            
-            <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>   
-        </ul>
-    </div>
-  </nav>
-  </main>
-
-  <!-- Welcome Header -->
-  <div class="section">
-    <div class="container">
-      <h3> Hispanic History Month Resources </h3>
-    </div>
-  </div>
-
-
-
-  <!-- Sign Up Section -->
-
-  <div class="container">
-
-    <div class="box">
-      <h2>Sign In</h2>
-    </div>  
-
-    <div class="box">
-      <h2>Lesson Plans</h2>
-    </div>
-
-    <div class="box">
-      <h2>Scheduling Requests</h2>
-    </div>
-  </div>
-
-
-  <!-- Form Section -->
-  <div class="section">
-    <div class="container">
-      <div class="row">
-        <form class="col s12" id="signupForm">
-          <div class="row">
-            <div class="input-field col s12">
-              <input placeholder="Name" id="name" type="text" class="validate">
-              <label for="name">Name *</label>
-            </div>
-            <div class="input-field col s12">
-              <input id="email" type="email" class="validate">
-              <label for="email">Email *</label>
-            </div>
-            <div class="input-field col s12">
-              <input id="phone" type="tel" class="validate">
-              <label for="phone">Phone number</label>
-            </div>
-            <div class="input-field col s12">
-              <textarea id="textarea1" class="materialize-textarea"></textarea>
-              <label for="textarea1">Notes</label>
-            </div>
-          </div>
-          <button class="btn waves-effect waves-light" type="submit" name="action">Add Your Details
-            <i class="material-icons right"></i>
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Footer -->
-  <footer class="page-footer grey darken-3">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Follow us on social media</h5>
-          <p class="grey-text text-lighten-4">Stay connected with our latest updates.</p>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">BCA BLSU</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/">Home</a></li>
+                <li><a href="tutoring.html">Tutoring</a></li>
+                <li><a href="material.html">Club Materials</a></li>
+                <li><a href="blog.html">Announcements</a></li>
+                <li><a href="account.html">Manage Account</a></li>
+                <li><a href="admin.html">Administrator</a></li>
+            </ul>
         </div>
-        <div class="col l4 offset-l2 s12">
-          <h5 class="white-text">Links</h5>
-          <ul>
-            <li><a class="grey-text text-lighten-3" href="#!">Instagram</a></li>
-            <li><a class="grey-text text-lighten-3" href="#!">Facebook</a></li>
-            <li><a class="grey-text text-lighten-3" href="#!">LinkedIn</a></li>
-          </ul>
-        </div>
-      </div>
+    </nav>
+
+    <div class="section">
+        <h3>Hispanic History Month Resources</h3>
     </div>
-  </footer>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script>
-    $(document).ready(function() {
-        // Check account type
-        function checkAccountType() {
-          $.get('/accountType', function(data) {
-              if (data.account_type === 'Admin') {
-                  $('#adminLink').show();
-                  $('#materials').show();
-                  $('#tutoring').show();
-              }
-              if (data.account_type === 'Student' || data.account_type === 'Tutor') {
-                  $('#tutoring').show();
-              }
-          });
-      }
+    <div class="container">
+        <div class="box">
+            <h4>Sign In</h4>
+            <p>Access personalized resources</p>
+        </div>
+        <div class="box">
+            <h4>Lesson Plans</h4>
+            <p>Find and download lesson plans</p>
+        </div>
+        <div class="box">
+            <h4>Scheduling Requests</h4>
+            <p>Manage your class schedules</p>
+        </div>
+    </div>
 
-        function updateLoginStatus() {
-          $.get('/loginStatus', function(data) {
-              if (data.isAuthenticated) {
-                  $('#manageAccount').show();
-              } else {                 
-                  $('#manageAccount').hide();
-              }
-          });
-      }
-  
-        checkAccountType();  
-        updateLoginStatus();
-    });
-  </script>
+    <div class="instructions">
+        <h4>How to Use These Resources</h4>
+        <p>Follow our step-by-step guide to make the most of the educational materials provided for Hispanic History Month.</p>
+    </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var form = document.getElementById('signupForm');
+    <div class="past-courses">
+        <h4>Past Courses and Feedback</h4>
+        <p>Explore feedback and content from previous courses to enhance your learning experience.</p>
+    </div>
 
-        form.onsubmit = function(event) {
-            event.preventDefault();
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Follow us on social media</h5>
+                    <p class="grey-text text-lighten-4">Stay connected with our latest updates.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="#">Instagram</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#">Facebook</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-            var formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                notes: document.getElementById('textarea1').value
-            };
-
-            if (name.trim() === "") {
-              alert("Name is required");
-              return;
-            }
-
-            if (email.trim() === "") {
-              alert("Email is required");
-              return;
-            }
-            fetch('/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Details added successfully');
-                } else {
-                    alert('Failed to add details');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error adding details');
-            });
-        };
-    });
-  </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
