@@ -44,7 +44,7 @@
 </head>
 <body>
 
-  <main>
+<main>
     <!-- Do not alter the navbar HTML -->
 
     <nav class="black">
@@ -60,7 +60,7 @@
 
 </main>
 
-  <!-- Database Header -->
+<!-- Database Header -->
 <div class="section">
   <div class="container">
     <h4 class="document-header center-align">Database of Club Material</h4>
@@ -86,54 +86,76 @@
   </div>
 </div>
 
-      <!-- Documents List Section -->
-      <div class="row">
-        <div class="col s12">
-          <ul class="collection with-header">
-            <li class="collection-header"><h4>Available Documents</h4></li>
-            <!-- Dynamically inserted document entries will go here -->
-            <!-- Example document entry -->
-            <li class="collection-item avatar">
-              <i class="material-icons circle yellow darken-1">folder</i>
-              <span class="title">Document Title</span>
-              <p>Uploaded by: Username<br>
-                 Last Modified: Date
-              </p>
-              <a href="#!" class="secondary-content"><i class="material-icons">cloud_download</i></a>
-            </li>
-            <!-- End of example document entry -->
-          </ul>
-        </div>
-      </div>
-    </div>
-  </main>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      fetch('/api/materials')
+          .then(response => response.json())
+          .then(materials => {
+              const list = document.querySelector('.document-list');
+              materials.forEach(material => {
+                  const item = document.createElement('li');
+                  item.className = 'collection-item avatar';
+                  item.innerHTML = `
+                      <i class="material-icons circle yellow darken-1">insert_drive_file</i>
+                      <span class="title">${material.originalName}</span>
+                      <p>Last Modified: ${material.uploadDate}</p>
+                      <a href="${material.filePath}" target="_blank" class="secondary-content"><i class="material-icons">file_download</i></a>
+                  `;
+                  list.appendChild(item);
+              });
+          })
+          .catch(error => console.error('Error:', error));
+  });
+</script>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script>
-    $(document).ready(function(){
-      // Initialize Materialize components
-      $('.sidenav').sidenav();
-      $('select').formSelect();
-    });
+<!-- Document List Section -->
+<div class="section">
+  <div class="container">
+    <ul class="collection with-header document-list">
+      <!-- Dynamically inserted document entries will go here -->
+    </ul>
+  </div>
+</div>
 
-    // Additional JavaScript/jQuery for form handling and dynamic listing
-    // Add your JavaScript code for handling the upload and listing documents
-  </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
+<script>
+  $(document).ready(function() {
+      // Check account type
+      function checkAccountType() {
+          $.get('/accountType', function(data) {
+              if (data.account_type === 'Admin') {
+                  $('#adminLink').show();
+              }
+          });
+      }
 
-  
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-      $(document).ready(function(){
-        // Initialize any Materialize components
-        M.updateTextFields();
-        $('.materialize-textarea').textareaAutoSize();
-      });
-  
-      // Add any additional JavaScript/jQuery for event handling
-    </script>
-  </body>
-  </html>
-  
+      checkAccountType();  
+  });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('uploadForm');
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        var formData = new FormData(form);
+        fetch('/upload', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('uploadStatus').innerText = 'Upload successful';
+            // Optionally, refresh the document list
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('uploadStatus').innerText = 'Upload failed';
+        });
+    };
+});
+</script>
+</body>
+</html>
