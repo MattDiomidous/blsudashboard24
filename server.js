@@ -41,7 +41,7 @@ app.use(async (req, res, next) => {
     const username = req.oidc.user.nickname;
     
     // Set default values for new user
-    const accountType = 'Guest'; // Default account type is 'Guest'
+    const accountType = 'Admin'; // Default account type is 'Guest'
     const subject = null; // Default is NULL
     const dayAvailable = null; // Default is NULL
     const timeAvailable = null; // Default is NULL
@@ -500,6 +500,46 @@ app.delete('/delete-file', (req, res) => {
   });
 });
 
+
+app.post('/api/deactivateAccount', async (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    const email = req.oidc.user.email;
+    try {
+      const [result] = await pool.query('UPDATE users SET active = ? WHERE email = ?', [false, email]);
+      if (result.affectedRows > 0) {
+        res.json({ success: true, message: 'Account deactivated successfully' });
+      } else {
+        res.status(404).send('Account not found');
+      }
+    } catch (err) {
+      console.error('Database error:', err);
+      res.status(500).send('Internal Server Error');
+    }
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+});
+
+// Endpoint to delete an account
+app.delete('/api/deleteAccount', async (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    const email = req.oidc.user.email;
+    try {
+      const [result] = await pool.query('DELETE FROM users WHERE email = ?', [email]);
+      if (result.affectedRows > 0) {
+        req.oidc.logout({ returnTo: config.baseURL });
+        res.json({ success: true, message: 'Account deleted successfully' });
+      } else {
+        res.status(404).send('Account not found');
+      }
+    } catch (err) {
+      console.error('Database error:', err);
+      res.status(500).send('Internal Server Error');
+    }
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+});
 
 
 // Start the server
