@@ -66,7 +66,7 @@
             <div class="file-field input-field">
                 <div class="btn">
                     <span>File</span>
-                    <input type="file" name="file" required>
+                    <input type="file" name="file" required>  <!-- <input type="file" id="myfile" name="myfile" /> -->
                 </div>
                 <div class="file-path-wrapper">
                     <input class="file-path validate" type="text" placeholder="Upload a document">
@@ -82,7 +82,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-      fetch('/api/materials')
+      fetch('/api/materials,,,,,,')
           .then(response => response.json())
           .then(materials => {
               const list = document.querySelector('.document-list');
@@ -137,10 +137,14 @@ document.addEventListener('DOMContentLoaded', function() {
     form.onsubmit = function(e) {
         e.preventDefault();
         var formData = new FormData(form);
+        console.log(formData); 
         fetch('/upload', {
             method: 'POST',
             body: formData,
         })
+        
+
+
         .then(response => response.text())
         .then(data => {
             document.getElementById('uploadStatus').innerText = 'Upload successful';
@@ -150,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
             document.getElementById('uploadStatus').innerText = 'Upload failed';
         });
+        console.log("data?" +  formData)
     };
 });
 
@@ -157,9 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  
-
-    window.deleteFile = function(fileName) {
+    window.deleteFile = function(filePath) {
       if (!confirm('Are you sure you want to delete this file?')) return;
       
       fetch('/delete-file', {
@@ -167,9 +170,10 @@ document.addEventListener('DOMContentLoaded', function() {
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ filename: fileName }),
-      })
-      .then(response => response.json())
+          body: JSON.stringify({filename: filePath}),
+
+        }) .then(response => response.json())
+      
       .then(data => {
           if (data.success) {
               M.toast({html: 'File deleted successfully'});
@@ -201,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <a href="${material.filePath}" target="_blank" class="secondary-content">
                       <i class="material-icons">file_download</i>
                   </a>
-                  <button onclick="deleteFile('${material.fileName}')" class="secondary-content btn-small red">
+                  <button onclick="deleteFile('${material.filePath}')" class="secondary-content btn-small red">  
                       <i class="material-icons">delete</i>
                   </button>
               `;
@@ -210,17 +214,16 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .catch(error => console.error('Error:', error));
   }
-
   // Initially fetch documents when the page loads
   fetchDocuments();
 });
 
 
-/*function isValidFileType(filePath) {
-        const allowedExtensions = ['.pdf', '.png', '.jpeg', '.jpg']; 
-        const fileExtension = filePath.slice((filePath.lastIndexOf(".") - 1 >>> 0) + 2);
-        return allowedExtensions.includes('.' + fileExtension.toLowerCase());
-}*/
+// function isValidFileType(filePath) {
+//         const allowedExtensions = ['.pdf', '.png', '.jpeg', '.jpg']; 
+//         const fileExtension = filePath.slice((filePath.lastIndexOf(".") - 1 >>> 0) + 2);
+//         return allowedExtensions.includes('.' + fileExtension.toLowerCase());
+// }
 
 
 
