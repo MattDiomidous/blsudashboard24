@@ -219,8 +219,6 @@ app.get('/reset-announcements', async (req, res) => {
 app.delete('/delete-announcement/:id', async (req, res) => {
   const announcementId = parseInt(req.params.id.substring(1));
   const [rows] = await pool.query('SELECT * FROM announcements');
-  console.log(announcementId)
-  console.log(rows);
   try {
     await pool.query(`DELETE FROM announcements WHERE id= (?)`, [announcementId]);
      // Retrieve the remaining announcements to determine the new IDs
