@@ -8,6 +8,7 @@ const path = require('path');
 const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
 
+
 const config = {
   authRequired: false,
   auth0Logout: true,
@@ -34,6 +35,9 @@ app.use(auth(config));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
+
+
+
 
 app.use(async (req, res, next) => {
   if (req.oidc.isAuthenticated()) {
