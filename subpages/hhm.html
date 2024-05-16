@@ -116,14 +116,15 @@
         <div class="nav-wrapper">
             <a href="#" class="brand-logo">BCA BLSU</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="/">  Home </a></li>
-                <li id="tutoring" style="display: none;"><a href="subpages/tutoring.html">Tutoring</a></li>
-              <li id="materials" style="display: none;"><a href="subpages/material.html">Club Materials</a></li>                        
-              <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="blog.html">Announcements</a></li>
-              <li id="manageAccount" style="display: none;"><a href="subpages/account.html">Manage Account</a></li>            
-              <li id="adminLink" style="display: none;"><a href="subpages/admin.html">Administrator</a></li>            </ul>
+                <li><a href="/">Home</a></li>
+                <li id="tutoring" style="display: none;"><a href="tutoring.html">Tutoring</a></li>
+                <li id="materials" style="display: none;"><a href="material.html">Club Materials</a></li>                        
+                <li><a href="blog.html">Announcements</a></li>
+                <li id="manageAccount" style="display: none;"><a href="account.html">Manage Account</a></li>            
+                <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>
+            </ul>
         </div>
-      </nav>
+    </nav>
 
     <div class="section">
         <h3>Black & Hispanic History Month Resources</h3>
@@ -175,7 +176,7 @@
     </footer>
 
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <script>
@@ -206,15 +207,11 @@
             updateLoginStatus();
             checkAccountType();
 
+            document.addEventListener('DOMContentLoaded', function() {
+                var dropdownElems = document.querySelectorAll('.dropdown-trigger');
+                var instances = M.Dropdown.init(dropdownElems, {});
+            });
         });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var dropdownElems = document.querySelectorAll('.dropdown-trigger');
-            var instances = M.Dropdown.init(dropdownElems, {});
-        });
-
-
-
 </script>
 </body>
 </html>
