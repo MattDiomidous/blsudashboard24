@@ -219,6 +219,41 @@
                 $('#announcement-content').val('');
             });
 
+            $(document).ready(function() {
+                function updateLoginStatus() {
+                    $.get('/loginStatus', function(data) {
+                        if (data.isAuthenticated) {         
+                            $('#manageAccount').show();        
+                        } else {
+                            $('#manageAccount').hide();
+                        }
+                    });
+                }
+    
+                function checkAccountType() {
+                    $.get('/accountType', function(data) {
+                        if (data.account_type === 'Admin') {
+                            $('#adminLink').show();
+                            $('#materials').show();
+                            $('#tutoring').show();
+                        }
+                        if (data.account_type === 'Student' || data.account_type === 'Tutor') {
+                            $('#tutoring').show();
+                        }
+                    });
+                }
+    
+                updateLoginStatus();
+                checkAccountType();
+    
+            });
+    
+            document.addEventListener('DOMContentLoaded', function() {
+                var dropdownElems = document.querySelectorAll('.dropdown-trigger');
+                var instances = M.Dropdown.init(dropdownElems, {});
+            });
+    
+
         });
     </script>
 </body>

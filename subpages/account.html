@@ -165,13 +165,23 @@
                 $('#profileInfo').text('Failed to load profile information.');
                 $('#preferencesForm').hide(); // Hide preferences form on fail as well
             });
+            function updateLoginStatus() {
+                $.get('/loginStatus', function(data) {
+                    if (data.isAuthenticated) {         
+                        $('#manageAccount').show();        
+                    } else {
+                        $('#manageAccount').hide();
+                    }
+                });
+            }
             function checkAccountType() {
                 $.get('/accountType', function(data) {
                     if (data.account_type === 'Admin') {
                         $('#adminLink').show();
                         $('#materials').show();
+                        $('#tutoring').show();
                     }
-                    if (data.account_type !== 'Guest') {
+                    if (data.account_type === 'Student' || data.account_type === 'Tutor') {
                         $('#tutoring').show();
                     }
                 });
@@ -200,7 +210,11 @@
                         });
                 }
             }
+            updateLoginStatus();
             checkAccountType();
+
+
+
         });
     </script>
 </body>
