@@ -7,6 +7,11 @@
 <!-- Compiled and minified Materialize CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <style>
+
+
+  body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
   .tutor {
     margin: 10px 0;
     padding: 10px;
@@ -88,6 +93,15 @@
     cursor: default;
     box-shadow: none;
 }
+
+.calendar{
+  display: center;
+  justify-content: center;
+  align-items: center;
+  text-align:center; 
+
+}
+
 
 /* Ensure that the HTML elements that represent buttons have the class 'button' */
 
@@ -249,6 +263,17 @@
                           <input id="time-filter" type="text" class="validate">
                           <label for="time-filter">Filter by Time</label>
                       </div> 
+
+
+                    <!-- 
+                      <div class="input-field col s12 m3">
+                        <select id="day-filter">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option> -->
+                         
+                        </select>
+                        <label>Filter by Day</label>
+                    </div>
                       
                       <div class="col s12">
                           <button class="btn waves-effect waves-light" onclick="searchTutors()">Search
@@ -289,6 +314,9 @@
             </div>
           </div>
 
+
+          <div class="calendar">
+
           <h4>Schedule a Tutor</h4>
 
           <!-- Google Calendar Appointment Scheduling begin -->
@@ -309,7 +337,10 @@
               });
             });
           })();
-</script>
+
+        </script>
+        </div>
+
 <!-- end Google Calendar Appointment Scheduling -->
 
 
