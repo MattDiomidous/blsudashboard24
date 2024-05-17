@@ -10,7 +10,7 @@
 
         body {
             /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;     */
-            background: #eeeeee; /* Light grey background for body */
+            background: #eeeeee; /* Light grey background for body cccca39a eeeeee*/
         }
 
         .nav-wrapper {
@@ -54,7 +54,7 @@
         }
 
         .instructions, .past-courses {
-            background-color: #f7d66a; /* Yellow background for instructions and past courses */
+            background-color: #c8b370; /* Yellow background for instructions and past courses */
             padding: 20px;
             margin: 20px 0;
             border-radius: 8px;
@@ -79,7 +79,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
   <style>
+
+    iframe{
+        box-shadow: none;
+        border-radius: 10px;
+        margin: 20px;
+    }
   
+    .newsletter{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
   .container {
     display: flex;
     justify-content: space-around; 
@@ -107,6 +120,85 @@
   #nav-mobile li a:hover {
         color: #ffeb3b;
     }
+
+
+
+
+.reasources ul li{
+  /* margin-right: 20px; */
+}
+
+.p-blurb{
+    text-align: center; 
+    /* width: 495px; */
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+.accHeader{
+    padding-top: 25px;
+    padding-bottom: 15px;
+}
+.accBlurb{
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 2%;
+    padding-bottom: 2%; 
+}
+
+.accordion {
+  /*Editing this  */
+    background-color: #f5b301;
+    color: white;
+    cursor: pointer;
+    padding: 30px;
+    width: 75%;
+
+    text-align: left;
+    outline: none;
+    font-size: 20px;
+    transition: 0.4s;
+    border: none;
+    border-radius: 3px;
+}
+
+.accordion:after {
+    /*  Plus*/
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.accordion.active:after {
+    /* Minus */
+    content: "\2212";
+}
+
+/* //STYLES THE INFO WITHIN ACCORDION */
+.panel {
+    padding: 0 18px;
+    background-color: #f4ebe9;
+    border-radius: 10px;
+    width: 75%; /* Set the desired width of the panel */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+/* Center the iframe container */
+.iframe-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px; /* Set the desired height of the container */
+}
+
+/* Set the size of the embedded Google Doc */
+.iframe-container iframe {
+    width: 80%; /* Set the desired width of the embedded document */  height: 400px;
+}
 
 
   </style>
@@ -145,15 +237,83 @@
         </div>
     </div>
 
+    <div class="newsletter">
+    <iframe src="https://drive.google.com/file/d/1HGWk7ys3OAKhVfEqlbErUGV0FS4idNqB/preview" width="500" height="300" allow="autoplay"></iframe>
+    <br>
+    <iframe src="https://drive.google.com/file/d/1ueFVxTgfyRby2S54ldrfZdrBX3eriGT_/preview" width="500" height="300" allow="autoplay"></iframe>
     </div>
+
+
+<!-- BHM -->
+<center>
+    <button class="accordion">About Black History Month</button>
+    <div class="panel">
+        <h2 class="accHeader">“Black History Month”</h2>
+        <p class="accBlurb"> A structure that allowed for easy review and self-assessment.<br></br>
+        Organizes notes into a structured layout with separate sections for main points, keywords, and summaries, promoting active engagement and effective review.
+        </p>
+            <a href="https://alumni.cornell.edu/cornellians/cornell-notes/"> <button>Read more about Cornell Method</button></a>  <br></br>
+
+
+      
+          <img src="https://teachingreadingwritingmiddleschool.weebly.com/uploads/4/5/8/3/45832127/388333_orig.png">
+
+      <div class="iframe-container">
+            <iframe src="https://docs.google.com/document/d/145h3Lk4wrFmsSznKxwfWh1HzlUgdxeeGqDpnpPzDzoo/edit?usp=sharing"></iframe>
+
+      
+        </center>
+        
+
+        </div>
+    </div>
+</center>
+
+<!-- HHM -->
+<center>
+    <!-- <div> -->
+    <button class="accordion">About Hispanic Heritage Month</button>
+    <div class="panel">
+        <h2 class="accHeader"> "HHM" </h2>
+
     <div class="instructions">
-        <h4>How to Use These Resources</h4>
-        <p>Follow our step-by-step guide to make the most of the educational materials provided for Hispanic History Month.</p>
+        <h4>About </h4>
+        Hispanic Heritage Month celebrates the history, culture, and contributions of Hispanics around the world. HHM starts on September 15 as it is 
+        the independence day of five Latin countries, Costa Rica, El Salvador, Guatemala, Honduras, and Nicaragua. Within the rest of the 30 days, many other 
+        Latin countries celebrate independence from Spain as well, such as Mexico on September 16 and Chile on September 18! Dia de la Raza or “Race Day” is 
+        celebrated on October 12 to recognize the cultures that make up Hispanics around the world, their indigenous roots, and European History. 
     </div>
+
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/239TBQktZdAzfy8GY0leil?utm_source=generator" width="50%" height="200" frameBorder="0" 
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <!--  allowfullscreen="" -->
+    </div>
+</center>
+
+<!-- MIND MAPPING -->
+<center>
+    <button class="accordion"> Other Resources</button>
+    <div class="panel">
+        <h2 class="accHeader"> "Mind Mapping" </h2>
+        <center>
+            <p>Utilizes visual representations with a central idea and branching subtopics <br> to create a dynamic and interconnected note-taking approach, <br>fostering creativity and idea organization.</p>
+        </center>
+
+        <center>
+            <a href= "https://alumni.cornell.edu/cornellians/cornell-notes/" > <button> Read More </button></a> 
+        </center> 
+        <br> </br>
+    
+      
+        <iframe src="https://gdoc.io/mind-maps-templates/" width="100%" height="600px"></iframe>
+    </div>
+</center>
 
     <div class="past-courses">
         <h4>Past Courses and Feedback</h4>
         <p>Explore feedback and content from previous courses to enhance your learning experience.</p>
+        <p>Follow our step-by-step guide to make the most of the educational materials provided for Hispanic History Month.</p>
+
     </div>
 
     <footer class="page-footer">
@@ -180,6 +340,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <script>
+
         $(document).ready(function() {
             function updateLoginStatus() {
                 $.get('/loginStatus', function(data) {
@@ -212,6 +373,22 @@
                 var instances = M.Dropdown.init(dropdownElems, {});
             });
         });
+
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+            } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+        });
+        }
+
 </script>
 </body>
 </html>
