@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCA BLSU Events</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <!-- Compiled and minified Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+    <!-- Compiled and minified Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif; /* Font family */
+            /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;     */
+            background: #eeeeee; /* Light grey background for body cccca39a eeeeee*/
+        }
+        .nav-wrapper {
+            background-color: #212121; /* Black color from the navbar */
+        }
+        .brand-logo {
+            color: #1a1a18; /* Yellow color for the logo text */
+        }
+
+        h3, h4 {
+            color: #212121; /* Yellow color for headers */
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        .box {
+            background-color: #424242; /* Dark grey for the boxes, softer than black */
+            color: #141313; /* White text color */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            flex-basis: 30%; /* Sizing for box */
+            text-align: center;
+        }
+
+        h3{
+            display: center; 
+            justify-content: center;
+            text-align: center;
+        }
+
+        .box h4 {
+            color: #131211; /* Yellow color for the box headers */
+        }
+
+        .instructions, .past-courses {
+            background-color: #c8b370; /* Yellow background for instructions and past courses */
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        footer.page-footer {
+            background-color: #212121; /* Black color for the footer */
+        }
+
+        @media screen and (max-width: 600px) {
+            .box {
+                flex-basis: 100%; /* Full width on small screens */
+            }
+        }
+    
+    iframe{
+        box-shadow: none;
+        border-radius: 10px;
+        margin: 20px;
+    }
+  
+    .newsletter{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+  .container {
+    display: flex;
+    justify-content: space-around; 
+    padding: 20px;
+    font-family: Arial, sans-serif; /* Font family */
+
+} 
+
+  .box {
+    width: 30%; /* Adjust the width as necessary */
+    background-color: #fff3e0; /* The color of the box */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* This will give the box-shadow effect */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center;
+    font-family: Arial, sans-serif; /* Font family */
+    margin: 10px; /* Space around the boxes */
+    /* background-image: url(blsu.png); */
+  }
+
+  /* Responsive design: If the screen size is less than 600px, boxes take full width */
+  @media screen and (max-width: 600px) {
+    .box {
+      width: 100%;
+      margin: 10px 0; /* Stack the boxes with space in between */
+    }
+  } 
+  #nav-mobile li a:hover {
+        color: #ffeb3b;
+    }
+
+.reasources ul li{
+  /* margin-right: 20px; */
+}
+
+.p-blurb{
+    text-align: center; 
+    /* width: 495px; */
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+.accHeader{
+    padding-top: 25px;
+    padding-bottom: 15px;
+}
+.accBlurb{
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 2%;
+    padding-bottom: 2%; 
+}
+
+.accordion {
+  /*Editing this*/
+    background-color: #f5b301;
+    color: white;
+    cursor: pointer;
+    padding: 30px;
+    width: 75%;
+
+    text-align: left;
+    outline: none;
+    font-size: 20px;
+    transition: 0.4s;
+    border: none;
+    border-radius: 3px;
+}
+
+.accordion:after {
+    /*  Plus*/
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.accordion.active:after {
+    /* Minus */
+    content: "\2212";
+}
+
+/* //STYLES THE INFO WITHIN ACCORDION */
+.panel {
+    padding: 0 18px;
+    background-color: #f4ebe9;
+    border-radius: 10px;
+    width: 75%; /* Set the desired width of the panel */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+/* Center the iframe container */
+.iframe-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px; /* Set the desired height of the container */
+}
+
+/* Set the size of the embedded Google Doc */
+.iframe-container iframe {
+    width: 80%; /* Set the desired width of the embedded document */  height: 400px;
+}
+
+
+button{
+    padding: 10px; 
+    /* background-color: white; */
+    /* color: rgb(0, 0, 0);  */
+    border: solid #f5d81d 5px;
+    border-radius: 10px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
+    height: 25%;
+}
+
+
+
+  </style>
+</head>
+
+
+<body>
+    <nav class="black">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">BCA BLSU</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/">Home</a></li>
+                <li id="tutoring" style="display: none;"><a href="tutoring.html">Tutoring</a></li>
+                <li id="materials" style="display: none;"><a href="material.html">Club Materials</a></li>                        
+                <li id="announcements"  style="display: none;"> <a href="blog.html">Announcements</a> </li>
+                <li id="manageAccount" style="display: none;"><a href="account.html">Manage Account</a></li>            
+                <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- <div class="section">
+        <h3>Black History Month </h3>
+    </div> -->
+
+
+
+    <a href="hhm.html">
+    <button>BACK</button>
+    </a>
+
+<!-- BHM -->
+<center>
+    <!-- <button class="accordion">About Black History Month</button>
+    <div class="panel"> -->
+        <h2 class="accHeader">“Black History Month”</h2>
+        <p class="accBlurb"> Black History Month celebrates the cultural heritage,
+            triumphs, and adversities that are indelible in our
+            country's history, honoring all black people from all
+            periods of U.S. History. We celebrate BHM during
+            February because of two American leaders,
+            Abraham Lincoln and Frederick Douglass, whose
+            birthdays were on the 12th and 14th. President
+            Abraham Lincoln and abolitionist Frederick Douglass
+            stood as the two most influential figures in the
+            national debate over slavery and the future of African
+            Americans. Recently, Black History Month was
+            recognized in countries other than America such as
+            Canada, Ireland, and the United Kingdom. February’s
+            celebration is referenced to as many things, African
+            Heritage Month, Black History Month, and African
+            History Month, among others.
+        </p>
+            <a href="https://www.cision.com/resources/articles/black-culture-news-sites/"> <button>Read more about Black History Month </button></a>  <br></br>
+
+
+
+        <div class="newsletter">
+            <iframe src="https://drive.google.com/file/d/1ueFVxTgfyRby2S54ldrfZdrBX3eriGT_/preview" width="500" height="300" allow="autoplay"></iframe>
+        </div>
+   
+
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4pAwoUEXFGuMh1XiUdjywy?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+    <!-- </div> -->
+</center>
+
+<!-- HHM -->
+<center>
+    <!-- <div> -->
+    <button class="accordion">About Hispanic Heritage Month</button>
+    <div class="panel">
+        <h2 class="accHeader"> "HHM" </h2>
+
+    <div class="instructions">
+        <h4>About </h4>
+        Hispanic Heritage Month celebrates the history, culture, and contributions of Hispanics around the world. HHM starts on September 15 as it is 
+        the independence day of five Latin countries, Costa Rica, El Salvador, Guatemala, Honduras, and Nicaragua. Within the rest of the 30 days, many other 
+        Latin countries celebrate independence from Spain as well, such as Mexico on September 16 and Chile on September 18! Dia de la Raza or “Race Day” is 
+        celebrated on October 12 to recognize the cultures that make up Hispanics around the world, their indigenous roots, and European History. 
+    </div>
+
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/239TBQktZdAzfy8GY0leil?utm_source=generator" width="50%" height="200" frameBorder="0" 
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <!--  allowfullscreen="" -->
+ 
+
+    <div class="newsletter">
+        <iframe src="https://drive.google.com/file/d/1HGWk7ys3OAKhVfEqlbErUGV0FS4idNqB/preview" width="500" height="300" allow="autoplay"></iframe>
+        </div>
+    </div>
+</center>
+
+<!-- MIND MAPPING -->
+<center>
+    <button class="accordion"> Other Resources</button>
+    <div class="panel">
+        <h2 class="accHeader"> "More Resources & FRQs" </h2>
+        <center>
+            <p>Utilizes visual representations with a central idea and branching subtopics <br> to create a dynamic and interconnected note-taking approach, <br>fostering creativity and idea organization.</p>
+        </center>
+
+        <center>
+            <a href= "https://alumni.cornell.edu/cornellians/cornell-notes/" > <button> Read More </button></a> 
+        </center> 
+        <br> </br>
+    
+      
+        <iframe src="https://gdoc.io/mind-maps-templates/" width="100%" height="600px"></iframe>
+    </div>
+</center>
+
+    <div class="past-courses">
+        <h4>Past Courses and Feedback</h4>
+        <p>Explore feedback and content from previous courses to enhance your learning experience.</p>
+        <p>Follow our step-by-step guide to make the most of the educational materials provided for Hispanic History Month.</p>
+
+    </div>
+
+
+    <div class = "reasources">
+        <h4>Resources:</h4>
+        <ul class = "reasourcesLinks">
+          <li> 
+            <u> <a class = "edTed" href = "https://www.cision.com/resources/articles/black-culture-news-sites/">News Article Links</a> </u> 
+          </li>
+          <br>
+          <li> 
+            <u> <a class = "brilliant" href = "https://brilliant.org/">Brilliant.org</a> </u> 
+          </li>
+
+
+        </ul>
+      </div>
+  
+  
+  </section>
+  
+
+
+
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Follow us on social media</h5>
+                    <p class="grey-text text-lighten-4">Stay connected with our latest updates.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="#">Instagram</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#">Facebook</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+
+        $(document).ready(function() {
+            function updateLoginStatus() {
+                $.get('/loginStatus', function(data) {
+                    if (data.isAuthenticated) {         
+                        $('#manageAccount').show();        
+                    } else {
+                        $('#manageAccount').hide();
+                    }
+                });
+            }
+
+            function checkAccountType() {
+                $.get('/accountType', function(data) {
+                    if (data.account_type === 'Admin') {
+                        $('#adminLink').show();
+                        $('#materials').show();
+                        $('#tutoring').show();
+                        $('#tutoring').show();
+
+                        
+                    }
+                    if (data.account_type === 'Student' || data.account_type === 'Tutor') {
+                        $('#tutoring').show();
+                    }
+                });
+            }
+
+            updateLoginStatus();
+            checkAccountType();
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var dropdownElems = document.querySelectorAll('.dropdown-trigger');
+                var instances = M.Dropdown.init(dropdownElems, {});
+            });
+        });
+
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+            } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+        });
+        }
+
+</script>
+</body>
+</html>
