@@ -1,0 +1,133 @@
+<!-- We forgot a page of just pictures and everything 
+
+THis was on MVP but we might not even focus on adding it nwo 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Photo Gallery</title>
+    <!-- Materialize CSS for styling -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <style> 
+        body {   
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10; /* Ensure the navbar is above other elements */
+        }
+        .gallery-container {
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+        #gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        #gallery img {
+            max-width: 100px; /* Adjust based on preference */
+            height: auto;
+            cursor: move; /* Indicates that an element is draggable */
+        }
+    </style>
+</head>
+
+
+<body>
+
+  <!-- Navigation Bar -->
+  <main>
+    <nav class="black">
+      <div class="nav-wrapper">
+          <a href="#" class="brand-logo">BCA BLSU</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li id="tutoring" style="display: none;"><a href="tutoring.html">Tutoring</a></li>
+            <li id="materials" style="display: none;"><a href="material.html">Club Materials</a></li>      
+            <!-- Ask Eliana Whether She wants one webpage for BLM & HHM Content or 2 seperate webpages -->
+            
+            <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="blm.html">  BHM </a></li>
+            <li><a class="dropdown-trigger" href="#!" data-target="dropdown4">  <a href="hhm.html"> HHM </a> </a></li>
+            <li><a class="dropdown-trigger" href="#!" data-target="d"> <a href="blog.html">Annoucements</a></li>
+            <li><a class="dropdown-trigger" href="#!" data-target="d"> <a href="gallery.html">Gallery</a></li>
+
+            <li id="manageAccount" style="display: none;"><a href="account.html">Manage Account</a></li>            
+            <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>            </ul>
+      </div>
+    </nav>
+  </main>
+
+
+
+<div class="gallery-container">
+    <h2 class="header">Photo Gallery</h2>
+    <div id="gallery" class="row"></div>
+    <div class="file-field input-field">
+        <div class="btn">
+            <span>Upload Images</span>
+            <input type="file" id="imageUpload" accept="image/*" multiple>
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Upload one or more files">
+        </div>
+    </div>
+</div>
+
+<!-- Materialize JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    let draggedImg;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const gallery = document.getElementById('gallery');
+        gallery.addEventListener('dragover', function(e) {
+            e.preventDefault(); // Necessary for allowing to drop.
+        });
+
+        gallery.addEventListener('drop', function(e) {
+            e.preventDefault(); // Prevent default action (open as link for some elements)
+            if (e.target.tagName === 'IMG') {
+                // Swap the dragged img src with the target img src
+                const draggedSrc = draggedImg.src;
+                const targetSrc = e.target.src;
+                draggedImg.src = targetSrc;
+                e.target.src = draggedSrc;
+            }
+        });
+    });
+
+    function uploadImages() {
+        const imageUpload = document.getElementById('imageUpload');
+        if (!imageUpload.files.length) return;
+
+        for (const file of imageUpload.files) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.draggable = true;
+                img.addEventListener('dragstart', function(e) {
+                    draggedImg = e.target;
+                });
+                document.getElementById('gallery').appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    document.getElementById('imageUpload').addEventListener('change', uploadImages);
+</script>
+</body>
+</html>
