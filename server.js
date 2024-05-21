@@ -115,6 +115,21 @@ app.get('/profile', async (req, res) => {
   }
 });
 
+
+app.get('/subpages/material.html', async (req, res) => {
+  try {
+    let htmlContent = await fs.readFile('./subpages/material.html', 'utf8');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error reading HTML file:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+
+
 // IDK TESTING THEIHFSLKFD
 app.get('/subpages/hhm.html', async (req, res) => {
   try {
@@ -136,6 +151,8 @@ app.get('/subpages/hlm.html', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+
 
 app.get('/subpages/bhm.html', async (req, res) => {
   try {
