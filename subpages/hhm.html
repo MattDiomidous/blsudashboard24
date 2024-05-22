@@ -17,6 +17,7 @@
             /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;     */
             background: #eeeeee; /* Light grey background for body cccca39a eeeeee*/
             align-items: center;
+            
         }
         .nav-wrapper {
             background-color: #212121; /* Black color from the navbar */
@@ -223,6 +224,50 @@
     font-size: 20px;
     }
 
+#main{
+    align-items: center;
+    text-align: center;
+    width: 50%;
+    border-radius: 10px;
+    border: solid rgb(228, 130, 60) 3px;
+}
+.messages {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 300px;
+    padding: 15px;
+    margin: 15px;
+    border-radius: 10px;   
+}
+
+input {
+    align-items: center;
+    text-align: center;
+    width: calc(100% - 30px);
+    margin: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.user, .bot {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 10px;
+}
+
+.user {
+    align-self: flex-end;
+    background-color: #d1e7dd;
+}
+
+.bot {
+    align-self: flex-start;
+    background-color: #f6dd4f;
+}
+
+
   </style>
 </head>
 
@@ -280,6 +325,17 @@
 
 <br>
 
+
+<!-- Chat Bot Box (to condense code) -->
+<div id="main">
+    <div id="messages" class="messages"></div>
+    <div>
+        <input id="input" type="text" placeholder="Write something..." autocomplete="off" autofocus="true"/>
+    </div>
+</div>
+
+<br>
+
 <!-- BHM -->
 <center>
     <button class="accordion">About BLSU</button>
@@ -304,16 +360,17 @@
 </center>
 <!-- HHM -->
 <center>
-    <!-- <div> -->
     <button class="accordion">Website Feautres</button>
     <div class="panel">
         <h2 class="accHeader"> "Website Features" </h2>
-
     <div class="instructions">
         <h4>Roles & Access Points</h4> 
+        <p>Guest - All 1st time users/or viewers of the page without an account</p>
+        <p>Once you create an account an Administrator from BLSU will upgrade you to tutoring 
+            and you will be able to look and view out various tutors and make an account for This 
 
-        <p>HELLO  HELLO pICwuDjb2PFY5HNiMUkRaHsLg8WdfKWusLjku5huQGW3mwFLiELwYmsqMvuczWgODh4IcR4bL6EHpNrHVAU</p>
 
+        </p>
     </div> 
 
 </center>
@@ -337,12 +394,14 @@
     </div>
 </center>
 
-    <div class="past-courses">
+    <!-- <div class="past-courses">
         <h4>Past Courses and Feedback</h4>
         <p>Explore feedback and content from previous courses to enhance your learning experience.</p>
         <p>Follow our step-by-step guide to make the most of the educational materials provided for Hispanic History Month.</p>
+    </div> -->
 
-    </div>
+
+    <br> </br>
 
     <footer class="page-footer">
         <div class="container">
@@ -363,12 +422,10 @@
         </div>
     </footer>
 
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+    
     <script>
-
         $(document).ready(function() {
             function updateLoginStatus() {
                 $.get('/loginStatus', function(data) {
@@ -379,45 +436,119 @@
                     }
                 });
             }
-
+    
             function checkAccountType() {
                 $.get('/accountType', function(data) {
                     if (data.account_type === 'Admin') {
                         $('#adminLink').show();
                         $('#materials').show();
                         $('#tutoring').show();
-                        
                     }
                     if (data.account_type === 'Student' || data.account_type === 'Tutor') {
                         $('#tutoring').show();
                     }
                 });
             }
-
+    
             updateLoginStatus();
             checkAccountType();
-
+    
             document.addEventListener('DOMContentLoaded', function() {
                 var dropdownElems = document.querySelectorAll('.dropdown-trigger');
                 var instances = M.Dropdown.init(dropdownElems, {});
             });
+    
+            var acc = document.getElementsByClassName("accordion");
+            for (var i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    } 
+                });
+            }
+    
+            const inputField = document.getElementById("input");
+            inputField.addEventListener("keydown", function(e) {
+                if (e.code === "Enter") {
+                    let input = inputField.value;
+                    inputField.value = "";
+                    output(input);
+                }
+            });
+    
+            const utterances = [
+                ["how are you", "how is life", "how are things"],
+                ["hi", "hey", "hello", "good morning", "good afternoon"],
+                ["what are you doing", "what is going on", "what is up"],
+                ["what is blsu"],
+                ["who are you", "chat bot", "bot", "are you human", "are you bot", "are you human or bot"]
+            ];
+    
+            const answers = [
+                ["Fine... how are you?", "Pretty well, how are you?", "Fantastic, how are you?"],
+                ["Hello!", "Hi!", "Hey!", "Hi there!", "Howdy"],
+                ["As the Blsu Chatbot glad to report that Blsu is working to empower Black & Latine students"],
+                ["The Black Latine Student Union @BCA is a student organization at bergen county academies that works to empower Black & Latine students: they do various outreach across bergen and meet Thursdays at 7:30 AM"],
+                ["I am just the Blsu Chat Bot", "I Am the Blsu chat bot. What are you?"]
+            ];
+    
+            const alternatives = ["Go on...", "Try again"];
+    
+            function output(input) {
+                let product;
+                let text = input.toLowerCase().replace(/[^\w\s\d]/gi, "");
+                text = text.replace(/ a /g, " ")
+                            .replace(/whats/g, "what is")
+                            .replace(/please /g, "")
+                            .replace(/ please/g, "");
+                
+                if (compare(utterances, answers, text)) {
+                    product = compare(utterances, answers, text);
+                } else {
+                    product = alternatives[Math.floor(Math.random() * alternatives.length)];
+                }
+                
+                addChatEntry(input, product);
+            }
+    
+            function compare(utterancesArray, answersArray, string) {
+                let item;
+                for (let x = 0; x < utterancesArray.length; x++) {
+                    for (let y = 0; y < utterancesArray[x].length; y++) {
+                        if (utterancesArray[x][y] === string) {
+                            let items = answersArray[x];
+                            item = items[Math.floor(Math.random() * items.length)];
+                        }
+                    }
+                }
+                return item;
+            }
+    
+            function addChatEntry(input, product) {
+                const messagesContainer = document.getElementById("messages");
+                
+                let userDiv = document.createElement("div");
+                userDiv.className = "user response";
+                userDiv.innerHTML = `${input}`;
+                messagesContainer.appendChild(userDiv);
+                
+                let botDiv = document.createElement("div");
+                let botText = document.createElement("span");
+                botDiv.className = "bot response";
+                botText.innerText = "Typing...";
+                botDiv.appendChild(botText);
+                messagesContainer.appendChild(botDiv);
+                
+                setTimeout(() => {
+                    botText.innerText = `${product}`;
+                }, 2000);
+            }
         });
-
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.maxHeight) {
-            panel.style.maxHeight = null;
-            } else {
-            panel.style.maxHeight = panel.scrollHeight + "px";
-            } 
-        });
-        }
-
-</script>
+    </script>
+    
 </body>
 </html>
