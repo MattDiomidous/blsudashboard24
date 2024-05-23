@@ -170,8 +170,8 @@
                       $('#tutoring').show();
                       $('#materials').show();
                       $('#manageAccount').show();
+                    $('.delete-btn').show();
                   }
-                  
               });
           }
       
@@ -180,6 +180,7 @@
             $('#announcements-container').on('click', '.delete-btn', function() {
                 deleteAnnouncement($(this).data('id'));
             });
+            
 
             function displayAnnouncements() {
                 const announcementsContainer = document.getElementById('announcements-container');
@@ -195,7 +196,10 @@
                         <button class="btn waves-effect waves-light delete-btn" data-id="${i+1}">Delete</button>
                         `;
                         announcementsContainer.appendChild(announcementElement);
+
+                        $('.delete-btn').hide();
                     }});
+                checkAccountType();
             }
 
             displayAnnouncements();
