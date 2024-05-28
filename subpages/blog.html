@@ -43,15 +43,12 @@
         }
 
         .blog-heading {
-            background-color: #f0d942;
-            color: #333; 
             margin: 0; 
             width: 100%; 
             padding: 20px 0;
             text-align: center; 
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 2px;
             border-radius: 5px;  
             font-size: 50px;
 }
@@ -69,7 +66,12 @@
         h1 {
             color: #333;
         }
-
+        .mission-statement {
+    background-color: #f5b301;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
         .announcement {
             margin-bottom: 20px;
             padding: 20px; 
@@ -102,7 +104,7 @@
             border-radius: 10%;
             width: 100%;
             /* height: 45%; */
-            border: solid #faea87 5px;
+            border: solid #f5b301 5px;
             padding: 10px;
             border-radius: 10px;
             align-items: center;
@@ -110,8 +112,6 @@
 
         }
 
-        .contact{
-        }
 
     </style>
 </head>
@@ -131,15 +131,12 @@
     </nav>
     
     <div class="container">
-        <header>
-            <h1 class="blog-heading">Announcements</h1>
+        <header class="mission-statement">
+            <h3 class="blog-heading">Announcements</h3>
         </header>
 
             <div class="blurb">
-            <p>We post Updates about the Club's Plans and Weekly Meetings Progress. Follow us on instagram as we will ocassionally leave pictures. 
-                Check or FRQ if you need anymore Information under Lesson Plans <div class="contact">Contact: blsu.bca@gmail.com for permission to post </div>
-
-            </p>
+            <p>We post updates about Current Plans and  Weekly Meeting Progress. Follow us on instagram @bca.blsu to see more!</p>
             </div>
 
             <br>
@@ -173,8 +170,8 @@
                       $('#tutoring').show();
                       $('#materials').show();
                       $('#manageAccount').show();
+                    $('.delete-btn').show();
                   }
-                  
               });
           }
       
@@ -183,6 +180,7 @@
             $('#announcements-container').on('click', '.delete-btn', function() {
                 deleteAnnouncement($(this).data('id'));
             });
+            
 
             function displayAnnouncements() {
                 const announcementsContainer = document.getElementById('announcements-container');
@@ -198,7 +196,10 @@
                         <button class="btn waves-effect waves-light delete-btn" data-id="${i+1}">Delete</button>
                         `;
                         announcementsContainer.appendChild(announcementElement);
+
+                        $('.delete-btn').hide();
                     }});
+                checkAccountType();
             }
 
             displayAnnouncements();
