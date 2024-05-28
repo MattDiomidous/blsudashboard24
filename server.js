@@ -53,24 +53,24 @@ app.use(bodyParser.json());
 
 
 // Middleware to prevent XSS
-app.use((req, res, next) => {
-  // Sanitize input fields
-  if (req.body) {
-    for (const key in req.body) {
-      if (req.body.hasOwnProperty(key)) {
-        req.body[key] = xss(req.body[key]);
-      }
-    }
-  }
-  if (req.query) {
-    for (const key in req.query) {
-      if (req.query.hasOwnProperty(key)) {
-        req.query[key] = xss(req.query[key]);
-      }
-    }
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   // Sanitize input fields
+//   if (req.body) {
+//     for (const key in req.body) {
+//       if (req.body.hasOwnProperty(key)) {
+//         req.body[key] = xss(req.body[key]);
+//       }
+//     }
+//   }
+//   if (req.query) {
+//     for (const key in req.query) {
+//       if (req.query.hasOwnProperty(key)) {
+//         req.query[key] = xss(req.query[key]);
+//       }
+//     }
+//   }
+//   next();
+// });
 
 
 
