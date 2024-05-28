@@ -37,13 +37,13 @@ const app = express();
 app.use(helmet()); //automatically adds hsts header
 
 // Middleware to enforce HTTPS
-app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-    res.redirect(`https://${req.headers.host}${req.url}`);
-  } else {
-    next();
-  }
-});
+// app.use((req, res, next) => {
+//   if (req.headers['x-forwarded-proto'] !== 'https') {
+//     res.redirect(`https://${req.headers.host}${req.url}`);
+//   } else {
+//     next();
+//   }
+// });
 
 
 app.use(auth(config));
