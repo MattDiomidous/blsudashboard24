@@ -223,35 +223,40 @@ app.get('/subpages/gallery.html', async (req, res) => {
 });
 
 app.get('/subpages/account.html', async (req, res) => {
-  try {
-    let htmlContent = await fs.readFile('./subpages/account.html', 'utf8');
-    res.send(htmlContent);
-  } catch (error) {
-    console.error('Error reading HTML file:', error);
-    res.status(500).send('Internal Server Error');
+  if (req.oidc.isAuthenticated()) {
+    try {
+      let htmlContent = await fs.readFile('./subpages/account.html', 'utf8');
+      res.send(htmlContent);
+    } catch (error) {
+      console.error('Error reading HTML file:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  } else {
+    res.send('User not logged in');
   }
 });
 
 app.get('/subpages/tutoring.html', async (req, res) => {
-  try {
-    let htmlContent = await fs.readFile('./subpages/tutoring.html', 'utf8');
-    res.send(htmlContent);
-  } catch (error) {
-    console.error('Error reading HTML file:', error);
-    res.status(500).send('Internal Server Error');
+  if (req.oidc.isAuthenticated()) {
+    const email = req.oidc.user.email;
+
+    try {
+      const [rows] = await pool.query('SELECT account_type FROM users WHERE email = ?', [email]);
+      if (rows.length > 0 && ['Student', 'Admin', 'Tutor'].includes(rows[0].account_type)) {
+        const htmlContent = await fs.readFile('./subpages/tutoring.html', 'utf8');
+        res.send(htmlContent);
+      } else {
+        res.send('Access Denied');
+      }
+    } catch (error) {
+      console.error('Error fetching user account type:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  } else {
+    res.send('Access Denied');
   }
 });
 
-
-app.get('/subpages/material.html', async (req, res) => {
-  try {
-    let htmlContent = await fs.readFile('./subpages/material.html', 'utf8');
-    res.send(htmlContent);
-  } catch (error) {
-    console.error('Error reading HTML file:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
 
 
 app.get('/subpages/blog.html', async (req, res) => {
