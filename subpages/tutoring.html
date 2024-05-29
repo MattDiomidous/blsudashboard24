@@ -528,32 +528,12 @@ $(document).ready(function() {
       .then(data => {
         const tutorSelect = document.getElementById('tutor-selection');
         const timeSelect = document.getElementById('time-selection');
-        const days = {
-          'Monday': document.getElementById('monday-tutors'),
-          'Tuesday': document.getElementById('tuesday-tutors'),
-          'Wednesday': document.getElementById('wednesday-tutors'),
-          'Thursday': document.getElementById('thursday-tutors'),
-          'Friday': document.getElementById('friday-tutors'),
-        };
 
         data.forEach(tutor => {
           const option = document.createElement('option');
           option.value = JSON.stringify({ email: tutor.email, times: tutor.time_available.split(', ') });
           option.textContent = `${tutor.username} (${tutor.email})`;
           tutorSelect.appendChild(option);
-
-          const tutorItem = document.createElement('li');
-          tutorItem.classList.add('list-group-item', 'tutor');
-          tutorItem.textContent = `${tutor.username} - ${tutor.email} - ${tutor.subject} - ${tutor.day_available} - ${tutor.time_available}`;
-          tutorItem.setAttribute('data-subject', tutor.subject || 'N/A');
-          tutorItem.setAttribute('data-day_available', tutor.day_available || 'N/A');
-          tutorItem.setAttribute('data-time_available', tutor.time_available || 'N/A');
-
-          if (days[tutor.day_available]) {
-            days[tutor.day_available].appendChild(tutorItem);
-          } else {
-            console.error('Day not found for tutor:', tutor);
-          }
         });
 
         $('#tutor-selection').change(function() {
@@ -585,8 +565,6 @@ $(document).ready(function() {
       // Add code here to handle form submission, e.g., send data to the server
     });
   });
-
-
   
   </script>
 </body>
