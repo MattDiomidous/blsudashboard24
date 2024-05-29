@@ -5,16 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BCA BLSU</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  
-<style> 
+ 
+<style>
+
+
 
 
 .brand-logo {
     font-weight: bold;
     color: #FFD700;
     font-size: 80px;
-  
+ 
 }
+
 
 .mission-statement {
     background-color: #f5b301;
@@ -24,14 +27,18 @@
 }
 
 
+
+
 #nav-mobile li a:hover {
         color: #ffeb3b;
     }
+
 
 .iframe-container {
     display: flex;
     justify-content: center;
 }
+
 
 .mission-statement h3 {
     color: black;
@@ -41,13 +48,15 @@
     font-weight: bolder;
 }
 
+
 .mission-statement ul {
     color: #666;
     font-size: 18px;
     line-height: 2;
     text-align: center;
-    
+   
 }
+
 
 .text {
     font-weight: bolder;
@@ -73,16 +82,21 @@
     background-color: #bbb299;
 }
 
+
 #showProfile:hover {
     background-color: #f0d942;
 }
+
+
 
 
 #iframe{
     display: flexbox;
     justify-content: center;
 
+
 }
+
 
 .submit-btn {
     margin-bottom: 10px;
@@ -94,21 +108,26 @@
     margin-left: 20px;
 }
 
+
 .mission-statement ul li:first-child {
     font-size: 30px; /* Increase font size for the first list item */
     font-weight: bold; /* Make the first list item bold */
     color: white;
   }
 
+
   .backgroundimage{
     background: url(blsulogo.png);
 }
+
 
   .card {
     background-color: rgba(242, 245, 247, 0.858);
   }
 
-  
+
+ 
+
 
   .box {
     width: 30%; /* Adjust the width as necessary  background-color: #f6dd4f;*/
@@ -123,13 +142,15 @@
     /* background-image: url(blsu.png); */
   }
 
+
   /* Responsive design: If the screen size is less than 600px, boxes take full width */
   @media screen and (max-width: 600px) {
     .box {
       width: 100%;
       margin: 10px 0; /* Stack the boxes with space in between */
     }
-  } 
+  }
+
 
   .container {
             display: flex;
@@ -138,10 +159,11 @@
             padding: 20px;
             /* font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
              text-align: center;
-        } 
+        }
+
 
 .box {
-    
+   
     color: #141313; /* White text color */
     border-radius: 8px;
     padding: 20px;
@@ -152,6 +174,7 @@
 }
 </style>
 
+
 </head>
 <body>
     <main>
@@ -161,23 +184,28 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               <li id="tutoring" style="display: none;"><a href="subpages/tutoring.html">Tutoring</a></li>
               <!-- <li><a class="dropdown-trigger" href="#!" data-target="dropdown2"> <a href="subpages/material.html"> Club Materials </a>  </a> </li>   -->
-              <li id="materials" style="display: none;"><a href="https://drive.google.com/drive/folders/0APK1G8QsNfm2Uk9PVA">Club Materials</a></li> 
+              <li id="materials" style="display: none;"><a href="https://drive.google.com/drive/folders/0APK1G8QsNfm2Uk9PVA">Club Materials</a></li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown3">  <a href="subpages/hhm.html">  Lesson Plans </a></li>
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown5"> <a href="subpages/blog.html">Annoucements</a></li>
               <li id="manageAccount" style="display: none;"><a href="subpages/account.html">Manage Account</a></li>            
               <li id="adminLink" style="display: none;"><a href="subpages/admin.html">Administrator</a></li>            </ul>
 
 
+
+
         </div>
       </nav>
-          
+         
     </main>
+
+
 
 
     <div class="backgroundimage">
     </div>
 
-      
+
+     
     <div class="mission-statement">
         <h3>Mission Statement</h3>
         <ul>
@@ -188,32 +216,23 @@
         </ul>
     </div>
 
-    <!-- <div class="container">
-        <div class="box">
-        
-            <h4>Sign In</h4>
-          
-            <p>Access personalized resources</p>
-        </div>
-        <div class="box">
-            <h4>Lesson Plans</h4>
-            <p>Find and download lesson plans</p>
-        </div>
-        <div class="box">
-            <h4>Scheduling Requests</h4>
-            <p>Manage your class schedules</p>
-        </div>
-    </div> -->
-    
+
+
+
+   
+
+
+   
+   
   <div class="row">
     <div class="col s12 m6 offset-m3">
         <div class="card">
             <div class="card-content">
                 <p class="center-align text">You are {{loginStatus}}logged in.</p>
-                
+               
             </div>
             <div class="card-action center-align">
-                <button class="btn waves-effect waves-light" id="loginBtn" style="display: auto;">Login</button>
+                <button class="btn waves-effect waves-light" id="loginBtn" style="display: none;">Login</button>
                 <button class="btn waves-effect waves-light" id="logoutBtn" style="display: none;">Logout</button>
                 <br>
             </div>
@@ -225,7 +244,13 @@
 
 
 
+
+
+
+
+
 <!-- Edit Pictures Here I took from Bootstrap for CSS -->
+
 
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -242,8 +267,12 @@
             </div>
             <div class="carousel-item">
                 <img class="d-block h-500 w-300" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnxkWQ3daB-Ih2Gf9ERVjlQYAwsb8sc1nXqXPHdwzd3g&s" alt="Third slide">
-            </div> -->
             </div>
+            </div>
+
+
+
+
 
 
 
@@ -258,18 +287,24 @@
             </a>
         </div>
 
-        
+
+       
+
+
 
 
         <div id="profileInfo"></div>
 
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 
         <script>
             $(document).ready(function() {
                 $('.carousel.carousel-slider').carousel({fullWidth: true, indicators: true});
-                setInterval(function() { $('.carousel').carousel('next'); }, 2000); 
+                setInterval(function() { $('.carousel').carousel('next'); }, 2000);
+
 
                 function updateLoginStatus() {
                     $.get('/loginStatus', function(data) {
@@ -277,7 +312,7 @@
                             $('#loginBtn').hide();
                             $('#logoutBtn').show();
                             $('#manageAccount').show();
-                            
+                           
                         } else {
                             $('#loginBtn').show();
                             $('#logoutBtn').hide();
@@ -285,6 +320,7 @@
                         }
                     });
                 }
+
 
                 function checkAccountType() {
                     $.get('/accountType', function(data) {
@@ -299,12 +335,15 @@
                     });
                 }
 
+
                 updateLoginStatus();
                 checkAccountType();
+
 
                 $('#loginBtn').on('click', function() { window.location.href = '/login'; });
                 $('#logoutBtn').on('click', function() { window.location.href = '/logout'; });
             });
+
 
             document.addEventListener('DOMContentLoaded', function() {
                 var dropdownElems = document.querySelectorAll('.dropdown-trigger');
@@ -312,8 +351,14 @@
             });
 
 
+
+
             $('.carousel').carousel()
+
 
 </script>
     </body>
 </html>
+
+
+
