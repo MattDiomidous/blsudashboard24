@@ -5,42 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BCA BLSU Events</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <!-- Compiled and minified Materialize CSS -->
+    <!-- Compiled and minified Materialize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     
     <!-- Compiled and minified Materialize JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <style>
-        
         body {
-            font-family: Arial, sans-serif; /* Font family */
-            /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;     */
-            background: #eeeeee; /* Light grey background for body cccca39a eeeeee*/
-            /* align-items: center;  */
-            
-            
+            font-family: Arial, sans-serif;
+            background: #eeeeee;
         }
-
 
         .nav-wrapper {
-            background-color: #212121; /* Black color from the navbar */
+            background-color: #212121;
         }
         .brand-logo {
-            color: #1a1a18; /* Yellow color for the logo text */
+            color: #1a1a18;
         }
 
         h3, h4 {
-            color: #212121; /* Yellow color for headers */
+            color: #212121;
         }
-        
-/*         
-        .foot-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        }  */
 
         .container {
             display: flex;
@@ -49,393 +34,216 @@
             height: 100vh;
         }
 
-
-        h3{
-            /* display: center;  */
-            /* justify-content: center; */
-            /* text-align: center; */
+        h3 {
+            text-align: center;
         }
 
         .box h4 {
-            color: #131211; /* Yellow color for the box headers */
+            color: #131211;
         }
 
         .instructions, .past-courses {
-            background-color: #8e780770; /* 078e4870 ffe94597 fff345 Yellow background for instructions and past courses c8b370d1 */
+            background-color: #8e780770;
             padding: 20px;
             margin: 20px 0;
             border-radius: 8px;
-        
-            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
 
         footer.page-footer {
-            background-color: #212121; /* Black color for the footer */
-
+            background-color: #212121;
         }
 
         @media screen and (max-width: 600px) {
             .box {
-                flex-basis: 100%; /* Full width on small screens */
+                flex-basis: 100%;
             }
         }
     
-    iframe{
-        box-shadow: none;
-        border-radius: 10px;
-        margin: 20px;
-    }
+        iframe {
+            box-shadow: none;
+            border-radius: 10px;
+            margin: 20px;
+        }
   
-    .newsletter{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
+        .newsletter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
 
-  .footer-container {
-    display: flex;
-    justify-content: space-around; 
-    padding: 20px;
-    font-family: Arial, sans-serif; /* Font family */
+        .footer-container {
+            display: flex;
+            justify-content: space-around; 
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        } 
 
-} 
+        #nav-mobile li a:hover {
+            color: #ffeb3b;
+        }
 
-  #nav-mobile li a:hover {
-        color: #ffeb3b;
-    }
+        .p-blurb {
+            text-align: center; 
+            padding-left: 20%;
+            padding-right: 20%;
+        }
 
+        .accHeader {
+            padding-top: 25px;
+            padding-bottom: 15px;
+        }
 
-.p-blurb{
-    text-align: center; 
-    /* width: 495px; */
-    padding-left: 20%;
-    padding-right: 20%;
-}
+        .accBlurb {
+            padding-left: 20%;
+            padding-right: 20%;
+            padding-top: 2%;
+            padding-bottom: 2%; 
+        }
 
-.accHeader{
-    padding-top: 25px;
-    padding-bottom: 15px;
-}
-.accBlurb{
-    padding-left: 20%;
-    padding-right: 20%;
-    padding-top: 2%;
-    padding-bottom: 2%; 
-}
+        .accordion {
+            background-color: #f5b301;
+            color: white;
+            cursor: pointer;
+            padding: 30px;
+            width: 75%;
+            text-align: left;
+            outline: none;
+            font-size: 20px;
+            transition: 0.4s;
+            border: none;
+            border-radius: 3px;
+        }
 
-.accordion {
-  /*Editing this*/
-    background-color: #f5b301;
-    color: white;
-    cursor: pointer;
-    padding: 30px;
-    width: 75%;
+        .accordion:after {
+            content: '\002B';
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
 
-    text-align: left;
-    outline: none;
-    font-size: 20px;
-    transition: 0.4s;
-    border: none;
-    border-radius: 3px;
-}
+        .accordion.active:after {
+            content: "\2212";
+        }
 
-.accordion:after {
-    /*  Plus*/
-    content: '\002B';
-    color: #777;
-    font-weight: bold;
-    float: right;
-    margin-left: 5px;
-}
+        .panel {
+            padding: 0 18px;
+            background-color: #f4ebe9;
+            border-radius: 10px;
+            width: 75%;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
 
-.accordion.active:after {
-    /* Minus */
-    content: "\2212";
-}
+        .iframe-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+        }
 
-/* //STYLES THE INFO WITHIN ACCORDION */
-.panel {
-    padding: 0 18px;
-    background-color: #f4ebe9;
-    border-radius: 10px;
-    width: 75%; /* Set the desired width of the panel */
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-}
+        .iframe-container iframe {
+            width: 80%;
+            height: 50%;
+            border-color: #3897f0;
+            border: 30px;
+        }
 
-/* Center the iframe container */
-.iframe-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 400px; /* Set the desired height of the container */
-}
+        .history-months {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
 
-/* Set the size of the embedded Google Doc */
-.iframe-container iframe {
-    width: 80%; /* Set the desired width of the embedded document */  
-    height: 50%; 
-    /* border-radius: 30px; */
-    border-color: #3897f0;
-    border: 30px;
+        .history-months button {
+            margin: 0 40px 0 40px;
+            padding: 30px;
+            border: solid #feda78e9 5px;
+            border-radius: 10px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
+            height: 25%;
+            background-color: #feda78e9;
+            color: white;
+            font-size: 20px;
+        }
 
-}
+        #dive {
+            display: flex;
+            justify-content: center;
+        }
 
-.history-months{
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
+        h3 {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            text-align: center;
+        }
 
+        .info {
+            font-weight: bold;
+        }
 
-.history-months button{
-    margin: 0 40px 0 40px ;
-    padding: 30px; 
-    /* background-color: white; */
-    /* color: rgb(0, 0, 0);  */
-    border: solid #feda78e9 5px; /*f5d81d*/
-    border-radius: 10px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
-    height: 25%;
-    background-color: #feda78e9; /*rgba(249, 255, 61, 0.784)   #feda7899*/ 
+        .headerFont {
+            font-size: 60px;
+            font-weight: bold;
+        }
 
-    color:white;
-    font-size: 20px;
-    }
-
-#dive{
-    display: flex;
-    justify-content: center;
-}
-
-
-#main {
-    width: 50%;
-    margin: 0 auto;
-    border: 3px solid chocolate;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    background-color: beige;
-}
-
-#messages {
-    height: 300px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.user {
-    align-self: flex-end;
-    background-color: #d1e7dd;    
-    /* color: white; */
-    padding: 8px 12px;
-    border-radius: 15px;
-    margin: 5px;
-    max-width: 70%;
-    word-wrap: break-word;
-}
-
-.bot {
-    align-self: flex-start;
-    /* background-color: #f1f0f0; */
-    color: black;
-    padding: 8px 12px;
-    border-radius: 15px;
-    margin: 5px;
-    max-width: 70%;
-    word-wrap: break-word;
-    background-color: #f6dd4f;
-}
-
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    align-items: center;
-    text-align: center;
-}
-.user, .bot {
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 10px;
-    align-items: center;
-    text-align: center;
-}
-
-.user {
-    align-self: flex-end;
-    background-color: #d1e7dd;
-    align-items: center;
-    text-align: center;
-}
-
-.bot {
-    align-self: flex-start;
-    background-color: #f6dd4f;
-    align-items: center;
-    text-align: center;
-
-}
-
-h3{
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    text-align: center;
-}
-
-.info {
-    font-weight: bold;
-}
-
-.headerFont {
-    font-size: 60px;
-    font-weight: bold;
-}
-
-.infoFont {
-    font-size: 25px;
-}
-
-  </style>
+        .infoFont {
+            font-size: 25px;
+        }
+    </style>
 </head>
 
+<body>
     <nav class="black">
         <div class="nav-wrapper">
-        <a href="#" class="brand-logo">BCA BLSU</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="/">Home</a></li>
-            <li id="tutoring" style="display: none;"><a href="tutoring.html">Tutoring</a></li>
-            <li id="materials" style="display: none;"><a href="https://drive.google.com/drive/folders/0APK1G8QsNfm2Uk9PVA">Club Materials</a></li>
-            <li><a href="blog.html">Announcements</a></li>
-            <li id="manageAccount" style="display: none;"><a href="account.html">Manage Account</a></li>
-            <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>
-        </ul>
-    </div>
+            <a href="#" class="brand-logo">BCA BLSU</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/">Home</a></li>
+                <li id="tutoring" style="display: none;"><a href="tutoring.html">Tutoring</a></li>
+                <li id="materials" style="display: none;"><a href="https://drive.google.com/drive/folders/0APK1G8QsNfm2Uk9PVA">Club Materials</a></li>
+                <li><a href="blog.html">Announcements</a></li>
+                <li id="manageAccount" style="display: none;"><a href="account.html">Manage Account</a></li>
+                <li id="adminLink" style="display: none;"><a href="admin.html">Administrator</a></li>
+            </ul>
+        </div>
     </nav>
 
     <div class="section">
         <h3>Black & Hispanic History Month Resources</h3>
     </div>
 
-    <!-- <div class="container">
-        <div class="box">
-            
-
-            <h4>Sign In</h4>
-          
-            <p>Access personalized resources</p>
-        </div>
-        <div class="box">
-            <h4>Lesson Plans</h4>
-            <p>Find and download lesson plans</p>
-        </div>
-        <div class="box">
-            <h4>Scheduling Requests</h4>
-            <p>Manage your class schedules</p>
-        </div>
-    </div> -->
-
     <div class="history-months">
-
-        <a href = "bhm.html">
-        <button>
-            Visit the Black History Month Page
-        </button> 
+        <a href="bhm.html">
+            <button>
+                Visit the Black History Month Page
+            </button> 
         </a>
     
         <a href="hlm.html">
-        <button>
-            Visit the Hispanic History Month Page
-        </button>
+            <button>
+                Visit the Hispanic History Month Page
+            </button>
         </a>
-        </div>
+    </div>
     
     <br>
 
+    <center>
+        <button class="accordion">About BLSU</button>
+        <div class="panel">
+            <h2 class="accHeader headerFont">BLSU</h2>
+            <p class="accBlurb infoFont">BLSU Meets Thursday mornings at 7:30AM @ BCA</p>
+            <p class="infoFont">Are you a black/latine prospective BCA student? We offer tutoring for the BCA entrance exam, as well as help on your application!</p>
 
-<div id="dive">
-<!-- Chat Bot Box (to condense code) -->
-<div id="main">
-    <div id="messages" class="messages"></div>
-    <div>
-        <input id="input" type="text" placeholder="Write something..." autocomplete="off" autofocus="true"/>
-    </div>
-</div>
-</div>
-<br>
-
-
-
-
-
-<!-- BHM -->
-<center>
-    <button class="accordion">About BLSU</button>
-    <div class="panel">
-        <h2 class="accHeader, headerFont">BLSU</h2>
-        <p class="accBlurb, infoFont"> BLSU Meets Thursday mornings at 7:30AM @ BCA </p>
-<p class="infoFont">Are you a black/latine prospective BCA student? We offer tutoring for the BCA entrance exam, as well as help on your application!</p>
-
-    <div class="iframe-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3015.6104196949514!2d-74.03700808734483!3d40.9023599258191!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2fa74ecafb78d%3A0x56dae96ee3b758b!2sBergen%20County%20Academies!5e0!3m2!1sen!2sus!4v1714482164235!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-
-    </div>
-
-</center>
-
-<!-- MIND MAPPING
-<center>
-    <button class="accordion"> Other Resources</button>
-    <div class="panel">
-        <h2 class="accHeader"> "More Resources & FRQs" </h2>
-        <center>
-            <p>Utilizes visual representations with a central idea and branching subtopics <br> to create a dynamic and interconnected note-taking approach, <br>fostering creativity and idea organization.</p>
-        </center>
-
-        <center>
-            <a href= "https://alumni.cornell.edu/cornellians/cornell-notes/" > <button> Read More </button></a> 
-        </center> 
-        <br> </br>
-    
-      
-        <iframe src="https://gdoc.io/mind-maps-templates/" width="100%" height="600px"></iframe>
-    </div>
-</center> -->
-
-    <!-- <div class="past-courses">
-        <h4>Past Courses and Feedback</h4>
-        <p>Explore feedback and content from previous courses to enhance your learning experience.</p>
-        <p>Follow our step-by-step guide to make the most of the educational materials provided for Hispanic History Month.</p>
-    </div> -->
-
-
-    <br> </br>
-    <br>
-<!-- 
-    <footer class="page-footer">
-        <div class="footer-container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Follow us on social media</h5>
-                    <p class="grey-text text-lighten-4">Stay connected with our latest updates.</p>
-                </div>
-                <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">Links</h5>
-                    <ul>
-                        <li><a class="grey-text text-lighten-3" href="#">Instagram</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#">Facebook</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#">LinkedIn</a></li>
-                    </ul>
-                </div>
+            <div class="iframe-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3015.6104196949514!2d-74.03700808734483!3d40.9023599258191!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2fa74ecafb78d%3A0x56dae96ee3b758b!2sBergen%20County%20Academies!5e0!3m2!1sen!2sus!4v1714482164235!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
-    </footer> -->
+    </center>
+
+    <br>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -464,105 +272,25 @@ h3{
                     }
                 });
             }
-    
-
-
 
             updateLoginStatus();
             checkAccountType();
-    
-            const inputField = document.getElementById("input");
-        inputField.addEventListener("keydown", function(e) {
-            if (e.code === "Enter") {
-                let input = inputField.value;
-                inputField.value = "";
-                output(input);
-            }
         });
 
-        const utterances = [
-            ["how are you", "how is life", "how are things"],
-            ["hi", "hey", "hello", "good morning", "good afternoon"],
-            ["what are you doing", "what is going on", "what is up", "what do you do"],
-            ["what is blsu", "what is blsu?", "blsu", "blsu?", "what is the black latine student union?", "what is the black latine student union?", "what is bca blsu", "what is bca blsu?"],
-            ["who are you", "chat bot", "bot", "are you human", "are you bot", "are you human or bot"],
-            ["website", "website resources", "website?", "website resources?", "what resources do you offer?", "what resources do blsu offer?", "which resources do blsu offer?"]
-        ];
-
-        const answers = [
-            ["Fine... how are you?", "Pretty well, how are you?", "Fantastic, how are you?"],
-            ["Hello!", "Hi!", "Hey!", "Hi there!", "Howdy"],
-            ["As the BCA BSLU Chatbot glad to report that BCA BLSU is working to empower Black & Latine students"],
-            ["The Black Latine Student Union @BCA is a student organization at Bergen County Academies that works to empower Black & Latine students: they do various outreach across Bergen and meet Thursdays at 7:30 AM"],
-            ["I am just the BCA BLSU Chatbot", "I am the BCA BLSU Chatbot. What are you?"], 
-            ["We offer tutoring when you create an account, lesson plans, host events on important days, educational resources, and a safe place to uplift others. If you need more detail please refer to the Website Features, and other resources below."]
-        ];
-
-        const alternatives = ["Go on...", "Try again"];
-
-        function output(input) {
-            let product;
-            let text = input.toLowerCase().replace(/[^\w\s\d]/gi, "");
-            text = text.replace(/ a /g, " ")
-                        .replace(/whats/g, "what is")
-                        .replace(/please /g, "")
-                        .replace(/ please/g, "");
-
-            if (compare(utterances, answers, text)) {
-                product = compare(utterances, answers, text);
-            } else {
-                product = alternatives[Math.floor(Math.random() * alternatives.length)];
-            }
-
-            addChatEntry(input, product);
-        }
-
-        function compare(utterancesArray, answersArray, string) {
-            let item;
-            for (let x = 0; x < utterancesArray.length; x++) {
-                for (let y = 0; y < utterancesArray[x].length; y++) {
-                    if (utterancesArray[x][y] === string) {
-                        let items = answersArray[x];
-                        item = items[Math.floor(Math.random() * items.length)];
-                    }
-                }
-            }
-            return item;
-        }
-
-        function addChatEntry(input, product) {
-            const messagesContainer = document.getElementById("messages");
-            let userDiv = document.createElement("div");
-            userDiv.className = "user response";
-            userDiv.innerHTML = `<div>${input}</div>`;
-            messagesContainer.appendChild(userDiv);
-
-            let botDiv = document.createElement("div");
-            let botText = document.createElement("span");
-            botDiv.className = "bot response";
-            botText.innerText = "Typing...";
-            botDiv.appendChild(botText);
-            messagesContainer.appendChild(botDiv);
-
-            setTimeout(() => {
-                botText.innerText = `${product}`;
-            }, 2000);
-        }
-    });
-
-    var acc = document.getElementsByClassName("accordion");
+        var acc = document.getElementsByClassName("accordion");
         var i;
 
         for (i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.maxHeight) {
-            panel.style.maxHeight = null;
-            } else {
-            panel.style.maxHeight = panel.scrollHeight + "px";
-            } 
-        });
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                } 
+            });
         }
-
-</script>
+    </script>
+</body>
+</html>
