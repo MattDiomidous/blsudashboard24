@@ -1,7 +1,5 @@
-
-
-SELECT *
-FROM signups;
+SELECT * 
+FROM users;
 
 
 SELECT SUBSTRING(SUBSTRING_INDEX(file_path, 'uploads', -1), 2) AS uploaded_info
