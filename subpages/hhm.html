@@ -16,12 +16,8 @@
             font-family: Arial, sans-serif; /* Font family */
             /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;     */
             background: #eeeeee; /* Light grey background for body cccca39a eeeeee*/
-            /* align-items: center;  */
-            
-            
+            align-items: center;
         }
-
-
         .nav-wrapper {
             background-color: #212121; /* Black color from the navbar */
         }
@@ -32,28 +28,29 @@
         h3, h4 {
             color: #212121; /* Yellow color for headers */
         }
-        
-/*         
-        .foot-container {
+        .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
             padding: 20px;
             font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        }  */
-
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
         }
 
+        .box {
+            background-color: #424242; /* Dark grey for the boxes, softer than black */
+            color: #141313; /* White text color */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            flex-basis: 30%; /* Sizing for box */
+            text-align: center;
+        }
 
         h3{
-            /* display: center;  */
-            /* justify-content: center; */
-            /* text-align: center; */
+            display: center; 
+            justify-content: center;
+            text-align: center;
         }
 
         .box h4 {
@@ -71,7 +68,6 @@
 
         footer.page-footer {
             background-color: #212121; /* Black color for the footer */
-
         }
 
         @media screen and (max-width: 600px) {
@@ -93,7 +89,7 @@
         text-align: center;
     }
 
-  .footer-container {
+  .container {
     display: flex;
     justify-content: space-around; 
     padding: 20px;
@@ -101,10 +97,32 @@
 
 } 
 
+  .box {
+    width: 30%; /* Adjust the width as necessary */
+    background-color: #fff3e0; /* The color of the box #fff3e0  fffc52b5 */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* This will give the box-shadow effect */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center;
+    font-family: Arial, sans-serif; /* Font family */
+    margin: 10px; /* Space around the boxes */
+    /* background-image: url(blsu.png); */
+  }
+
+  /* Responsive design: If the screen size is less than 600px, boxes take full width */
+  @media screen and (max-width: 600px) {
+    .box {
+      width: 100%;
+      margin: 10px 0; /* Stack the boxes with space in between */
+    }
+  } 
   #nav-mobile li a:hover {
         color: #ffeb3b;
     }
 
+.reasources ul li{
+  /* margin-right: 20px; */
+}
 
 .p-blurb{
     text-align: center; 
@@ -205,102 +223,6 @@
     font-size: 20px;
     }
 
-#dive{
-    display: flex;
-    justify-content: center;
-}
-
-
-#main {
-    width: 50%;
-    margin: 0 auto;
-    border: 3px solid chocolate;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    background-color: beige;
-}
-
-#messages {
-    height: 300px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.user {
-    align-self: flex-end;
-    background-color: #d1e7dd;    
-    /* color: white; */
-    padding: 8px 12px;
-    border-radius: 15px;
-    margin: 5px;
-    max-width: 70%;
-    word-wrap: break-word;
-}
-
-.bot {
-    align-self: flex-start;
-    /* background-color: #f1f0f0; */
-    color: black;
-    padding: 8px 12px;
-    border-radius: 15px;
-    margin: 5px;
-    max-width: 70%;
-    word-wrap: break-word;
-    background-color: #f6dd4f;
-}
-
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    align-items: center;
-    text-align: center;
-}
-.user, .bot {
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 10px;
-    align-items: center;
-    text-align: center;
-}
-
-.user {
-    align-self: flex-end;
-    background-color: #d1e7dd;
-    align-items: center;
-    text-align: center;
-}
-
-.bot {
-    align-self: flex-start;
-    background-color: #f6dd4f;
-    align-items: center;
-    text-align: center;
-
-}
-
-h3{
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    text-align: center;
-}
-
-.info {
-    font-weight: bold;
-}
-
-.headerFont {
-    font-size: 60px;
-    font-weight: bold;
-}
-
-.infoFont {
-    font-size: 25px;
-}
-
   </style>
 </head>
 
@@ -322,7 +244,7 @@ h3{
         <h3>Black & Hispanic History Month Resources</h3>
     </div>
 
-    <!-- <div class="container">
+    <div class="container">
         <div class="box">
             
 
@@ -338,48 +260,40 @@ h3{
             <h4>Scheduling Requests</h4>
             <p>Manage your class schedules</p>
         </div>
-    </div> -->
+    </div>
+
 
     <div class="history-months">
 
-        <a href = "bhm.html">
-        <button>
-            Visit the Black History Month Page
-        </button> 
-        </a>
-    
-        <a href="hlm.html">
-        <button>
-            Visit the Hispanic History Month Page
-        </button>
-        </a>
-        </div>
-    
-    <br>
+    <a href = "bhm.html">
+    <button>
+        Visit the Black History Month Page
+    </button> 
+    </a>
 
-
-<div id="dive">
-<!-- Chat Bot Box (to condense code) -->
-<div id="main">
-    <div id="messages" class="messages"></div>
-    <div>
-        <input id="input" type="text" placeholder="Write something..." autocomplete="off" autofocus="true"/>
+    <a href="hlm.html">
+    <button>
+        Visit the Hispanic History Month Page
+    </button>
+    </a>
     </div>
-</div>
-</div>
+
 <br>
-
-
-
-
 
 <!-- BHM -->
 <center>
     <button class="accordion">About BLSU</button>
     <div class="panel">
-        <h2 class="accHeader, headerFont">BLSU</h2>
-        <p class="accBlurb, infoFont"> BLSU Meets Thursday mornings at 7:30AM @ BCA </p>
-<p class="infoFont">Are you a black/latine prospective BCA student? We offer tutoring for the BCA entrance exam, as well as help on your application!</p>
+        <h2 class="accHeader">“BLSU”</h2>
+        <p class="accBlurb"> BLSU Meets Thursdays at 7:30AM @BCA
+
+            A student run organization created to empower Black & Latine Students within Bergen County
+            We offer outreach, events, lesson plans, tutoring for various subjects and support for BCA-exams
+
+            in order to support our local communities 
+
+        </p>
+            <a href="https://alumni.cornell.edu/cornellians/cornell-notes/"> <button>Read more about BHM </button></a>  <br></br>
 
     <div class="iframe-container">
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3015.6104196949514!2d-74.03700808734483!3d40.9023599258191!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2fa74ecafb78d%3A0x56dae96ee3b758b!2sBergen%20County%20Academies!5e0!3m2!1sen!2sus!4v1714482164235!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -388,8 +302,23 @@ h3{
     </div>
 
 </center>
+<!-- HHM -->
+<center>
+    <!-- <div> -->
+    <button class="accordion">Website Feautres</button>
+    <div class="panel">
+        <h2 class="accHeader"> "Website Features" </h2>
 
-<!-- MIND MAPPING
+    <div class="instructions">
+        <h4>Roles & Access Points</h4> 
+
+        <p>HELLO  HELLO pICwuDjb2PFY5HNiMUkRaHsLg8WdfKWusLjku5huQGW3mwFLiELwYmsqMvuczWgODh4IcR4bL6EHpNrHVAU</p>
+
+    </div> 
+
+</center>
+
+<!-- MIND MAPPING -->
 <center>
     <button class="accordion"> Other Resources</button>
     <div class="panel">
@@ -406,20 +335,17 @@ h3{
       
         <iframe src="https://gdoc.io/mind-maps-templates/" width="100%" height="600px"></iframe>
     </div>
-</center> -->
+</center>
 
-    <!-- <div class="past-courses">
+    <div class="past-courses">
         <h4>Past Courses and Feedback</h4>
         <p>Explore feedback and content from previous courses to enhance your learning experience.</p>
         <p>Follow our step-by-step guide to make the most of the educational materials provided for Hispanic History Month.</p>
-    </div> -->
 
+    </div>
 
-    <br> </br>
-    <br>
-<!-- 
     <footer class="page-footer">
-        <div class="footer-container">
+        <div class="container">
             <div class="row">
                 <div class="col l6 s12">
                     <h5 class="white-text">Follow us on social media</h5>
@@ -435,12 +361,14 @@ h3{
                 </div>
             </div>
         </div>
-    </footer> -->
+    </footer>
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    
+
     <script>
+
         $(document).ready(function() {
             function updateLoginStatus() {
                 $.get('/loginStatus', function(data) {
@@ -451,106 +379,31 @@ h3{
                     }
                 });
             }
-    
+
             function checkAccountType() {
                 $.get('/accountType', function(data) {
                     if (data.account_type === 'Admin') {
                         $('#adminLink').show();
                         $('#materials').show();
                         $('#tutoring').show();
+                        
                     }
                     if (data.account_type === 'Student' || data.account_type === 'Tutor') {
                         $('#tutoring').show();
                     }
                 });
             }
-    
-
-
 
             updateLoginStatus();
             checkAccountType();
-    
-            const inputField = document.getElementById("input");
-        inputField.addEventListener("keydown", function(e) {
-            if (e.code === "Enter") {
-                let input = inputField.value;
-                inputField.value = "";
-                output(input);
-            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var dropdownElems = document.querySelectorAll('.dropdown-trigger');
+                var instances = M.Dropdown.init(dropdownElems, {});
+            });
         });
 
-        const utterances = [
-            ["how are you", "how is life", "how are things"],
-            ["hi", "hey", "hello", "good morning", "good afternoon"],
-            ["what are you doing", "what is going on", "what is up", "what do you do"],
-            ["what is blsu", "what is blsu?", "blsu", "blsu?", "what is the black latine student union?", "what is the black latine student union?", "what is bca blsu", "what is bca blsu?"],
-            ["who are you", "chat bot", "bot", "are you human", "are you bot", "are you human or bot"],
-            ["website", "website resources", "website?", "website resources?", "what resources do you offer?", "what resources do blsu offer?", "which resources do blsu offer?"]
-        ];
-
-        const answers = [
-            ["Fine... how are you?", "Pretty well, how are you?", "Fantastic, how are you?"],
-            ["Hello!", "Hi!", "Hey!", "Hi there!", "Howdy"],
-            ["As the BCA BSLU Chatbot glad to report that BCA BLSU is working to empower Black & Latine students"],
-            ["The Black Latine Student Union @BCA is a student organization at Bergen County Academies that works to empower Black & Latine students: they do various outreach across Bergen and meet Thursdays at 7:30 AM"],
-            ["I am just the BCA BLSU Chatbot", "I am the BCA BLSU Chatbot. What are you?"], 
-            ["We offer tutoring when you create an account, lesson plans, host events on important days, educational resources, and a safe place to uplift others. If you need more detail please refer to the Website Features, and other resources below."]
-        ];
-
-        const alternatives = ["Go on...", "Try again"];
-
-        function output(input) {
-            let product;
-            let text = input.toLowerCase().replace(/[^\w\s\d]/gi, "");
-            text = text.replace(/ a /g, " ")
-                        .replace(/whats/g, "what is")
-                        .replace(/please /g, "")
-                        .replace(/ please/g, "");
-
-            if (compare(utterances, answers, text)) {
-                product = compare(utterances, answers, text);
-            } else {
-                product = alternatives[Math.floor(Math.random() * alternatives.length)];
-            }
-
-            addChatEntry(input, product);
-        }
-
-        function compare(utterancesArray, answersArray, string) {
-            let item;
-            for (let x = 0; x < utterancesArray.length; x++) {
-                for (let y = 0; y < utterancesArray[x].length; y++) {
-                    if (utterancesArray[x][y] === string) {
-                        let items = answersArray[x];
-                        item = items[Math.floor(Math.random() * items.length)];
-                    }
-                }
-            }
-            return item;
-        }
-
-        function addChatEntry(input, product) {
-            const messagesContainer = document.getElementById("messages");
-            let userDiv = document.createElement("div");
-            userDiv.className = "user response";
-            userDiv.innerHTML = `<div>${input}</div>`;
-            messagesContainer.appendChild(userDiv);
-
-            let botDiv = document.createElement("div");
-            let botText = document.createElement("span");
-            botDiv.className = "bot response";
-            botText.innerText = "Typing...";
-            botDiv.appendChild(botText);
-            messagesContainer.appendChild(botDiv);
-
-            setTimeout(() => {
-                botText.innerText = `${product}`;
-            }, 2000);
-        }
-    });
-
-    var acc = document.getElementsByClassName("accordion");
+        var acc = document.getElementsByClassName("accordion");
         var i;
 
         for (i = 0; i < acc.length; i++) {
@@ -566,3 +419,5 @@ h3{
         }
 
 </script>
+</body>
+</html>
