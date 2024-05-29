@@ -434,7 +434,7 @@ src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23fff
     data.forEach(tutor => {
         const tutorItem = document.createElement('li');
         tutorItem.classList.add('collection-item', 'tutor');
-        tutorItem.textContent = `${tutor.username} - ${tutor.email} - ${tutor.subject} - ${tutor.day_available} - ${tutor.time_available}`;
+        tutorItem.textContent = `${tutor.username} - ${tutor.email} - ${tutor.subject} - ${tutor.time_available}`;
         
         tutorItem.setAttribute('data-subject', tutor.subject || 'N/A');
         tutorItem.setAttribute('data-day_available', tutor.day_available || 'N/A');
