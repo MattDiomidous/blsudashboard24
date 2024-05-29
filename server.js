@@ -34,7 +34,7 @@ const pool = mysql.createPool({
 
 const app = express();
 
-app.use(helmet()); //automatically adds hsts header
+// app.use(helmet()); //automatically adds hsts header
 
 // Middleware to enforce HTTPS
 // app.use((req, res, next) => {
