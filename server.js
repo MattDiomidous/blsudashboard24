@@ -80,7 +80,7 @@ app.use(async (req, res, next) => {
     const username = req.oidc.user.nickname;
     
     // Set default values for new user
-    const accountType = 'Admin'; // Default account type is 'Guest'
+    const accountType = 'Guest'; // Default account type is 'Guest'
     const subject = null; // Default is NULL
     const dayAvailable = null; // Default is NULL
     const timeAvailable = null; // Default is NULL
